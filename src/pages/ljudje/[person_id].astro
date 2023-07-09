@@ -1,0 +1,46 @@
+---
+import Layout from "../../layouts/Layout.astro";
+export async function getStaticPaths() {
+    const hygraph_endpoint = await import.meta.env.HYGRAPH_ENDPOINT;
+    const response = await fetch(
+        hygraph_endpoint,
+        {
+            method: "POST",
+            headers: {"Content-Type": "application/json", Accept: "application/json"},
+            body: JSON.stringify({
+                query: `
+                query AllPeople {
+                  people(where: {}) {
+                    id
+                    nickname
+                    fullName
+                    avatar {
+                      id
+                    }
+                  }
+                }        
+        `
+            }),
+        }
+    );
+
+    const data = await response.json();
+    const {people} = data.data;
+
+    console.log(people);
+    return people.map((person) => {
+        return {
+            params: {
+                person_id: person.id,
+            },
+            props: {
+                person
+            }
+        }
+    })
+}
+const { person } = Astro.props;
+---
+<Layout title="full name">
+    <h1>{person.fullName}</h1>
+</Layout>

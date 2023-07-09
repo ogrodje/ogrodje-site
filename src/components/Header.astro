@@ -1,0 +1,73 @@
+<header class="header">
+    <div class="ogrodje-logo cell">
+        <a href="/">Ogrodje</a>
+    </div>
+
+    <div class="nav cell">
+        <ul>
+            <!-- <li><a href="/ljudje">Ljudje</a></li> -->
+            <li class="not-short"><a href="/strategija">Strategija</a></li>
+        </ul>
+    </div>
+</header>
+<style lang="scss">
+    $cell-height: 160px;
+    $cell-line-height: 160px;
+
+    header {
+        font-size: 15pt;
+        font-family: Iosevka, 'Iosevka Web', sans-serif;
+
+        .cell {
+            display: inline-block;
+            height: $cell-height;
+            line-height: $cell-line-height;
+            vertical-align: middle;
+        }
+
+        & a {
+            text-decoration: none;
+        }
+
+        .ogrodje-logo a {
+            display: block;
+            background-image: url("/ogrodje-logo.png");
+            background-position: left center;
+            background-size: contain;
+            background-repeat: no-repeat;
+            text-indent: -500px;
+            overflow: hidden;
+            width: $cell-height;
+            image-rendering: crisp-edges;
+            filter: grayscale(90%) contrast(50%) // saturate(25%); //  contrast(20%)
+        }
+
+        .nav {
+            ul, ul li {
+                list-style: none;
+                float: left;
+                margin: 0;
+                padding: 0;
+                line-height: $cell-line-height;
+            }
+
+            ul li {
+                margin-right: 10px;
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+
+            li a {
+            // background-color: pink; display: block;
+            }
+
+            @media only screen and (max-width: 1000px) {
+                li.not-short {
+                    display: none;
+                }
+            }
+        }
+
+
+    }
+</style>

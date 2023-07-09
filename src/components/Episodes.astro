@@ -1,0 +1,48 @@
+---
+import Main from "../layouts/Layout.astro";
+// import Post from "../components/Post.astro";
+const hygraph_endpoint = await import.meta.env.HYGRAPH_ENDPOINT;
+const pageSize = 3;
+const response = await fetch(
+    hygraph_endpoint,
+    {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+        },
+        body: JSON.stringify({
+            query: `query AllEpisodes($size: Int) {
+                pages: episodesConnection(first: $size,  orderBy: createdAt_DESC) {
+                    episodes:edges {
+                    cursor
+                    episode: node {
+                            id
+                            name
+                            code
+                        }
+                    }
+                    pageInfo {
+                        endCursor
+                        hasNextPage
+                    }
+                }
+            }
+        
+        `,
+            variables: {size: pageSize}
+        }),
+    }
+);
+
+const data = await response.json();
+const {pages} = data.data;
+---
+
+<div class="episodes">
+    {pages.episodes.map((episode) => {
+        return (
+                <h2>{episode.episode.name}</h2>
+        )
+    })}
+</div>
