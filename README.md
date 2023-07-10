@@ -1,6 +1,6 @@
 # Ogrodje Site
 
-Ogrodje website - build with Astro.
+Ogrodje website - [ogrodje.si](https://ogrodje.si) - build with Astro.
 
 ```bash
 yarn install
