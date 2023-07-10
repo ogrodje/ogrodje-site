@@ -1,5 +1,8 @@
 ---
 import Layout from "../../layouts/Layout.astro";
+import {personEpisodes, personPath} from "../../Person";
+import Person from "../../components/Person.astro";
+import {episodePath} from "../../Episode";
 export async function getStaticPaths() {
     const hygraph_endpoint = await import.meta.env.HYGRAPH_ENDPOINT;
     const response = await fetch(
@@ -9,29 +12,57 @@ export async function getStaticPaths() {
             headers: {"Content-Type": "application/json", Accept: "application/json"},
             body: JSON.stringify({
                 query: `
-                query AllPeople {
-                  people(where: {}) {
+                query AllPeople($size: Int) {
+                  people(first: $size, where: {}) {
                     id
                     nickname
                     fullName
                     avatar {
                       id
+                      url
+                    }
+                    socialFacebook
+                    socialHomepage
+                    socialInstagram
+                    socialLinkedIn
+                    socialTwitter
+                    starred(first: 500, orderBy: airedAt_DESC) {
+                      entryId: id
+                      code
+                      name
+                      airedAt
+                    }
+                    hosted(first: 500, orderBy: airedAt_DESC) {
+                      entryId: id
+                      code
+                      name
+                      airedAt
+                    }
+                    cohosted(first: 500, orderBy: airedAt_DESC) {
+                      entryId: id
+                      code
+                      name
+                      airedAt
+                    }
+                    produced(first: 500, orderBy: airedAt_DESC) {
+                      entryId: id
+                      code
+                      name
+                      airedAt
                     }
                   }
                 }        
-        `
+        `, variables: {size: 300}
             }),
         }
     );
 
     const data = await response.json();
     const {people} = data.data;
-
-    console.log(people);
     return people.map((person) => {
         return {
             params: {
-                person_id: person.id,
+                person_id: personPath(person)
             },
             props: {
                 person
@@ -39,8 +70,58 @@ export async function getStaticPaths() {
         }
     })
 }
-const { person } = Astro.props;
+const {person} = Astro.props;
 ---
-<Layout title="full name">
-    <h1>{person.fullName}</h1>
+<Layout title={person.fullName}>
+    <Person person={person} showSocial=true></Person>
+
+    <h2>Epizode</h2>
+
+    <div class="episodes">
+        {personEpisodes(person).map((episode) => {
+            return (
+                    <div class="episode">
+                        <a href={'/epizode/' + episodePath(episode)}>
+                            <div class="code">{episode.code}</div>
+                            <div class="name">{episode.name}</div>
+                            <!-- <div class="role">{episode.role}</div>
+                            <div class="airedAt">{episode.airedAt}</div> -->
+                        </a>
+                    </div>)
+        })}
+    </div>
 </Layout>
+
+<style lang="scss" is:global>
+    .person {
+        /*
+        padding-left: 220px;
+        & img {
+            width: 200px;
+            height: 200px;
+        } */
+    }
+
+    .episodes {
+        .episode {
+            & a {
+                text-decoration: none;
+            }
+
+            .code {
+                font-weight: 100;
+                display: inline;
+                margin-right: 10px;
+            }
+
+            .name {
+                font-family: Iosevka, 'Iosevka Web', sans-serif;
+                display: inline;
+                color: white;
+            }
+            margin-bottom: 10px;
+        }
+    }
+
+
+</style>

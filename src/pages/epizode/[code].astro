@@ -1,0 +1,141 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import {personPath} from "../../Person";
+import {episodePath, episodePeople} from "../../Episode";
+import {marked} from 'marked';
+import Person from "../../components/Person.astro";
+
+export async function getStaticPaths() {
+    const hygraph_endpoint = await import.meta.env.HYGRAPH_ENDPOINT;
+    const response = await fetch(
+        hygraph_endpoint,
+        {
+            method: "POST",
+            headers: {"Content-Type": "application/json", Accept: "application/json"},
+            body: JSON.stringify({
+                query: `
+query AllEpisodes($size: Int, $stage: Stage!) {
+  episodes(first: $size, orderBy: airedAt_DESC, stage: $stage) {
+    topics {
+      name
+    }
+    summary
+    name
+    code
+    airedAt
+    host {
+      fullName
+      avatar {
+        url
+      }
+    }
+    guests {
+      fullName
+      avatar {
+        url
+      }
+    }
+    anchorUrl
+    applePodcastsUrl
+    castboxUrl
+    cohosts {
+      fullName
+      avatar {
+        url
+      }
+    }
+    youTubeUrl
+    show {
+      name
+      id
+      color
+    }
+    spotifyUrl
+    multimediaProducers {
+        fullName
+    }
+  }
+}
+     
+        `, variables: {size: 300, stage: 'PUBLISHED'}
+            }),
+        }
+    );
+
+    const data = await response.json();
+    const {episodes} = data.data;
+    return episodes.map((episode) => {
+        return {
+            params: {
+                code: episodePath(episode)
+            },
+            props: {
+                episode
+            }
+        }
+    })
+}
+
+const renderSummary = (episode) => marked.parse(episode.summary, {
+    mangle: false,
+    headerIds: false,
+})
+
+const {episode} = Astro.props;
+---
+<Layout title="Epizoda">
+    <h1>
+        <span class="code">{episode.code}</span>
+        <span class="name">{episode.name}</span>
+    </h1>
+
+    <div class="people">
+        {episode.guests.map(guest =>
+                <Person person={guest}/>
+        )}
+        <Person person={episode.host}></Person>
+        {episode.cohosts.map(guest =>
+                <Person person={guest}/>
+        )}
+    </div>
+    <div class="summary" set:html={renderSummary(episode)}></div>
+    <div class="meta">
+        Izid:
+        <div class="m aired-at">{episode.airedAt}</div>
+        <!--
+        Teme: {episode.topics.map((topic) => {
+            return (<div class="m topic">{topic.name}</div>)
+        })}
+        -->
+    </div>
+</Layout>
+<style lang="scss" is:global>
+    .people {
+        .person {
+            position: relative;
+            display: inline-block;
+            // vertical-align: text-bottom;
+            line-height: 50px;
+            margin-right: 30px;
+            &:last-child {
+                margin-right: 0;
+            }
+        }
+    }
+
+    .meta {
+        color: #333;
+
+        .m {
+            display: inline;
+            padding-right: 10px;
+        }
+
+        font-weight: 100;
+        font-family: Iosevka, 'Iosevka Web', sans-serif;
+    }
+
+    .code {
+        font-weight: 100;
+    }
+</style>

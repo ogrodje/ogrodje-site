@@ -1,0 +1,80 @@
+---
+import {
+    parsonAvatar,
+    Person,
+    personEpisodes,
+    personEpisodesCount,
+    personLastEpisode,
+    personPath,
+    socialChannels
+} from "../Person";
+import {episodePath} from "../Episode";
+const {person, avatarSize, showSocial} = Astro.props;
+const [lastEpisode, ...episodes] = personEpisodes(person);
+---
+<div class="person">
+    <a href={"/ljudje/" + personPath(person)}>
+        <img src={parsonAvatar(person, (avatarSize || 100))}
+             title={person.fullName}/>
+        <div class="name-wrap">
+            <div class="full-name">{person.fullName}</div>
+            {episodes.length >= 1 && (
+                    <div class="episodes-count">{episodes.length}+</div>)}
+        </div>
+    </a>
+    {lastEpisode && (
+            <div class="last-episode">
+                <a href={'/epizode/' + episodePath(lastEpisode)}>{lastEpisode.name}</a>
+            </div>
+    )}
+    {showSocial && (
+            <div class="social-channels">
+                {socialChannels(person).map((channel) => {
+                    return (
+                            <div class="social-channel"><a href={channel.url}>{channel.channel}</a></div>)
+                })}
+            </div>
+    )}
+</div>
+<style lang="scss">
+    .person {
+        -webkit-column-break-inside: avoid;
+        page-break-inside: avoid;
+        break-inside: avoid;
+        min-height: 90px;
+        position: relative;
+        padding-left: 110px;
+        margin-bottom: 40px;
+        padding-right: 10px;
+
+        & a {
+            text-decoration: none;
+        }
+
+        .name-wrap {
+            .full-name {
+                font-weight: 700;
+                font-family: Iosevka, 'Iosevka Web', sans-serif;
+                color: white;
+                font-size: 16pt;
+                display: inline;
+            }
+
+            .episodes-count {
+                display: inline;
+            }
+        }
+
+        img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 90px;
+            height: 90px;
+        }
+
+        .last-episode {
+            padding: 10px;
+        }
+    }
+</style>
