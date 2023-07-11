@@ -2071,7 +2071,7 @@
   dependencies:
     "@types/unist" "*"
 
-"@types/node@*", "@types/node@>=12.12.47", "@types/node@>=13.7.0":
+"@types/node@*", "@types/node@>=12.12.47", "@types/node@>=13.7.0", "@types/node@^20.4.1":
   version "20.4.1"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-20.4.1.tgz#a6033a8718653c50ac4962977e14d0f984d9527d"
   integrity sha512-JIzsAvJeA/5iY6Y/OxZbv1lUcc8dNSE77lb2gnBH+/PJ3lFR1Ccvgwl5JWnHAkNHcRsT0TbpVOsiMKZ1F/yyJg==
@@ -8147,6 +8147,11 @@ pupa@^3.1.0:
   integrity sha512-FLpr4flz5xZTSJxSeaheeMKN/EDzMdK7b8PTOC6a5PYFKTucWbdqjgqaEyH0shFiSJrVB1+Qqi4Tk19ccU6Aug==
   dependencies:
     escape-goat "^4.0.0"
+
+purecss@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/purecss/-/purecss-3.0.0.tgz#899ffd6859bf18272caa3469bb67206c11be961c"
+  integrity sha512-IdYbGwbmuA7Hy9ACIO1q7ks4xGLcJSVHxJT2BXIz2c4Ve1aSrNU5bAzA1ILT4Gmdy5K59ruWoRPf9WvJZU5fbA==
 
 qs@6.11.0:
   version "6.11.0"

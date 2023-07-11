@@ -1,0 +1,35 @@
+<div class="hero">
+    <p class="first">
+        Ogrodje je tehnološko / razvijalski podcast, multimedijska platforma in skupnost.
+    </p>
+    <p class="second">
+        Skupaj v globino in potem v vesolje. 🚀
+    </p>
+</div>
+<style lang="scss">
+    @import "../_variables.scss";
+
+    .hero {
+        font-family: $special-font;
+        font-size: 60px;
+        line-height: 80px;
+        font-weight: 100;
+
+        & p {
+            padding-top: 0;
+            margin: 0 0 40px;
+        }
+
+        .second {
+            font-size: 40px
+        }
+    }
+
+    @media only screen and (max-width: 1000px) {
+        .hero, p, .hero p.second {
+            font-size: 23px;
+            line-height: 30px;
+            font-weight: 100;
+        }
+    }
+</style>

@@ -20,6 +20,7 @@ query AllPeople($size: Int) {
     nickname
     fullName
     email
+    bio
     avatar {
       id
       url
@@ -75,5 +76,9 @@ const {people} = data.data;
         columns: 2;
         clear: both;
         float: none;
+    }
+
+    @media only screen and (max-width: 1000px) {
+        .people { columns: 1 }
     }
 </style>

@@ -11,12 +11,13 @@
     </div>
 </header>
 <style lang="scss">
-    $cell-height: 160px;
-    $cell-line-height: 160px;
+    @import "../_variables.scss";
 
-    header {
-        font-size: 15pt;
-        font-family: Iosevka, 'Iosevka Web', sans-serif;
+    $cell-height: 130px;
+    $cell-line-height: 130px;
+
+    header.header {
+        padding: 0 $lr-offset;
 
         .cell {
             display: inline-block;
@@ -26,6 +27,7 @@
         }
 
         & a {
+            font-family: $special-font;
             text-decoration: none;
         }
 

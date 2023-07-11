@@ -1,8 +1,9 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import {personEpisodes, personPath} from "../../Person";
 import Person from "../../components/Person.astro";
 import {episodePath} from "../../Episode";
+import {personEpisodes, personPath} from "../../Person";
+
 export async function getStaticPaths() {
     const hygraph_endpoint = await import.meta.env.HYGRAPH_ENDPOINT;
     const response = await fetch(
@@ -17,6 +18,7 @@ export async function getStaticPaths() {
                     id
                     nickname
                     fullName
+                    bio
                     avatar {
                       id
                       url
@@ -119,6 +121,7 @@ const {person} = Astro.props;
                 display: inline;
                 color: white;
             }
+
             margin-bottom: 10px;
         }
     }

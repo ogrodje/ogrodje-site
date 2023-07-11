@@ -1,0 +1,116 @@
+<div class="channels">
+    <ul>
+        <li>Kanali</li>
+        <li><a href="https://youtube.com/@ogrodje" class="not-short"><img
+                src="/icons/icons8-youtube-144.png"/>YouTube</a></li>
+        <li><a href="https://podcasts.apple.com/us/podcast/ogrodje/id1623611047"><img
+                src="/icons/apple-podcasts.png"/>Apple Podcasts</a></li>
+        <li><a href="https://open.spotify.com/show/5fppuIAVBmockauYIXDIIn"><img
+                src="/icons/icons8-spotify-144.png"/> Spotify</a></li>
+        <li>
+            <a href="https://podcasts.google.com/feed/aHR0cHM6Ly9hbmNob3IuZm0vcy85NjRhN2QyNC9wb2RjYXN0L3Jzcw"><img
+                    src="/icons/google-podcasts.png"/>Google Podcasts</a></li>
+        <!-- <li><a href="https://pca.st/98dohjvl">Pocket Casts</a></li> -->
+    </ul>
+    <ul>
+        <li>Feed</li>
+        <li><a href="https://www.linkedin.com/company/ogrodje/"><img src="/icons/icons8-linkedin-144.png"/>LinkedIn</a>
+        </li>
+        <li><a href="https://www.instagram.com/ogrodje/"><img
+                src="/icons/icons8-instagram-144.png"/>Instagram</a></li>
+        <li><a href="https://www.facebook.com/ogrodje"><img src="/icons/icons8-facebook-144.png"/>Facebook</a>
+        </li>
+        <li><a href="https://twitter.com/search?q=%23ogrodje"><img src="/icons/icons8-twitter-144.png"/>Twitter
+            #ogrodje</a></li>
+        <li><a href="https://www.tiktok.com/@ogrodje_podcast"><img
+                src="/icons/icons8-tiktok-144.png"/>TikTok</a></li>
+    </ul>
+    <ul>
+        <li>Skupnost</li>
+        <li><a href="https://www.patreon.com/ogrodje" class="not-short"><img src="/icons/icons8-patreon-144.png"/>
+            Patreon</a>
+        </li>
+        <li><a href="https://discord.com/invite/TtpR2DSxNC"><img src="/icons/icons8-discord-144.png"/>
+            Discord</a></li>
+    </ul>
+    <ul>
+        <li>Podporniki</li>
+        <li><a href="https://3fs.cloud"><img src="/icons/3fs.svg"/>3fs</a></li>
+        <li><a href="https://www.humanfrog.com/"><img src="/icons/humanfrong_v2.jpg"/>Humanfrog</a></li>
+    </ul>
+</div>
+
+<style lang="scss">
+    $row_h: 50px;
+
+    .channels {
+        padding-top: 20px;
+        display: block;
+
+        & ul, & ul li {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            vertical-align: middle;
+        }
+
+        pre {
+            display: inline-block;
+        }
+
+        ul {
+            float: none;
+            clear: both;
+            margin-bottom: 10px;
+            height: $row_h;
+
+            &:last-child {
+                border: none
+            }
+        }
+
+        li {
+            float: left;
+            line-height: $row_h;
+            height: $row_h;
+            vertical-align: middle;
+            text-align: left;
+        }
+
+        li a {
+            display: inline-block;
+            margin-left: 20px;
+            text-decoration: none;
+            height: $row_h;
+            line-height: $row_h;
+            vertical-align: middle;
+            justify-content: left;
+            position: relative;
+            text-indent: 40px;
+
+            img {
+                position: absolute;
+                left: 0;
+                top: 10px;
+                display: inline-block;
+                height: 30px;
+                width: 30px;
+            // filter: grayscale(10%) saturate(80%) contrast(90%);
+            }
+
+            &:hover img {
+            // filter: grayscale(0%) saturate(100%);
+            }
+        }
+
+        @media only screen and (max-width: 1000px) {
+            li a {
+                &:not(.not-short) {
+                    width: 30px;
+                    overflow: hidden;
+                }
+            }
+
+        }
+    }
+</style>

@@ -1,6 +1,4 @@
 ---
-import Main from "../layouts/Layout.astro";
-// import Post from "../components/Post.astro";
 const hygraph_endpoint = await import.meta.env.HYGRAPH_ENDPOINT;
 const pageSize = 3;
 const response = await fetch(
@@ -38,7 +36,6 @@ const response = await fetch(
 const data = await response.json();
 const {pages} = data.data;
 ---
-
 <div class="episodes">
     {pages.episodes.map((episode) => {
         return (

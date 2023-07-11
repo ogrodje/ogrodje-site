@@ -16,17 +16,23 @@ const [lastEpisode, ...episodes] = personEpisodes(person);
     <a href={"/ljudje/" + personPath(person)}>
         <img src={parsonAvatar(person, (avatarSize || 100))}
              title={person.fullName}/>
-        <div class="name-wrap">
+        <div class="name">
             <div class="full-name">{person.fullName}</div>
             {episodes.length >= 1 && (
                     <div class="episodes-count">{episodes.length}+</div>)}
         </div>
+        <div class="bio">
+            {person.bio}
+        </div>
     </a>
+    <!--
     {lastEpisode && (
             <div class="last-episode">
                 <a href={'/epizode/' + episodePath(lastEpisode)}>{lastEpisode.name}</a>
             </div>
     )}
+
+    -->
     {showSocial && (
             <div class="social-channels">
                 {socialChannels(person).map((channel) => {
@@ -51,7 +57,11 @@ const [lastEpisode, ...episodes] = personEpisodes(person);
             text-decoration: none;
         }
 
-        .name-wrap {
+        .name, .bio {
+            padding-bottom: 5px
+        }
+
+        .name {
             .full-name {
                 font-weight: 700;
                 font-family: Iosevka, 'Iosevka Web', sans-serif;
@@ -64,6 +74,7 @@ const [lastEpisode, ...episodes] = personEpisodes(person);
                 display: inline;
             }
         }
+
 
         img {
             position: absolute;
