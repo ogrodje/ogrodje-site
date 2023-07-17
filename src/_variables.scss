@@ -7,7 +7,26 @@ $main-line-height: 2em;
 // Colors
 $color-second: #8b055e;
 
+// Show colors
+$ogrodje-main-white: #FFFFFF;
+$ogrodje-zagon-blue: #0404a4;
+$ogrodje-borderless-green: #0ed18b;
+$ogrodje-meta: $color-second;
+
 // Layout
 $layout-max-width: 1080px;
 
 $lr-offset: 0px;
+
+
+.special-font {
+  font-family: $special-font;
+
+  &.bold {
+    font-weight: 700;
+  }
+
+  &.light {
+    font-weight: 100;
+  }
+}

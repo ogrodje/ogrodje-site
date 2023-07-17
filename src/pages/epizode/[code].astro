@@ -1,7 +1,7 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import {personPath} from "../../Person";
-import {episodePath, episodePeople} from "../../Episode";
+import {personPath} from "../../model/Person";
+import {episodePath, optimiseEpisodeTitle} from "../../model/Episode";
 import {marked} from 'marked';
 import Person from "../../components/Person.astro";
 
@@ -19,44 +19,32 @@ query AllEpisodes($size: Int, $stage: Stage!) {
     topics {
       name
     }
+    show {
+      id
+      name
+      color
+    }
     summary
     name
     code
     airedAt
-    host {
-      fullName
-      avatar {
-        url
-      }
-    }
-    guests {
-      fullName
-      avatar {
-        url
-      }
-    }
+    host { ...PersonF }
+    cohosts { ...PersonF }
+    guests { ... PersonF }
+    multimediaProducers { ...PersonF }
+    consultants { ...PersonF }
+    designers { ...PersonF }
     anchorUrl
     applePodcastsUrl
     castboxUrl
-    cohosts {
-      fullName
-      avatar {
-        url
-      }
-    }
     youTubeUrl
-    show {
-      name
-      id
-      color
-    }
     spotifyUrl
-    multimediaProducers {
-        fullName
-    }
   }
 }
-     
+fragment PersonF on Person {
+  fullName
+  avatar { url }
+}
         `, variables: {size: 300, stage: 'PUBLISHED'}
             }),
         }
@@ -64,16 +52,18 @@ query AllEpisodes($size: Int, $stage: Stage!) {
 
     const data = await response.json();
     const {episodes} = data.data;
-    return episodes.map((episode) => {
-        return {
-            params: {
-                code: episodePath(episode)
-            },
-            props: {
-                episode
+    return episodes.map((episode) => ({
+        params: {
+            code: episodePath(episode)
+        },
+        props: {
+            episode: {
+                ...episode, ...{
+                    name: optimiseEpisodeTitle(episode)
+                }
             }
         }
-    })
+    }))
 }
 
 const renderSummary = (episode) => marked.parse(episode.summary, {
@@ -102,11 +92,6 @@ const {episode} = Astro.props;
     <div class="meta">
         Izid:
         <div class="m aired-at">{episode.airedAt}</div>
-        <!--
-        Teme: {episode.topics.map((topic) => {
-            return (<div class="m topic">{topic.name}</div>)
-        })}
-        -->
     </div>
 </Layout>
 <style lang="scss" is:global>
@@ -114,9 +99,8 @@ const {episode} = Astro.props;
         .person {
             position: relative;
             display: inline-block;
-            // vertical-align: text-bottom;
-            line-height: 50px;
             margin-right: 30px;
+
             &:last-child {
                 margin-right: 0;
             }
@@ -130,9 +114,6 @@ const {episode} = Astro.props;
             display: inline;
             padding-right: 10px;
         }
-
-        font-weight: 100;
-        font-family: Iosevka, 'Iosevka Web', sans-serif;
     }
 
     .code {

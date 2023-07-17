@@ -1,7 +1,8 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import Person from '../../components/Person.astro';
-import {sortedPeople} from "../../Person";
+import {sortedPeople} from "../../model/Person";
+import {ALL_ROLES} from "../../model/Role";
 
 const hygraph_endpoint = await import.meta.env.HYGRAPH_ENDPOINT;
 const pageSize = 300;
@@ -26,32 +27,20 @@ query AllPeople($size: Int) {
       url
       fileName
     }
-    starred(first: 500, orderBy: airedAt_DESC) {
-      entryId: id
-      code
-      name
-      airedAt
-    },
-    hosted(first: 500, orderBy: airedAt_DESC) {
-      entryId: id
-      code
-      name
-      airedAt
-    },
-    cohosted(first: 500, orderBy: airedAt_DESC) {
-      entryId: id
-      code
-      name
-      airedAt
-    },
-    produced(first: 500, orderBy: airedAt_DESC) {
-      entryId: id
-      code
-      name
-      airedAt
-    }
+    ${ALL_ROLES.map(role => (
+        `${role}(first: 500, orderBy: airedAt_DESC) {
+        entryId: id
+        ... EpisodeF
+        }`
+    )).join("\n")}
   }
-}      
+}
+fragment EpisodeF on Episode {
+  name
+  code
+  airedAt
+  show { name color }
+}
         `,
             variables: {size: pageSize}
         }),

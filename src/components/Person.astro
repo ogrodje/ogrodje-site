@@ -3,42 +3,40 @@ import {
     parsonAvatar,
     Person,
     personEpisodes,
-    personEpisodesCount,
-    personLastEpisode,
     personPath,
-    socialChannels
-} from "../Person";
-import {episodePath} from "../Episode";
+    socialChannels, WithConnectedEpisodes
+} from "../model/Person";
+
+interface Props {
+    person: Person & WithConnectedEpisodes
+    avatarSize: Number
+    showSocial: boolean
+}
+
 const {person, avatarSize, showSocial} = Astro.props;
 const [lastEpisode, ...episodes] = personEpisodes(person);
 ---
 <div class="person">
     <a href={"/ljudje/" + personPath(person)}>
         <img src={parsonAvatar(person, (avatarSize || 100))}
-             title={person.fullName}/>
+             title={person.fullName} alt={person.fullName}/>
         <div class="name">
             <div class="full-name">{person.fullName}</div>
             {episodes.length >= 1 && (
                     <div class="episodes-count">{episodes.length}+</div>)}
         </div>
-        <div class="bio">
-            {person.bio}
-        </div>
+        {person.bio && (
+                <div class="bio">
+                    {person.bio}
+                </div>
+        )}
     </a>
-    <!--
-    {lastEpisode && (
-            <div class="last-episode">
-                <a href={'/epizode/' + episodePath(lastEpisode)}>{lastEpisode.name}</a>
-            </div>
-    )}
-
-    -->
     {showSocial && (
             <div class="social-channels">
-                {socialChannels(person).map((channel) => {
-                    return (
-                            <div class="social-channel"><a href={channel.url}>{channel.channel}</a></div>)
-                })}
+                {socialChannels(person).map(({channel, url}) =>
+                    (
+                            <div class="social-channel"><a href={url}>{channel}</a></div>)
+                )}
             </div>
     )}
 </div>
@@ -63,8 +61,6 @@ const [lastEpisode, ...episodes] = personEpisodes(person);
 
         .name {
             .full-name {
-                font-weight: 700;
-                font-family: Iosevka, 'Iosevka Web', sans-serif;
                 color: white;
                 font-size: 16pt;
                 display: inline;

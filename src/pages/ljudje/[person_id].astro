@@ -1,8 +1,10 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import Person from "../../components/Person.astro";
-import {episodePath} from "../../Episode";
-import {personEpisodes, personPath} from "../../Person";
+import {episodePath} from "../../model/Episode";
+import {groupedPersonEpisodes, personEpisodes, personPath} from "../../model/Person";
+import {ALL_ROLES, localiseRole} from "../../model/Role";
+import EpisodeRow from "../../components/EpisodeRow.astro";
 
 export async function getStaticPaths() {
     const hygraph_endpoint = await import.meta.env.HYGRAPH_ENDPOINT;
@@ -28,31 +30,19 @@ export async function getStaticPaths() {
                     socialInstagram
                     socialLinkedIn
                     socialTwitter
-                    starred(first: 500, orderBy: airedAt_DESC) {
-                      entryId: id
-                      code
-                      name
-                      airedAt
-                    }
-                    hosted(first: 500, orderBy: airedAt_DESC) {
-                      entryId: id
-                      code
-                      name
-                      airedAt
-                    }
-                    cohosted(first: 500, orderBy: airedAt_DESC) {
-                      entryId: id
-                      code
-                      name
-                      airedAt
-                    }
-                    produced(first: 500, orderBy: airedAt_DESC) {
-                      entryId: id
-                      code
-                      name
-                      airedAt
-                    }
+                    ${ALL_ROLES.map(role => (
+                    `${role}(first: 500, orderBy: airedAt_DESC) {
+                        entryId: id
+                        ... EpisodeF
+                        }`
+                    )).join("\n")}
                   }
+                }
+                fragment EpisodeF on Episode {
+                  name
+                  code
+                  airedAt
+                  show { name color }
                 }        
         `, variables: {size: 300}
             }),
@@ -60,18 +50,16 @@ export async function getStaticPaths() {
     );
 
     const data = await response.json();
-    const {people} = data.data;
-    return people.map((person) => {
-        return {
-            params: {
-                person_id: personPath(person)
-            },
-            props: {
-                person
-            }
+    return (data.data?.people || []).map((person) => ({
+        params: {
+            person_id: personPath(person)
+        },
+        props: {
+            person
         }
-    })
+    }))
 }
+
 const {person} = Astro.props;
 ---
 <Layout title={person.fullName}>
@@ -79,52 +67,17 @@ const {person} = Astro.props;
 
     <h2>Epizode</h2>
 
-    <div class="episodes">
-        {personEpisodes(person).map((episode) => {
+    <div class="episodes-by-role">
+        {Array.from(groupedPersonEpisodes(person)).map(([role, episodes]) => {
             return (
-                    <div class="episode">
-                        <a href={'/epizode/' + episodePath(episode)}>
-                            <div class="code">{episode.code}</div>
-                            <div class="name">{episode.name}</div>
-                            <!-- <div class="role">{episode.role}</div>
-                            <div class="airedAt">{episode.airedAt}</div> -->
-                        </a>
+                    <div class="role-wrap">
+                        <h3 class="role">{localiseRole(role)}</h3>
+                        <div class="episodes">
+                            {episodes.map(episode => (
+                                    <EpisodeRow episode={episode}/>
+                            ))}
+                        </div>
                     </div>)
         })}
     </div>
 </Layout>
-
-<style lang="scss" is:global>
-    .person {
-        /*
-        padding-left: 220px;
-        & img {
-            width: 200px;
-            height: 200px;
-        } */
-    }
-
-    .episodes {
-        .episode {
-            & a {
-                text-decoration: none;
-            }
-
-            .code {
-                font-weight: 100;
-                display: inline;
-                margin-right: 10px;
-            }
-
-            .name {
-                font-family: Iosevka, 'Iosevka Web', sans-serif;
-                display: inline;
-                color: white;
-            }
-
-            margin-bottom: 10px;
-        }
-    }
-
-
-</style>
