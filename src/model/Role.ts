@@ -7,7 +7,7 @@ export enum Role {
     consulted = "consulted"
 }
 
-export const ALL_ROLES = Object.keys(Role) as Role[]
+export const ALL_ROLES: Role[] = Object.keys(Role) as Role[]
 
 const SI_ROLES: Map<Role, string> = new Map([
     [Role.hosted, "Host"],

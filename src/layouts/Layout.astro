@@ -6,7 +6,6 @@ export interface Props {
     hideFooter: string;
 }
 
-import 'purecss/build/pure.css'
 import Header from "../components/Header.astro";
 const {title, hideFooter} = Astro.props['frontmatter'] || Astro.props;
 ---
@@ -39,82 +38,85 @@ const {title, hideFooter} = Astro.props['frontmatter'] || Astro.props;
 </body>
 </html>
 <style lang="scss" is:global>
-    @import "../_variables.scss";
+  @import "../_variables.scss";
 
-    * {
-        -webkit-box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        box-sizing: border-box;
+  * {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+
+  html {
+    font-family: $main-font;
+    background-color: #000;
+    color: white;
+
+    // line-height: $main-line-height;
+    // font-size: $main-font-size;
+    font-size: 1em;
+    line-height: 1.65em;
+  }
+
+  h1, h2, h3 {
+    font-family: 'Iosevka Web', sans-serif;
+  }
+
+  a {
+    color: #6a676c;
+
+    &:hover {
+      color: #6a676c;
+
     }
+  }
 
-    html {
-        font-family: $main-font;
-        background-color: #000;
-        color: white;
+  body {
+    padding: 0 50px 50px;
+  }
 
-        line-height: $main-line-height;
-        font-size: $main-font-size;
-    }
-
-    h1, h2, h3 {
-        font-family: 'Iosevka Web', sans-serif;
-    }
-
-    a {
-        color: #6a676c;
-
-        &:hover {
-            color: #6a676c;
-
-        }
-    }
-
+  @media only screen and (max-width: 1000px) {
     body {
-        padding: 0 50px 50px;
+      padding: 0 10px 10px;
+    }
+  }
+
+  /*
+
+  a {
+      color: #999;
+      &:hover {
+          color: #666;
+      }
+  }
+
+   */
+
+  .big-wrap {
+    max-width: $layout-max-width;
+    margin: 0 auto;
+
+    .content-wrap {
+      .content {
+
+      }
+    }
+  }
+
+  .footer {
+    clear: bottom;
+    float: none;
+    margin-top: 100px;
+    border-top: 2px solid white;
+    padding: 0 $lr-offset;
+    padding-top: 50px;
+
+
+    & img {
+      filter: grayscale(100%);
     }
 
-    /*
-    @media only screen and (max-width: 1000px) {
-        body {
-            padding: 0 20px 20px;
-        }
+    & a:hover img {
+      filter: grayscale(0%);
     }
-
-    a {
-        color: #999;
-        &:hover {
-            color: #666;
-        }
-    }
-
-     */
-
-    .big-wrap {
-        max-width: $layout-max-width;
-        margin: 0 auto;
-
-        .content-wrap {
-            .content {
-
-            }
-        }
-    }
-
-    .footer {
-        clear: bottom;
-        float: none;
-        margin-top: 100px;
-        border-top: 2px solid white;
-        padding: 0 $lr-offset;
-        padding-top: 50px;
-
-
-        & img {
-            filter: grayscale(100%);
-        }
-
-        & a:hover img {
-            filter: grayscale(0%);
-        }
-    }
+  }
 </style>

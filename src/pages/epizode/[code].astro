@@ -1,6 +1,5 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import {personPath} from "../../model/Person";
 import {episodePath, optimiseEpisodeTitle} from "../../model/Episode";
 import {marked} from 'marked';
 import Person from "../../components/Person.astro";
@@ -95,28 +94,28 @@ const {episode} = Astro.props;
     </div>
 </Layout>
 <style lang="scss" is:global>
-    .people {
-        .person {
-            position: relative;
-            display: inline-block;
-            margin-right: 30px;
+  .people {
+    .person {
+      position: relative;
+      display: inline-block;
+      margin-right: 30px;
 
-            &:last-child {
-                margin-right: 0;
-            }
-        }
+      &:last-child {
+        margin-right: 0;
+      }
     }
+  }
 
-    .meta {
-        color: #333;
+  .meta {
+    color: #333;
 
-        .m {
-            display: inline;
-            padding-right: 10px;
-        }
+    .m {
+      display: inline;
+      padding-right: 10px;
     }
+  }
 
-    .code {
-        font-weight: 100;
-    }
+  .code {
+    font-weight: 100;
+  }
 </style>

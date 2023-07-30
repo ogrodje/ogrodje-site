@@ -1,8 +1,7 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import Person from "../../components/Person.astro";
-import {episodePath} from "../../model/Episode";
-import {groupedPersonEpisodes, personEpisodes, personPath} from "../../model/Person";
+import {groupedPersonEpisodes, personPath} from "../../model/Person";
 import {ALL_ROLES, localiseRole} from "../../model/Role";
 import EpisodeRow from "../../components/EpisodeRow.astro";
 
@@ -35,7 +34,7 @@ export async function getStaticPaths() {
                         entryId: id
                         ... EpisodeF
                         }`
-                    )).join("\n")}
+                )).join("\n")}
                   }
                 }
                 fragment EpisodeF on Episode {
@@ -51,12 +50,8 @@ export async function getStaticPaths() {
 
     const data = await response.json();
     return (data.data?.people || []).map((person) => ({
-        params: {
-            person_id: personPath(person)
-        },
-        props: {
-            person
-        }
+        params: {person_id: personPath(person)},
+        props: {person}
     }))
 }
 
