@@ -21,8 +21,7 @@ export async function getStaticPaths() {
                     fullName
                     bio
                     avatar {
-                      id
-                      url
+                        url(transformation: { image: { resize: { fit: crop, height: 200, width: 200 } } })
                     }
                     socialFacebook
                     socialHomepage

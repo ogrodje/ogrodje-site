@@ -26,9 +26,6 @@ export const personPath = (person: Person): string => {
     return slugify(person.fullName)
 }
 
-export const parsonAvatar = (person: Person, size: Number = 50): string =>
-    `https://media.graphassets.com/output=format:jpg/resize=width:${size},height:${size},fit:crop/${person.avatar.url.split("/").pop()}`;
-
 const sortEpisodesByAired = (a: Episode, b: Episode) => Date.parse(b.airedAt) - Date.parse(a.airedAt);
 
 export const personEpisodes = (person: Person & WithConnectedEpisodes): Array<Episode & EpisodeWithRole> =>

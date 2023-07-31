@@ -1,3 +1,8 @@
+---
+import {Image} from 'astro:assets';
+import ogrodjeLogo from "../assets/ogrodje-logo.png"
+const ogrodjeLogoSrc = `url(${ogrodjeLogo.src})`;
+---
 <header class="header">
     <div class="ogrodje-logo cell">
         <a href="/" title="Ogrodje">Ogrodje</a>
@@ -10,64 +15,64 @@
         </ul>
     </div>
 </header>
-<style lang="scss">
-    @import "../_variables.scss";
+<style lang="scss" define:vars={{ogrodjeLogoSrc}}>
+  @import "../_variables.scss";
 
-    $cell-height: 130px;
-    $cell-line-height: 130px;
+  $cell-height: 130px;
+  $cell-line-height: 130px;
 
-    header.header {
-        padding: 0 $lr-offset;
+  header.header {
+    padding: 0 $lr-offset;
 
-        .cell {
-            display: inline-block;
-            height: $cell-height;
-            line-height: $cell-line-height;
-            vertical-align: middle;
-        }
-
-        & a {
-            font-family: $special-font;
-            text-decoration: none;
-        }
-
-        .ogrodje-logo a {
-            display: block;
-            background-image: url("/ogrodje-logo.png");
-            background-position: left center;
-            background-size: contain;
-            background-repeat: no-repeat;
-            text-indent: -500px;
-            overflow: hidden;
-            width: $cell-height;
-            image-rendering: crisp-edges;
-            filter: grayscale(90%) contrast(50%) // saturate(25%); //  contrast(20%)
-        }
-
-        .nav {
-            ul, ul li {
-                list-style: none;
-                float: left;
-                margin: 0;
-                padding: 0;
-                line-height: $cell-line-height;
-            }
-
-            ul li {
-                margin-right: 10px;
-                padding-left: 10px;
-                padding-right: 10px;
-            }
-
-            li a {
-            // background-color: pink; display: block;
-            }
-
-            @media only screen and (max-width: 1000px) {
-                li.not-short-x {
-                    display: none;
-                }
-            }
-        }
+    .cell {
+      display: inline-block;
+      height: $cell-height;
+      line-height: $cell-line-height;
+      vertical-align: middle;
     }
+
+    & a {
+      font-family: $special-font;
+      text-decoration: none;
+    }
+
+    .ogrodje-logo a {
+      display: block;
+      background-image: var(--ogrodjeLogoSrc);
+      background-position: left center;
+      background-size: contain;
+      background-repeat: no-repeat;
+      text-indent: -500px;
+      overflow: hidden;
+      width: $cell-height;
+      image-rendering: crisp-edges;
+      filter: grayscale(90%) contrast(50%) // saturate(25%); //  contrast(20%)
+    }
+
+    .nav {
+      ul, ul li {
+        list-style: none;
+        float: left;
+        margin: 0;
+        padding: 0;
+        line-height: $cell-line-height;
+      }
+
+      ul li {
+        margin-right: 10px;
+        padding-left: 10px;
+        padding-right: 10px;
+      }
+
+      li a {
+        // background-color: pink; display: block;
+      }
+
+      @media only screen and (max-width: 1000px) {
+        li.not-short-x {
+          display: none;
+        }
+      }
+    }
+  }
 </style>

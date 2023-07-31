@@ -41,8 +41,10 @@ query AllEpisodes($size: Int, $stage: Stage!) {
   }
 }
 fragment PersonF on Person {
-  fullName
-  avatar { url }
+    fullName
+    avatar {
+        url(transformation: { image: { resize: { fit: crop, height: 200, width: 200 } } })
+    }
 }
         `, variables: {size: 300, stage: 'PUBLISHED'}
             }),

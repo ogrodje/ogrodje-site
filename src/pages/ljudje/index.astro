@@ -23,16 +23,14 @@ query AllPeople($size: Int) {
     email
     bio
     avatar {
-      id
-      url
-      fileName
+        url(transformation: { image: { resize: { fit: crop, height: 200, width: 200 } } })
     }
     ${ALL_ROLES.map(role => (
-        `${role}(first: 500, orderBy: airedAt_DESC) {
+                `${role}(first: 500, orderBy: airedAt_DESC) {
         entryId: id
         ... EpisodeF
         }`
-    )).join("\n")}
+            )).join("\n")}
   }
 }
 fragment EpisodeF on Episode {
@@ -54,20 +52,22 @@ const {people} = data.data;
     <h1>Ljudje</h1>
     <p>Ogrodje smo <strong>ljudje</strong>.</p>
     <div class="people">
-        {sortedPeople(people).map((person) =>
+        {sortedPeople(people).map(person =>
                 <Person person={person}></Person>)}
     </div>
 </Layout>
 <style lang="scss">
-    .people {
-        position: relative;
-        width: 100%;
-        columns: 2;
-        clear: both;
-        float: none;
-    }
+  .people {
+    position: relative;
+    width: 100%;
+    columns: 2;
+    clear: both;
+    float: none;
+  }
 
-    @media only screen and (max-width: 1000px) {
-        .people { columns: 1 }
+  @media only screen and (max-width: 1000px) {
+    .people {
+      columns: 1
     }
+  }
 </style>

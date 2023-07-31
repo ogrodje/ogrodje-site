@@ -1,6 +1,6 @@
 ---
+import {Image} from 'astro:assets';
 import {
-    parsonAvatar,
     Person,
     personEpisodes,
     personPath,
@@ -18,17 +18,15 @@ const [lastEpisode, ...episodes] = personEpisodes(person);
 ---
 <div class="person">
     <a href={"/ljudje/" + personPath(person)}>
-        <img src={parsonAvatar(person, (avatarSize || 100))}
-             title={person.fullName} alt={person.fullName}/>
+        <img src={person.avatar.url} title={person.fullName} alt={person.fullName}/>
+
         <div class="name">
             <div class="full-name">{person.fullName}</div>
             {episodes.length >= 1 && (
                     <div class="episodes-count">{episodes.length}+</div>)}
         </div>
         {person.bio && (
-                <div class="bio">
-                    {person.bio}
-                </div>
+                <div class="bio">{person.bio}</div>
         )}
     </a>
     {showSocial && (
@@ -41,47 +39,47 @@ const [lastEpisode, ...episodes] = personEpisodes(person);
     )}
 </div>
 <style lang="scss">
-    .person {
-        -webkit-column-break-inside: avoid;
-        page-break-inside: avoid;
-        break-inside: avoid;
-        min-height: 90px;
-        position: relative;
-        padding-left: 110px;
-        margin-bottom: 40px;
-        padding-right: 10px;
+  .person {
+    -webkit-column-break-inside: avoid;
+    page-break-inside: avoid;
+    break-inside: avoid;
+    min-height: 90px;
+    position: relative;
+    padding-left: 110px;
+    margin-bottom: 40px;
+    padding-right: 10px;
 
-        & a {
-            text-decoration: none;
-        }
-
-        .name, .bio {
-            padding-bottom: 5px
-        }
-
-        .name {
-            .full-name {
-                color: white;
-                font-size: 16pt;
-                display: inline;
-            }
-
-            .episodes-count {
-                display: inline;
-            }
-        }
-
-
-        img {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 90px;
-            height: 90px;
-        }
-
-        .last-episode {
-            padding: 10px;
-        }
+    & a {
+      text-decoration: none;
     }
+
+    .name, .bio {
+      padding-bottom: 5px
+    }
+
+    .name {
+      .full-name {
+        color: white;
+        font-size: 16pt;
+        display: inline;
+      }
+
+      .episodes-count {
+        display: inline;
+      }
+    }
+
+
+    img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100px;
+      height: 100px;
+    }
+
+    .last-episode {
+      padding: 10px;
+    }
+  }
 </style>
