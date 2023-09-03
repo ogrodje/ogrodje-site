@@ -15,7 +15,9 @@
     "@astrojs/mdx": "^0.19.7",
     "@sindresorhus/slugify": "^2.2.1",
     "astro": "^2.8.0",
+    "got": "^13.0.0",
     "marked": "^5.1.1",
+    "rss-parser": "^3.13.0",
     "sass": "^1.63.6"
   },
   "devDependencies": {
