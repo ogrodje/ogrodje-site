@@ -13,6 +13,7 @@ env:
 
 jobs:
   build:
+    name: 
     environment: ci
     runs-on: ubuntu-latest
     steps:
@@ -22,10 +23,31 @@ jobs:
           node-version: 16
           cache: 'npm'
 
-      - run: yarn install && yarn build
+      - run: yarn install
+      - run: yarn build
+      - uses: actions/upload-artifact@v3
+        with:
+          name: dist
+          path: dist/
+
+  deploy:
+    name: Deployment
+    environment: ci
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'npm'
+      - uses: actions/download-artifact@v3
+        with:
+          name: dist
+          path: dist/    
+      - run: yarn install
       - name: "Deploy"
         run: |
           netlify deploy \
             --site $NETLIFY_SITE_ID \
             --auth $NETLIFY_AUTH_TOKEN \
-            --prod
+            --prod      
