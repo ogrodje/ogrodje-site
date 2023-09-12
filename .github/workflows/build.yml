@@ -17,8 +17,6 @@ jobs:
         with:
           node-version: 16
           cache: 'npm'
-      
-      - run: npm install --global yarn && yarn install
-      - run: echo $HYGRAPH_ENDPOINT
-      - run: yarn run build
+
+      - run: yarn install build
       
