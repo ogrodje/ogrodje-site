@@ -23,5 +23,6 @@ jobs:
       - run: yarn install && yarn build
       - name: "Deploy"
         run: |
-          netlify --auth $NETLIFY_AUTH_TOKEN && \
-          netlify deploy --prod
+          netlify deploy \
+            --auth $NETLIFY_AUTH_TOKEN \
+            --prod
