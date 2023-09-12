@@ -1,0 +1,17 @@
+name: "Ogrodje Site Build"
+on:
+  push:
+    branches: [ master ]
+  pull_requests:
+    branches: [ master ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: |
+        npm install --global yarn
+        yarn install
+      - run: |
+        yarn run build
+      
