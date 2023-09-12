@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -ex
 
-GH_ENDPOINT="https://api.github.com/repos/ogrodje/ogrodje-site/actions/workflows/build/dispatches"
+GH_ENDPOINT="https://api.github.com/repos/ogrodje/ogrodje-site/actions/workflows/build.yml/dispatches"
 
 curl -D - -X POST \
 		-H "Accept: application/vnd.github+json" \

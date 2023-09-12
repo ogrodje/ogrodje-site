@@ -9,6 +9,9 @@ on:
   repository_dispatch:
     branches: [ master ]
 
+  workflow_dispatch:
+    
+
 env:
   HYGRAPH_ENDPOINT: ${{ secrets.HYGRAPH_ENDPOINT }}
   NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
