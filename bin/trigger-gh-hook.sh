@@ -1,11 +1,14 @@
 #!/usr/bin/env bash
 set -ex
 
+# This script will dispatch new GitHub workflow run.
+
 GH_ENDPOINT="https://api.github.com/repos/ogrodje/ogrodje-site/actions/workflows/build.yml/dispatches"
 
 curl -D - -X POST \
-		-H "Accept: application/vnd.github+json" \
-		-H "Authorization: Bearer ${GITHUB_TOKEN}" \
-        -H "X-GitHub-Api-Version: 2022-11-28" \
-		$GH_ENDPOINT
+	-H "Authorization: Bearer ${GITHUB_TOKEN}" \
+	-H "Accept: application/vnd.github.v3+json" \
+	-d '{"ref": "refs/heads/master"}' \
+	$GH_ENDPOINT
+
 
