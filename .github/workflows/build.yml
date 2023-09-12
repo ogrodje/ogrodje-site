@@ -8,6 +8,7 @@ on:
 
 env:
   HYGRAPH_ENDPOINT: ${{ vars.HYGRAPH_ENDPOINT }}
+  NETLIFY_AUTH_TOKEN: ${{ vars.NETLIFY_AUTH_TOKEN }}
 
 jobs:
   build:
@@ -20,4 +21,7 @@ jobs:
           cache: 'npm'
 
       - run: yarn install && yarn build
-      
+      - name: "Deploy"
+        run: |
+          netlify --auth $NETLIFY_AUTH_TOKEN && \
+          netlify deploy --prod
