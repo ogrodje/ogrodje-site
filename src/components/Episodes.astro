@@ -1,4 +1,5 @@
 ---
+import EpisodeRow from "./EpisodeRow.astro";
 const hygraph_endpoint = await import.meta.env.HYGRAPH_ENDPOINT;
 const pageSize = 3;
 const response = await fetch(
@@ -10,14 +11,13 @@ const response = await fetch(
             Accept: "application/json",
         },
         body: JSON.stringify({
-            query: `query AllEpisodes($size: Int) {
-                pages: episodesConnection(first: $size,  orderBy: createdAt_DESC) {
+            query: `query AllEpisodes($size: Int, $stage: Stage!) {
+                pages: episodesConnection(first: $size, orderBy: createdAt_DESC, stage: $stage) {
                     episodes:edges {
                     cursor
-                    episode: node {
+                    episode: node { 
                             id
-                            name
-                            code
+                            ... EpisodeF
                         }
                     }
                     pageInfo {
@@ -26,9 +26,14 @@ const response = await fetch(
                     }
                 }
             }
-        
+        fragment EpisodeF on Episode {
+          name
+          code
+          airedAt
+          show { name color }
+        }
         `,
-            variables: {size: pageSize}
+            variables: {size: pageSize, stage: 'PUBLISHED'}
         }),
     }
 );
@@ -37,9 +42,9 @@ const data = await response.json();
 const {pages} = data.data;
 ---
 <div class="episodes">
-    {pages.episodes.map((episode) => {
+    {pages.episodes.map(({episode}) => {
         return (
-                <h2>{episode.episode.name}</h2>
+                <EpisodeRow episode={episode}/>
         )
     })}
 </div>
