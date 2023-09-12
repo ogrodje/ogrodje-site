@@ -10,5 +10,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: npm install --global yarn && yarn install
+      - run: echo $HYGRAPH_ENDPOINT
       - run: yarn run build
       
