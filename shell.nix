@@ -3,7 +3,7 @@ with import <nixpkgs> { config.allowBroken = true; };
 stdenv.mkDerivation {
     name = "ogrodje-site";
     buildInputs = [
-      nodejs
+      nodejs_21
       yarn
     ];
     shellHook = ''
