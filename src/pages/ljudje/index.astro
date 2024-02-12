@@ -26,11 +26,10 @@ query AllPeople($size: Int) {
         url(transformation: { image: { resize: { fit: crop, height: 200, width: 200 } } })
     }
     ${ALL_ROLES.map(role => (
-                `${role}(first: 500, orderBy: airedAt_DESC) {
-        entryId: id
-        ... EpisodeF
-        }`
-            )).join("\n")}
+                `${role}(first: 500, orderBy: airedAt_DESC) { 
+            entryId: id
+            ... EpisodeF
+        }`)).join("\n")}
   }
 }
 fragment EpisodeF on Episode {

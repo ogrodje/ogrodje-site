@@ -18,7 +18,10 @@ const [lastEpisode, ...episodes] = personEpisodes(person);
 ---
 <div class="person">
     <a href={"/ljudje/" + personPath(person)}>
-        <img src={person.avatar.url} title={person.fullName} alt={person.fullName}/>
+
+        {(person.avatar?.url) ? (
+                <img src={person.avatar.url} title={person.fullName} alt={person.fullName}/>
+        ) : ''}
 
         <div class="name">
             <div class="full-name">{person.fullName}</div>
@@ -33,8 +36,8 @@ const [lastEpisode, ...episodes] = personEpisodes(person);
             <div class="social-channels">
                 {socialChannels(person).map(({channel, url}) =>
                     (
-                            <div class="social-channel"><a href={url}>{channel}</a></div>)
-                )}
+                            <div class="social-channel"><a href={url}>{channel}</a></div>
+                    ))}
             </div>
     )}
 </div>
