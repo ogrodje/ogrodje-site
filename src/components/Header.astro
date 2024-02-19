@@ -18,11 +18,12 @@ const ogrodjeLogoSrc = `url(${ogrodjeLogo.src})`;
 <style lang="scss" define:vars={{ogrodjeLogoSrc}}>
   @import "../_variables.scss";
 
-  $cell-height: 130px;
-  $cell-line-height: 130px;
+  $cell-height: 100px;
+  $cell-line-height: 100px;
 
   header.header {
     padding: 0 $lr-offset;
+    margin-bottom: 20px;
 
     .cell {
       display: inline-block;
@@ -46,7 +47,7 @@ const ogrodjeLogoSrc = `url(${ogrodjeLogo.src})`;
       overflow: hidden;
       width: $cell-height;
       image-rendering: crisp-edges;
-      filter: grayscale(90%) contrast(50%) // saturate(25%); //  contrast(20%)
+      // filter: grayscale(90%) contrast(50%) // saturate(25%); //  contrast(20%)
     }
 
     .nav {
