@@ -48,7 +48,7 @@ export async function getStaticPaths() {
     );
 
     const data = await response.json();
-    return (data.data?.people || []).map((person) => ({
+    return (data.data?.people || []).map((person: any) => ({
         params: {person_id: personPath(person)},
         props: {person}
     }))

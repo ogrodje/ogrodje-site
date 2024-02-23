@@ -20,7 +20,8 @@ const [lastEpisode, ...episodes] = personEpisodes(person);
     <a href={"/ljudje/" + personPath(person)}>
 
         {(person.avatar?.url) ? (
-                <img src={person.avatar.url} title={person.fullName} alt={person.fullName}/>
+                <Image src={person.avatar.url} title={person.fullName}
+                       alt={person.fullName} width={100} height={100}/>
         ) : ''}
 
         <div class="name">
