@@ -1,18 +1,18 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import {episodePath, optimiseEpisodeTitle} from "../../model/Episode";
+import {Episode, episodePath, optimiseEpisodeTitle} from "../../model/Episode";
 import {marked} from 'marked';
 import Person from "../../components/Person.astro";
 
 export async function getStaticPaths() {
-    const hygraph_endpoint = await import.meta.env.HYGRAPH_ENDPOINT;
-    const response = await fetch(
-        hygraph_endpoint,
-        {
-            method: "POST",
-            headers: {"Content-Type": "application/json", Accept: "application/json"},
-            body: JSON.stringify({
-                query: `
+  const hygraph_endpoint = await import.meta.env.HYGRAPH_ENDPOINT;
+  const response = await fetch(
+    hygraph_endpoint,
+    {
+      method: "POST",
+      headers: {"Content-Type": "application/json", Accept: "application/json"},
+      body: JSON.stringify({
+        query: `
 query AllEpisodes($size: Int, $stage: Stage!) {
   episodes(first: $size, orderBy: airedAt_DESC, stage: $stage) {
     topics {
@@ -45,53 +45,53 @@ fragment PersonF on Person {
     avatar { url(transformation: { image: { resize: { fit: crop, height: 200, width: 200 } } }) }
             }
         `, variables: {size: 300, stage: 'PUBLISHED'}
-            }),
-        }
-    );
+      }),
+    }
+  );
 
-    const data = await response.json();
-    const {episodes} = data.data;
-    return episodes.map((episode) => ({
-        params: {
-            code: episodePath(episode)
-        },
-        props: {
-            episode: {
-                ...episode, ...{
-                    name: optimiseEpisodeTitle(episode)
-                }
-            }
+  const data = await response.json();
+  const {episodes} = data.data;
+  return episodes.map((episode: Episode) => ({
+    params: {
+      code: episodePath(episode)
+    },
+    props: {
+      episode: {
+        ...episode, ...{
+          name: optimiseEpisodeTitle(episode)
         }
-    }))
+      }
+    }
+  }))
 }
 
-const renderSummary = (episode) => marked.parse(episode.summary, {
-    mangle: false,
-    headerIds: false,
+const renderSummary = (episode: any) => marked.parse(episode.summary, {
+  mangle: false,
+  headerIds: false,
 })
 
 const {episode} = Astro.props;
 ---
 <Layout title="Epizoda">
-    <h1>
-        <span class="code">{episode.code}</span>
-        <span class="name">{episode.name}</span>
-    </h1>
+  <h1>
+    <span class="code">{episode.code}</span>
+    <span class="name">{episode.name}</span>
+  </h1>
 
-    <div class="people">
-        {episode.guests.map(guest =>
-                <Person person={guest}/>
-        )}
-        <Person person={episode.host}></Person>
-        {episode.cohosts.map(guest =>
-                <Person person={guest}/>
-        )}
-    </div>
-    <div class="summary" set:html={renderSummary(episode)}></div>
-    <div class="meta">
-        Izid:
-        <div class="m aired-at">{episode.airedAt}</div>
-    </div>
+  <div class="people">
+    {episode.guests.map(guest =>
+      <Person person={guest}/>
+    )}
+    <Person person={episode.host}></Person>
+    {episode.cohosts.map(guest =>
+      <Person person={guest}/>
+    )}
+  </div>
+  <div class="summary" set:html={renderSummary(episode)}></div>
+  <div class="meta">
+    Izid:
+    <div class="m aired-at">{episode.airedAt}</div>
+  </div>
 </Layout>
 <style lang="scss" is:global>
   .people {

@@ -7,15 +7,15 @@ import {ALL_ROLES} from "../../model/Role";
 const hygraph_endpoint = await import.meta.env.HYGRAPH_ENDPOINT;
 const pageSize = 300;
 const response = await fetch(
-    hygraph_endpoint,
-    {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-        },
-        body: JSON.stringify({
-            query: `
+  hygraph_endpoint,
+  {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify({
+      query: `
 query AllPeople($size: Int) {
   people(first: $size, orderBy: fullName_ASC) {
     nickname
@@ -26,7 +26,7 @@ query AllPeople($size: Int) {
         url(transformation: { image: { resize: { fit: crop, height: 200, width: 200 } } })
     }
     ${ALL_ROLES.map(role => (
-                `${role}(first: 500, orderBy: airedAt_DESC) { 
+        `${role}(first: 500, orderBy: airedAt_DESC) {
             entryId: id
             ... EpisodeF
         }`)).join("\n")}
@@ -39,21 +39,21 @@ fragment EpisodeF on Episode {
   show { name color }
 }
         `,
-            variables: {size: pageSize}
-        }),
-    }
+      variables: {size: pageSize}
+    }),
+  }
 );
 
 const data = await response.json();
 const {people} = data.data;
 ---
 <Layout title="Ljudje">
-    <h1>Ljudje</h1>
-    <p>Ogrodje smo <strong>ljudje</strong>.</p>
-    <div class="people">
-        {sortedPeople(people).map(person =>
-                <Person person={person}></Person>)}
-    </div>
+  <h1>Ljudje</h1>
+  <p>Ogrodje smo <strong>ljudje</strong>.</p>
+  <div class="people">
+    {sortedPeople(people).map(person =>
+      <Person person={person}></Person>)}
+  </div>
 </Layout>
 <style lang="scss">
   .people {

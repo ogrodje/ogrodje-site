@@ -1,19 +1,19 @@
 ---
 import {Image} from 'astro:assets';
-import ogrodjeLogo from "../assets/ogrodje-logo.png"
+import ogrodjeLogo from "../assets/ogrodje-logo-base.png"
 const ogrodjeLogoSrc = `url(${ogrodjeLogo.src})`;
 ---
 <header class="header">
-    <div class="ogrodje-logo cell">
-        <a href="/" title="Ogrodje">Ogrodje</a>
-    </div>
+  <div class="ogrodje-logo cell">
+    <a href="/" title="Ogrodje">Ogrodje</a>
+  </div>
 
-    <div class="nav cell">
-        <ul>
-            <li><a href="/ljudje" title="Ljudje">Ljudje</a></li>
-            <li class="not-short"><a href="/strategija" title="Strategija">Strategija</a></li>
-        </ul>
-    </div>
+  <div class="nav cell">
+    <ul>
+      <li><a href="/ljudje" title="Ljudje">Ljudje</a></li>
+      <li class="not-short"><a href="/strategija" title="Strategija">Strategija</a></li>
+    </ul>
+  </div>
 </header>
 <style lang="scss" define:vars={{ogrodjeLogoSrc}}>
   @import "../_variables.scss";
@@ -37,17 +37,20 @@ const ogrodjeLogoSrc = `url(${ogrodjeLogo.src})`;
       text-decoration: none;
     }
 
-    .ogrodje-logo a {
-      display: block;
-      background-image: var(--ogrodjeLogoSrc);
-      background-position: left center;
-      background-size: contain;
-      background-repeat: no-repeat;
-      text-indent: -500px;
-      overflow: hidden;
-      width: $cell-height;
-      image-rendering: crisp-edges;
-      // filter: grayscale(90%) contrast(50%) // saturate(25%); //  contrast(20%)
+    .ogrodje-logo {
+      margin-right: 20px;
+      a {
+        display: block;
+        background-image: var(--ogrodjeLogoSrc);
+        background-position: left center;
+        background-size: contain;
+        background-repeat: no-repeat;
+        text-indent: -500px;
+        overflow: hidden;
+        width: $cell-height;
+        image-rendering: crisp-edges;
+        // filter: grayscale(90%) contrast(50%) // saturate(25%); //  contrast(20%)
+      }
     }
 
     .nav {

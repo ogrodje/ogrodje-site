@@ -2,8 +2,8 @@
 import Channels from "../components/Channels.astro";
 
 export interface Props {
-    title: string;
-    hideFooter: string;
+  title: string;
+  hideFooter: string;
 }
 
 import Header from "../components/Header.astro";
@@ -12,28 +12,28 @@ const {title, hideFooter} = Astro.props['frontmatter'] || Astro.props;
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8"/>
-    <meta name="description" content="Ogrodje Podcast">
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <!-- <link rel="icon" type="image/svg+xml" href="/favicon.svg"/> -->
-    <link href="https://iosevka-webfonts.github.io/iosevka/iosevka.css" rel="stylesheet" type="text/css">
-    <title>{title}</title>
+  <meta charset="UTF-8"/>
+  <meta name="description" content="Ogrodje Podcast">
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <!-- <link rel="icon" type="image/svg+xml" href="/favicon.svg"/> -->
+  <link href="https://iosevka-webfonts.github.io/iosevka/iosevka.css" rel="stylesheet" type="text/css">
+  <title>{title}</title>
 </head>
 <body>
 <div class="big-wrap">
-    <Header></Header>
-    <div class="content-wrapper">
-        <div class="content">
-            <slot/>
-        </div>
+  <Header></Header>
+  <div class="content-wrapper">
+    <div class="content">
+      <slot/>
     </div>
-    {(hideFooter !== "true") && (
-            <footer>
-                <div class="footer">
-                    <Channels></Channels>
-                </div>
-            </footer>
-    )}
+  </div>
+  {(hideFooter !== "true") && (
+    <footer>
+      <div class="footer">
+        <Channels></Channels>
+      </div>
+    </footer>
+  )}
 </div>
 </body>
 </html>
@@ -48,7 +48,7 @@ const {title, hideFooter} = Astro.props['frontmatter'] || Astro.props;
 
   html {
     font-family: $main-font;
-    background-color: #000;
+    background-color: #0c0c0c;
     color: white;
 
     font-size: $main-font-size;

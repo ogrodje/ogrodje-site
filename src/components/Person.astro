@@ -1,46 +1,51 @@
 ---
-import {Image} from 'astro:assets';
+import {Image, getImage} from 'astro:assets';
 import {
-    Person,
-    personEpisodes,
-    personPath,
-    socialChannels, WithConnectedEpisodes
+  Person,
+  personEpisodes,
+  personPath,
+  socialChannels,
+  WithConnectedEpisodes
 } from "../model/Person";
+import MyImageService from "../MyImageService";
 
 interface Props {
-    person: Person & WithConnectedEpisodes
-    avatarSize: Number
-    showSocial: boolean
+  person: Person & WithConnectedEpisodes
+  avatarSize: Number
+  showSocial: boolean
 }
 
 const {person, avatarSize, showSocial} = Astro.props;
 const [lastEpisode, ...episodes] = personEpisodes(person);
+
+const optimizedAvatarImage = async (person: Person) =>
+  await getImage({src: person.avatar.url})
 ---
 <div class="person">
-    <a href={"/ljudje/" + personPath(person)}>
+  <a href={"/ljudje/" + personPath(person)}>
 
-        {(person.avatar?.url) ? (
-                <Image src={person.avatar.url} title={person.fullName}
-                       alt={person.fullName} width={100} height={100}/>
-        ) : ''}
+    {(person.avatar?.url) ? (
+      <Image src={person.avatar.url} title={person.fullName} inferSize={true}
+             alt={person.fullName} width={100} height={100}/>
+    ) : ''}
 
-        <div class="name">
-            <div class="full-name">{person.fullName}</div>
-            {episodes.length >= 1 && (
-                    <div class="episodes-count">{episodes.length}+</div>)}
-        </div>
-        {person.bio && (
-                <div class="bio">{person.bio}</div>
-        )}
-    </a>
-    {showSocial && (
-            <div class="social-channels">
-                {socialChannels(person).map(({channel, url}) =>
-                    (
-                            <div class="social-channel"><a href={url}>{channel}</a></div>
-                    ))}
-            </div>
+    <div class="name">
+      <div class="full-name">{person.fullName}</div>
+      {episodes.length >= 1 && (
+        <div class="episodes-count">{episodes.length}+</div>)}
+    </div>
+    {person.bio && (
+      <div class="bio">{person.bio}</div>
     )}
+  </a>
+  {showSocial && (
+    <div class="social-channels">
+      {socialChannels(person).map(({channel, url}) =>
+        (
+          <div class="social-channel"><a href={url}>{channel}</a></div>
+        ))}
+    </div>
+  )}
 </div>
 <style lang="scss">
   .person {
