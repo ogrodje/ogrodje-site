@@ -1,72 +1,12 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import Person from '../../components/Person.astro';
-import {sortedPeople} from "../../model/Person";
-import {ALL_ROLES} from "../../model/Role";
-
-const hygraph_endpoint = await import.meta.env.HYGRAPH_ENDPOINT;
-const pageSize = 300;
-const response = await fetch(
-  hygraph_endpoint,
-  {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-    body: JSON.stringify({
-      query: `
-query AllPeople($size: Int) {
-  people(first: $size, orderBy: fullName_ASC) {
-    nickname
-    fullName
-    email
-    bio
-    avatar {
-        url(transformation: { image: { resize: { fit: crop, height: 200, width: 200 } } })
-    }
-    ${ALL_ROLES.map(role => (
-        `${role}(first: 500, orderBy: airedAt_DESC) {
-            entryId: id
-            ... EpisodeF
-        }`)).join("\n")}
-  }
-}
-fragment EpisodeF on Episode {
-  name
-  code
-  airedAt
-  show { name color }
-}
-        `,
-      variables: {size: pageSize}
-    }),
-  }
-);
-
-const data = await response.json();
-const {people} = data.data;
+import {PeopleService} from "../../services/PeopleService";
+import People from "../../components/People.astro";
+const people = await PeopleService.allPeople(300);
 ---
 <Layout title="Ljudje">
   <h1>Ljudje</h1>
   <p>Ogrodje smo <strong>ljudje</strong>.</p>
-  <div class="people">
-    {sortedPeople(people).map(person =>
-      <Person person={person}></Person>)}
-  </div>
+  <People people={people}/>
 </Layout>
-<style lang="scss">
-  .people {
-    position: relative;
-    width: 100%;
-    columns: 2;
-    clear: both;
-    float: none;
-  }
 
-  @media only screen and (max-width: 1000px) {
-    .people {
-      columns: 1
-    }
-  }
-</style>

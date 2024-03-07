@@ -52,7 +52,8 @@ export const personLastEpisode = (person: Person & WithConnectedEpisodes): Episo
 export const personEpisodesCount = (person: Person & WithConnectedEpisodes): Number => personEpisodes(person).length;
 
 export const sortedPeople = (people: Array<Person & WithConnectedEpisodes>): Array<Person & WithConnectedEpisodes> =>
-  people.map(p => ({...p, ...{episodes_count: personEpisodes(p).length}}))
+  people
+    .map(p => ({...p, ...{episodes_count: personEpisodes(p).length}}))
     .sort((a, b) => b.episodes_count - a.episodes_count)
     .map(p => p as Person & WithConnectedEpisodes)
 

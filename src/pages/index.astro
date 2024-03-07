@@ -4,13 +4,14 @@ import Channels from "../components/Channels.astro";
 import Hero from "../components/Hero.astro";
 import Episodes from "../components/Episodes.astro";
 ---
-<Layout title="Ogrodje - Podcast in skupnost" hideFooter="true">
+<Layout title="Ogrodje - Podcast in skupnost" hideFooter={"true"}>
   <main>
     <Hero></Hero>
 
     <div class="latest">
       <h2>Sveže epizode</h2>
       <Episodes></Episodes>
+      <p><small><a href="/epizode">Vse episode</a></small></p>
     </div>
 
     <div class="channels-outer">

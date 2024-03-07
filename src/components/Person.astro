@@ -1,13 +1,12 @@
 ---
 import {Image, getImage} from 'astro:assets';
 import {
-  Person,
+  type Person,
   personEpisodes,
   personPath,
   socialChannels,
-  WithConnectedEpisodes
+  type WithConnectedEpisodes
 } from "../model/Person";
-import MyImageService from "../MyImageService";
 
 interface Props {
   person: Person & WithConnectedEpisodes

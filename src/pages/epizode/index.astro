@@ -1,0 +1,30 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import {EpisodeService} from "../../services/EpisodeService";
+import EpisodeRow from "../../components/EpisodeRow.astro";
+import {convertToRoman} from "../../model/Episode";
+const episodes = await EpisodeService.allEpisodesPerSeason(300);
+---
+<Layout title="Epizode">
+  <h1>Epizode</h1>
+
+  <div class="episodes-per-season">
+    {
+      Array.from(episodes.entries()).map(([season, episodes]) => (
+        <div class="season">
+
+          <h3 class="season-header">
+            Sezona {convertToRoman(season)}
+          </h3>
+
+          <div class="episodes">
+            {episodes.map(episode => (
+              <EpisodeRow episode={episode}/>
+            ))}
+          </div>
+        </div>
+      ))
+    }
+  </div>
+</Layout>
+

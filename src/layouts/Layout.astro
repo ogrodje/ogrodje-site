@@ -7,7 +7,7 @@ export interface Props {
 }
 
 import Header from "../components/Header.astro";
-const {title, hideFooter} = Astro.props['frontmatter'] || Astro.props;
+const {title, hideFooter} = (Astro.props as any)['frontmatter'] || Astro.props;
 ---
 <!DOCTYPE html>
 <html lang="en">

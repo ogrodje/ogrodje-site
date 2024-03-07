@@ -1,3 +1,25 @@
 ---
-$END$
+import Person from "./Person.astro";
+const {people} = Astro.props;
 ---
+<div class="people">
+  {(people || []).map((person) =>
+    <Person person={person} showSocial={false}></Person>)
+  }
+</div>
+
+<style lang="scss">
+  .people {
+    position: relative;
+    width: 100%;
+    columns: 2;
+    clear: both;
+    float: none;
+  }
+
+  @media only screen and (max-width: 1000px) {
+    .people {
+      columns: 1
+    }
+  }
+</style>

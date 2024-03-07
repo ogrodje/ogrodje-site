@@ -2,6 +2,10 @@
 title: 'Strategija'
 layout: '../layouts/Layout.astro'
 ---
+import People from "../components/People.astro";
+import {PeopleService} from "../services/PeopleService";
+export const teamMembers = await PeopleService.teamMembers();
+
 # Strategija
 
 ## Kaj je Ogrodje?
@@ -48,14 +52,7 @@ S tem si predvsem odpiramo pot do novih trgov in tujih gostov.
 
 Podcast Ogrodje trenutno sestavlja ekipa izkušenih strokovnjakov iz področja razvoja programske opreme, varnosti, infrastrukture in tehničnega vodenja in managementa. Večina članov je poleg več desetletnega delovanja v tej stroki tudi izjemno aktivna pri delu v skupnosti. Od organizacije mesečnih srečanj (meetupov - SecTalks, OpenBlend, Ruby User Group, Kiberpipa,...) do organizacije večjih tehničnih konferenc. Ustvarjalci z izkušnjami tako z mentorstvom, kot tudi z vodenjem velikih mednarodnih razvijalskih ekip.
 
-* [Oto Brglez](https://www.linkedin.com/in/otobrglez/), Host / Founder
-* [Andraž Sraka](https://www.linkedin.com/in/andrazsraka/), Co-host,
-* [Andraž Brodnik](https://www.linkedin.com/in/brodul/), Co-host,
-* [Sara Vošinek Gašpar](https://www.linkedin.com/in/saramugen/), Co-host
-* [Jan Dolar](https://www.linkedin.com/in/jan-dolar-436486120/), Vodja multimedijske produkcije / [DOLAR MEDIA](http://www.dolarmedia.si/)
-* [Tomaž Zaman](https://www.linkedin.com/in/tomaz-zaman-93899010/), Svetovalec / [MONO Keyboards](https://www.mono-keyboards.com/)
-* [Jernej Gračner](https://www.linkedin.com/in/jernejg), Oblikovalec / [Gentle giant](https://gentlegiant.me/)
-* [Lara Kocbek](https://www.linkedin.com/in/lara-kocbek-a82951228/), Specialistka za družbena omrežja
+<People people={teamMembers}></People>
 
 ## Javnosti
 
