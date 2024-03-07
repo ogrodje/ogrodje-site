@@ -2,8 +2,6 @@ export class HyGraphService {
   static hyGraphEndpoint: string = import.meta.env.HYGRAPH_ENDPOINT;
 
   static async query(query: string, variables: any = {}): Promise<any> {
-    console.log("endpoint ==>", this.hyGraphEndpoint);
-
     return fetch(
       this.hyGraphEndpoint, {
         method: "POST",
