@@ -1,5 +1,7 @@
 ---
+import {Image} from 'astro:assets';
 import Channels from "../components/Channels.astro";
+import ogrodjeLogoIcon from "../assets/ogrodje-logo-base.png"
 
 export interface Props {
   title: string;
@@ -15,7 +17,7 @@ const {title, hideFooter} = (Astro.props as any)['frontmatter'] || Astro.props;
   <meta charset="UTF-8"/>
   <meta name="description" content="Ogrodje Podcast">
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <!-- <link rel="icon" type="image/svg+xml" href="/favicon.svg"/> -->
+  <link rel="icon" type="image/png" href={ogrodjeLogoIcon.src}/>
   <link href="https://iosevka-webfonts.github.io/iosevka/iosevka.css" rel="stylesheet" type="text/css">
   <title>{title}</title>
 </head>
