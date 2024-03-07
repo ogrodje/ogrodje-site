@@ -1,0 +1,108 @@
+---
+import {Image} from 'astro:assets';
+import logo_YT from "../assets/icons/icons8-youtube-144.png"
+import logo_AP from "../assets/icons/apple-podcasts.png"
+import logo_Spotify from '../assets/icons/icons8-spotify-144.png'
+import logo_GPI from '../assets/icons/google-podcasts.png'
+import {type Episode, episodePath, episodeTools, withTool, withTools} from "../model/Episode";
+const logoW: number = 50;
+const logoH: number = 50;
+
+interface Props {
+  episode: Episode,
+  showLabels: boolean
+  showChannelLabels: boolean
+}
+
+const {episode, showLabels, showChannelLabels} = Astro.props;
+const tools = episodeTools(episode)
+---
+{tools.has('view') || tools.has('listen') ? (
+<div class="episode-tools-wrap">
+  <div class="episode-tools">
+    {tools.has("view") ? (
+      <div class="kind view">{showLabels ? (<span class="label">Poglej na</span>) : ''}
+        {withTool(tools, 'view', 'youTube', url =>
+          <a href={url} target="_blank">
+            <Image src={logo_YT} alt="Poglej epizodo na YouTube" width={logoW} height={logoH}/>
+            {showChannelLabels ? 'YouTube' : ''}</a>
+        )}
+
+        {withTool(tools, 'view', 'spotify', url =>
+          <a href={url} target="_blank">
+            <Image src={logo_Spotify} alt="Poglej ali poslušaj epizodo na Spotify" width={logoW} height={logoH}/>
+            {showChannelLabels ? 'Spotify' : ''}
+          </a>
+        )}
+      </div>
+    ) : ''}
+    {tools.has("listen") ? (
+      <div class="kind listen">{showLabels ? (<span class="label">Poslušaj na</span>) : ''}
+        {withTool(tools, 'listen', 'applePodcasts', url =>
+          <a href={url} target="_blank">
+            <Image src={logo_AP} alt="Poslušaj epizodo na Apple Podcasts" width={logoW} height={logoH}/>
+            {showChannelLabels ? 'Apple Podcasts' : ''}
+          </a>
+        )}
+      </div>
+    ) : ''}
+  </div>
+</div>
+  ): ''}
+
+<style lang="scss">
+
+  .episode-tools-wrap {
+  }
+
+  .episode-tools {
+    display: inline-block;
+    clear: both;
+    float: none;
+
+    height: 30px;
+    line-height: 30px;
+    text-align: justify;
+
+    .label {
+      margin-right: 10px;
+    }
+
+    a {
+      height: 30px;
+      line-height: 30px;
+      min-width: 30px;
+      display: inline-block;
+      position: relative;
+      // overflow: hidden;
+      // background-color: purple;
+      text-indent: 35px;
+      margin-right: 5px;
+
+      img {
+        position: absolute;
+        left: 0;
+        height: 30px;
+        width: 30px;
+        top: 0px
+      }
+    }
+
+    /* coloring */
+    & img {
+      filter: grayscale(100%);
+    }
+
+    & a:hover img {
+      filter: grayscale(0%);
+    }
+
+    .kind {
+      display: inline-block;
+    }
+
+    .kind:last-child {
+      margin-left: 10px
+    }
+  }
+</style>

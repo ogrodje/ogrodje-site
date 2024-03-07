@@ -1,49 +1,11 @@
 ---
 import EpisodeRow from "./EpisodeRow.astro";
-const hygraph_endpoint = await import.meta.env.HYGRAPH_ENDPOINT;
-const pageSize = 3;
-const response = await fetch(
-  hygraph_endpoint,
-  {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-    body: JSON.stringify({
-      query: `query AllEpisodes($size: Int, $stage: Stage!) {
-                pages: episodesConnection(first: $size, orderBy: airedAt_DESC, stage: $stage) {
-                    episodes:edges {
-                    cursor
-                    episode: node {
-                            id
-                            ... EpisodeF
-                        }
-                    }
-                    pageInfo {
-                        endCursor
-                        hasNextPage
-                    }
-                }
-            }
-        fragment EpisodeF on Episode {
-          name
-          code
-          airedAt
-          show { name color }
-        }
-        `,
-      variables: {size: pageSize, stage: 'PUBLISHED'}
-    }),
-  }
-);
-
-const data = await response.json();
-const {pages} = data.data;
+import {EpisodeService} from "../services/EpisodeService";
+const episodes = await EpisodeService.lastEpisodes(3);
 ---
 <div class="episodes">
-  {pages.episodes.map(({episode}) => {
-    return (
+  {episodes.map(episode =>
+    (
       <EpisodeRow episode={episode}/>)
-  })}
+  )}
 </div>

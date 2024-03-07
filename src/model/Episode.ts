@@ -48,6 +48,51 @@ export const optimiseEpisodeTitle = (epizode: Episode): string =>
   ) : epizode.name
 ;
 
+const toolMapping: Map<string, string[]> = new Map([
+  ['view', ['youTubeUrl', 'spotifyUrl']],
+  ['listen', ['applePodcastsUrl', 'anchorUrl', 'castboxUrl', 'overcastUrl', 'pocketCasts']]
+])
+
+export const episodeTools = (epizode: Episode): Map<string, any> => {
+  // @ts-ignore
+  return new Map(
+    // @ts-ignore
+    Array
+      .from(toolMapping.entries())
+      .map(([kind, channels]) => {
+          return [kind, channels
+            .map(lookupChannel => {
+              const value = (epizode as any)[lookupChannel] || undefined;
+              return [lookupChannel, value]
+            })
+            .filter(([k, v]) => v !== undefined)
+          ]
+        }
+      )
+      // @ts-ignore
+      .filter(([kind, channels]) =>
+        channels.length != 0
+      )
+  )
+}
+
+export const withTool = (tools: any, kind: string, name: string, has: (url: string) => string) => {
+  var value = undefined;
+  // @ts-ignore
+  try {
+    // @ts-ignore
+    value = (tools.get(kind) || []).find(([k, _]) => k == `${name}Url`)[1] || undefined;
+  } catch (e) {
+    value = undefined
+  }
+  return value !== undefined ? has(value) : ''
+}
+
+export const withTools = (tools: any, kind: string, mapping: Record<string, any>) => {
+  return "ok"
+}
+
+
 export function convertToRoman(num: number) {
   const search = {
     "0": ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"],

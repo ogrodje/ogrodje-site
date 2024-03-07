@@ -64,4 +64,8 @@ export class EpisodeService extends HyGraphService {
             new Map<number, Array<Episode>>())
       )
   }
+
+  public static async lastEpisodes(size: number = 3): Promise<Array<Episode>> {
+    return this.allEpisodes(3)
+  }
 }

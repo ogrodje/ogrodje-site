@@ -1,11 +1,13 @@
 ---
 import {type Episode, episodePath} from "../model/Episode";
+import EpizodeTools from "./EpizodeTools.astro";
 
 interface Props {
   episode: Episode
+  showTools: boolean
 }
 
-const {episode} = Astro.props
+const {episode, showTools} = Astro.props
 ---
 <div class="episode">
   <a href={'/epizode/' + episodePath(episode)}>
@@ -15,6 +17,9 @@ const {episode} = Astro.props
     }
     <div class="name">{episode.name}</div>
   </a>
+
+  {showTools && (
+    <EpizodeTools episode={episode}/>)}
 </div>
 <style lang="scss">
   @import "../_variables.scss";

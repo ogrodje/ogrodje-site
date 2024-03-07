@@ -3,6 +3,7 @@ import Layout from "../../layouts/Layout.astro";
 import {type Episode, episodePath, optimiseEpisodeTitle} from "../../model/Episode";
 import {marked} from 'marked';
 import Person from "../../components/Person.astro";
+import EpizodeTools from "../../components/EpizodeTools.astro";
 
 export async function getStaticPaths() {
   const hygraph_endpoint = await import.meta.env.HYGRAPH_ENDPOINT;
@@ -83,10 +84,12 @@ const {episode} = Astro.props;
       <Person person={guest}/>
     )}
     <Person person={episode.host}></Person>
-    {episode.cohosts.map(guest =>
-      <Person person={guest}/>
-    )}
+    {episode.cohosts.map(guest => (
+      <Person person={guest}/>))}
   </div>
+
+  <EpizodeTools episode={episode} showLabels={true} showChannelLabels={true}/>
+
   <div class="summary" set:html={renderSummary(episode)}></div>
   <div class="meta">
     Izid:
