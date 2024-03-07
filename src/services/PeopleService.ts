@@ -26,6 +26,14 @@ export class PeopleService extends HyGraphService {
     }
   `
 
+  static allSocials: string = `
+    socialFacebook
+    socialHomepage
+    socialInstagram
+    socialLinkedIn
+    socialTwitter
+  `
+
   public static async allPeople(pageSize: number = 300): Promise<Array<Person & WithConnectedEpisodes>> {
     return this.query(`
       query AllPeople($size: Int) {
@@ -34,6 +42,7 @@ export class PeopleService extends HyGraphService {
           fullName
           email
           bio
+          ${this.allSocials}
           ... Avatar
           ${this.allRoles()}
         }

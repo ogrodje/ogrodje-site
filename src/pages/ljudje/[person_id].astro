@@ -2,53 +2,13 @@
 import Layout from "../../layouts/Layout.astro";
 import Person from "../../components/Person.astro";
 import {groupedPersonEpisodes, personPath} from "../../model/Person";
-import {ALL_ROLES, localiseRole} from "../../model/Role";
+import {localiseRole} from "../../model/Role";
 import EpisodeRow from "../../components/EpisodeRow.astro";
+import {PeopleService} from "../../services/PeopleService";
 
 export async function getStaticPaths() {
-  const hygraph_endpoint = await import.meta.env.HYGRAPH_ENDPOINT;
-  const response = await fetch(
-    hygraph_endpoint,
-    {
-      method: "POST",
-      headers: {"Content-Type": "application/json", Accept: "application/json"},
-      body: JSON.stringify({
-        query: `
-                query AllPeople($size: Int) {
-                  people(first: $size, where: {}) {
-                    id
-                    nickname
-                    fullName
-                    bio
-                    avatar {
-                        url(transformation: { image: { resize: { fit: crop, height: 200, width: 200 } } })
-                    }
-                    socialFacebook
-                    socialHomepage
-                    socialInstagram
-                    socialLinkedIn
-                    socialTwitter
-                    ${ALL_ROLES.map(role => (
-          `${role}(first: 500, orderBy: airedAt_DESC) {
-                        entryId: id
-                        ... EpisodeF
-                        }`
-        )).join("\n")}
-                  }
-                }
-                fragment EpisodeF on Episode {
-                  name
-                  code
-                  airedAt
-                  show { name color }
-                }
-        `, variables: {size: 300}
-      }),
-    }
-  );
-
-  const data = await response.json();
-  return (data.data?.people || []).map((person: any) => ({
+  const people = await PeopleService.allPeople()
+  return people.map((person: any) => ({
     params: {person_id: personPath(person)},
     props: {person}
   }))
@@ -57,21 +17,18 @@ export async function getStaticPaths() {
 const {person} = Astro.props;
 ---
 <Layout title={person.fullName}>
-  <Person person={person} showSocial=true></Person>
+  <Person person={person} showSocial={true}></Person>
 
   <h2>Epizode</h2>
 
   <div class="episodes-by-role">
-    {Array.from(groupedPersonEpisodes(person)).map(([role, episodes]) => {
-      return (
+    {Array.from(groupedPersonEpisodes(person)).map(([role, episodes]) =>
+      (
         <div class="role-wrap">
           <h3 class="role">{localiseRole(role)}</h3>
-          <div class="episodes">
-            {episodes.map(episode => (
-              <EpisodeRow episode={episode}/>
-            ))}
-          </div>
+          <div class="episodes">{episodes.map(episode => (
+            <EpisodeRow episode={episode}/>))}</div>
         </div>)
-    })}
+    )}
   </div>
 </Layout>

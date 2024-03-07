@@ -7,6 +7,11 @@ export interface Show {
   color: string
 }
 
+export enum Stage {
+  Draft = "DRAFT",
+  Published = "PUBLISHED"
+}
+
 export interface Episode {
   code: string
   name: string
@@ -14,7 +19,7 @@ export interface Episode {
   airedAt: string
   show?: Show
   topic?: Topic
-
+  stage: Stage
   host: Person
   cohosts: Person[]
   guests: Person[]

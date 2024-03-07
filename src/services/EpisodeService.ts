@@ -1,5 +1,5 @@
 import {HyGraphService} from "./HyGraphService.ts";
-import type {Episode} from "../model/Episode.ts";
+import {type Episode, Stage} from "../model/Episode.ts";
 
 export class EpisodeService extends HyGraphService {
   static personFragment = `
@@ -11,39 +11,42 @@ export class EpisodeService extends HyGraphService {
   }
   `
 
-  public static async allEpisodes(size: number = 200, stage: string = 'PUBLISHED'): Promise<Array<Episode>> {
+  static commonFields: string = `
+    topics { name }
+    stage
+    show {
+      id
+      name
+      color
+    }
+    summary
+    name
+    code
+    airedAt
+    host { ...PersonF }
+    cohosts { ...PersonF }
+    guests { ... PersonF }
+    multimediaProducers { ...PersonF }
+    consultants { ...PersonF }
+    designers { ...PersonF }
+    anchorUrl
+    applePodcastsUrl
+    castboxUrl
+    youTubeUrl
+    spotifyUrl
+  `
+
+  public static async publishedEpisodes(size: number = 200, stage: Stage = Stage.Published): Promise<Array<Episode>> {
     return this.query(`
-      query AllEpisodes($size: Int, $stage: Stage!) {
+      query PublishedEpisodes($size: Int, $stage: Stage!) {
         episodes(first: $size, orderBy: airedAt_DESC, stage: $stage) {
-          topics { name }
-          show {
-            id
-            name
-            color
-          }
-          summary
-          name
-          code
-          airedAt
-          host { ...PersonF }
-          cohosts { ...PersonF }
-          guests { ... PersonF }
-          multimediaProducers { ...PersonF }
-          consultants { ...PersonF }
-          designers { ...PersonF }
-          anchorUrl
-          applePodcastsUrl
-          castboxUrl
-          youTubeUrl
-          spotifyUrl
+          ${this.commonFields}
         }
       }
       ${this.personFragment}
-
     `, {
       size: size, stage: stage
-    })
-      .then(data => data.episodes as Array<Episode>)
+    }).then(data => data.episodes as Array<Episode>)
   }
 
   static getSeason(code: string): number {
@@ -51,21 +54,17 @@ export class EpisodeService extends HyGraphService {
     return /^S(\d+)E/.exec(code).slice(1).map(parseInt)[0] || -1
   }
 
-  public static allEpisodesPerSeason(
-    size: number = 200, stage: string = 'PUBLISHED'
+  public static async allEpisodesPerSeason(
+    size: number = 200, stage: Stage = Stage.Published
   ): Promise<Map<number, Episode[]>> {
-    return this
-      .allEpisodes(size, stage)
-      .then(episodes =>
-        episodes
-          .map((episode => ({season: this.getSeason(episode.code), episode})))
-          .reduce((agg, {season, episode}) =>
-              agg.set(season, [...(agg.get(season) || []), episode]),
-            new Map<number, Array<Episode>>())
-      )
+    const episodes = await this.publishedEpisodes(size, stage);
+    return episodes
+      .map((episode => ({season: this.getSeason(episode.code), episode})))
+      .reduce((agg, {season, episode: episode_1}) => agg.set(season, [...(agg.get(season) || []), episode_1]),
+        new Map<number, Array<Episode>>());
   }
 
   public static async lastEpisodes(size: number = 3): Promise<Array<Episode>> {
-    return this.allEpisodes(3)
+    return this.publishedEpisodes(3)
   }
 }
