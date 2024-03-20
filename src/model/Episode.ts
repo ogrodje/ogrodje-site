@@ -1,5 +1,6 @@
 import slugify from "@sindresorhus/slugify";
 import type {Person} from "./Person";
+import type {Organisation} from "./Organisation.ts";
 
 export interface Show {
   id: string
@@ -25,7 +26,8 @@ export interface Episode {
   guests: Person[]
   multimediaProducers: Person[]
   consultants: Person[]
-  designers: Person[]
+  designers: Person[],
+  supporters: Organisation[]
 }
 
 export interface Topic {

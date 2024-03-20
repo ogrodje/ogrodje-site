@@ -29,6 +29,9 @@ export class EpisodeService extends HyGraphService {
     multimediaProducers { ...PersonF }
     consultants { ...PersonF }
     designers { ...PersonF }
+    supporters(orderBy: name_ASC) {
+      id, name, bio, avatar { url }
+    }
     anchorUrl
     applePodcastsUrl
     castboxUrl

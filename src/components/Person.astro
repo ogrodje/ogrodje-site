@@ -12,9 +12,10 @@ interface Props {
   person: Person & WithConnectedEpisodes
   avatarSize: Number
   showSocial: boolean
+  showEpisodesCount: boolean
 }
 
-const {person, avatarSize, showSocial} = Astro.props;
+const {person, avatarSize, showSocial, showEpisodesCount} = Astro.props;
 const [lastEpisode, ...episodes] = personEpisodes(person);
 
 const optimizedAvatarImage = async (person: Person) =>
@@ -30,7 +31,7 @@ const optimizedAvatarImage = async (person: Person) =>
 
     <div class="name">
       <div class="full-name">{person.fullName}</div>
-      {episodes.length >= 1 && (
+      {showEpisodesCount && episodes.length >= 1 && (
         <div class="episodes-count">{episodes.length}+</div>)}
     </div>
     {person.bio && (
