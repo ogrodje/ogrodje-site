@@ -2,7 +2,7 @@ name: "Ogrodje Site Build"
 on:
   push:
     branches: [ master ]
-  
+
   pull_request:
     branches: [ master ]
 
@@ -22,11 +22,12 @@ jobs:
     name: "Build & Deploy"
     environment: ci
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 21 
+          node-version: 21
           cache: 'yarn'
       - run: yarn install --frozen-lockfile
       - run: yarn build
@@ -35,4 +36,4 @@ jobs:
           netlify deploy \
             --site $NETLIFY_SITE_ID \
             --auth $NETLIFY_AUTH_TOKEN \
-            --prod      
+            --prod
