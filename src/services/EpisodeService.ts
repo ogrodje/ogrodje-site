@@ -39,7 +39,10 @@ export class EpisodeService extends HyGraphService {
     spotifyUrl
   `
 
-  public static async publishedEpisodes(size: number = 200, stage: Stage = Stage.Published): Promise<Array<Episode>> {
+  public static async publishedEpisodes(
+    size: number = 200,
+    stage: Stage = Stage.Published
+  ): Promise<Array<Episode>> {
     return this.query(`
       query PublishedEpisodes($size: Int, $stage: Stage!) {
         episodes(first: $size, orderBy: airedAt_DESC, stage: $stage) {
