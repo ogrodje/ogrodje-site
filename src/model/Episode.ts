@@ -43,7 +43,6 @@ export const episodePeople = (episode: Episode): Array<Person> =>
       ((episode as any)[role] as Person[])
         .map(e => ({...e, ...{role: role}}))
     ) || [])
-// .sort((a, b) => Date.parse(b.airedAt) - Date.parse(a.airedAt))
 
 export const optimiseEpisodeTitle = (epizode: Episode): string =>
   epizode.show ? (

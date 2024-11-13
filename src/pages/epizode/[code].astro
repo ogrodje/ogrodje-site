@@ -73,7 +73,7 @@ const renderSummary = (episode: any) => marked.parse(episode.summary, {
 
 const {episode} = Astro.props;
 ---
-<Layout title="Epizoda">
+<Layout title="Epizoda" hideFooter="">
   <h1>
     <span class="code">{episode.code}</span>
     <span class="name">{episode.name}</span>

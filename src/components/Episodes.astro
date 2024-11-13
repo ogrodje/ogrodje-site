@@ -1,11 +1,9 @@
 ---
 import EpisodeRow from "./EpisodeRow.astro";
 import {EpisodeService} from "../services/EpisodeService";
-const episodes = await EpisodeService.publishedEpisodes(5);
+const episodes = await EpisodeService.publishedEpisodes(7);
 ---
 <div class="episodes">
   {episodes.map(episode =>
-    (
-      <EpisodeRow episode={episode}/>)
-  )}
+    <EpisodeRow episode={episode} showTools={false}/>)}
 </div>

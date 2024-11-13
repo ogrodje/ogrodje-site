@@ -60,7 +60,7 @@ export const sortedPeople = (people: Array<Person & WithConnectedEpisodes>): Arr
 const tuneChannelName = (person: Person) => {
   const twitterUrl: string | undefined = (person as any)?.socialTwitter;
   if (twitterUrl) return `${twitterUrl.split("/").pop()}`
-  else twitterUrl
+  else return twitterUrl
 }
 
 export const socialChannels = (person: Person) => {
