@@ -19,17 +19,9 @@ export default defineConfig({
   experimental: {
     // assets: true
   },
-  // integrations: [mdx()],
-
   integrations: [vue({
-    // appEntrypoint: '/src/pages/_app',
-    devtools: true,
+    devtools: false,
     jsx: true,
-    /*
-    jsx: {
-        // treat any tag that starts with ion- as custom elements
-        // isCustomElement: (tag) => tag.startsWith('ion-'),
-    } */
   }), mdx(),],
   vite: {
     css: {
@@ -42,7 +34,5 @@ export default defineConfig({
   },
 
   output: "static",
-  adapter: netlify({
-
-  })
+  adapter: netlify({})
 });
