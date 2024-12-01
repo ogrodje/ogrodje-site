@@ -25,6 +25,7 @@ query AllEpisodes($size: Int, $stage: Stage!) {
       color
     }
     summary
+    machineSummary
     name
     code
     airedAt
@@ -66,7 +67,7 @@ fragment PersonF on Person {
   }))
 }
 
-const renderSummary = (episode: any) => marked.parse(episode.summary, {
+const renderSummary = (episode: Episode, field: string = 'summary') => marked.parse(episode[field], {
   mangle: false,
   headerIds: false,
 })
@@ -81,16 +82,25 @@ const {episode} = Astro.props;
 
   <div class="people">
     {episode.guests.map(guest =>
-      <Person person={guest}/>
-    )}
-    <Person person={episode.host}></Person>
+      <Person person={guest}/>)}
+    <Person person={episode.host}/>
     {episode.cohosts.map(guest => (
       <Person person={guest}/>))}
   </div>
 
   <EpizodeTools episode={episode} showLabels={true} showChannelLabels={true}/>
 
-  <div class="summary" set:html={renderSummary(episode)}></div>
+  <h1>Povzetek</h1>
+  <div class="summary" set:html={renderSummary(episode, 'summary')}></div>
+
+
+  {episode.machineSummary ? (
+    <h1>Strojni povzetek epizode ✨*</h1>
+    <div class="machineSummary" set:html={renderSummary(episode, 'machineSummary')}></div>
+    <p class="warning">⚠️ Strojni povzetek je napisan s pomočjo umetne inteligence in lahko vsebuje nepravilnosti.
+      ⚠️</p>
+  ) : null}
+
   <div class="meta">
     Izid:
     <div class="m aired-at">{episode.airedAt}</div>
@@ -120,5 +130,14 @@ const {episode} = Astro.props;
 
   .code {
     font-weight: 100;
+  }
+
+  p.warning {
+    // border:1px solid #272727;
+    background-color: #535353;
+    padding: 4px;
+    text-align: center;
+    color: black;
+    font-size: smaller;
   }
 </style>

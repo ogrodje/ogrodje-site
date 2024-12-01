@@ -1,0 +1,12 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Channels from "../components/Channels.astro";
+import Hero from "../components/Hero.astro";
+import Episodes from "../components/Episodes.astro";
+import SearchForm from "../components/SearchForm.vue";
+---
+<Layout title="Iskalnik" hideFooter={"true"}>
+  <h1>Iskalnik</h1>
+  <SearchForm client:load />
+</Layout>
+

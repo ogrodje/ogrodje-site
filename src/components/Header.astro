@@ -1,7 +1,9 @@
 ---
 import {Image} from 'astro:assets';
 import ogrodjeLogo from "../assets/ogrodje-logo-base.png"
+import searchIcon from "../assets/icons/search-icon-1.png"
 const ogrodjeLogoSrc = `url(${ogrodjeLogo.src})`;
+const searchIconSrc = `url(${searchIcon.src})`;
 ---
 <header class="header">
   <div class="ogrodje-logo cell">
@@ -13,10 +15,11 @@ const ogrodjeLogoSrc = `url(${ogrodjeLogo.src})`;
       <li><a href="/ljudje" title="Ljudje">Ljudje</a></li>
       <li><a href="/epizode" title="Epizode">Epizode</a></li>
       <li class="not-short"><a href="/strategija" title="Strategija">Strategija</a></li>
+      <li class="search"><a href="/iskalnik" title="Iskalnik">Iskalnik</a></li>
     </ul>
   </div>
 </header>
-<style lang="scss" define:vars={{ogrodjeLogoSrc}}>
+<style lang="scss" define:vars={{ogrodjeLogoSrc, searchIconSrc}}>
   @import "../_variables.scss";
 
   $cell-height: 100px;
@@ -40,6 +43,7 @@ const ogrodjeLogoSrc = `url(${ogrodjeLogo.src})`;
 
     .ogrodje-logo {
       margin-right: 20px;
+
       a {
         display: block;
         background-image: var(--ogrodjeLogoSrc);
@@ -50,7 +54,6 @@ const ogrodjeLogoSrc = `url(${ogrodjeLogo.src})`;
         overflow: hidden;
         width: $cell-height;
         image-rendering: crisp-edges;
-        // filter: grayscale(90%) contrast(50%) // saturate(25%); //  contrast(20%)
       }
     }
 
@@ -71,6 +74,26 @@ const ogrodjeLogoSrc = `url(${ogrodjeLogo.src})`;
 
       li a {
         // background-color: pink; display: block;
+      }
+
+      ul {
+        display: block;
+        clear: both;
+        float: none;
+      }
+
+      li.search {
+        a {
+          display: inline-block;
+          background-image: var(--searchIconSrc);
+          background-position: 10px center;
+          background-size: 30px;
+          background-repeat: no-repeat;
+          text-indent: 40px;
+          width: 50px;
+          padding-left: 10px;
+          overflow: hidden;
+        }
       }
 
       @media only screen and (max-width: 1000px) {

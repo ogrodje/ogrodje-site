@@ -5,5 +5,5 @@ const episodes = await EpisodeService.publishedEpisodes(7);
 ---
 <div class="episodes">
   {episodes.map(episode =>
-    <EpisodeRow episode={episode} showTools={false}/>)}
+    <EpisodeRow episode={episode}/>)}
 </div>

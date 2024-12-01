@@ -5,7 +5,7 @@ import ogrodjeLogoIcon from "../assets/ogrodje-logo-base.png"
 
 export interface Props {
   title: string;
-  hideFooter: string;
+  hideFooter?: string;
 }
 
 import Header from "../components/Header.astro";
@@ -52,16 +52,23 @@ const {title, hideFooter} = (Astro.props as any)['frontmatter'] || Astro.props;
     font-family: $main-font;
     background-color: #0c0c0c;
     color: white;
-
     font-size: $main-font-size;
     line-height: $main-line-height;
-    //font-size: 1em;
-    //line-height: 1.65em;
   }
 
   h1, h2, h3 {
     font-family: 'Iosevka Web', sans-serif;
   }
+
+  input, label, button {
+    font-size: $main-font-size;
+  }
+
+  input, button {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
 
   a {
     color: #6a676c;
@@ -82,17 +89,6 @@ const {title, hideFooter} = (Astro.props as any)['frontmatter'] || Astro.props;
     }
   }
 
-  /*
-
-  a {
-      color: #999;
-      &:hover {
-          color: #666;
-      }
-  }
-
-   */
-
   .big-wrap {
     max-width: $layout-max-width;
     margin: 0 auto;
@@ -105,10 +101,10 @@ const {title, hideFooter} = (Astro.props as any)['frontmatter'] || Astro.props;
   }
 
   .footer {
-    clear: bottom;
+    clear: both;
     float: none;
     margin-top: 100px;
-    border-top: 2px solid white;
+    border-top: 2px solid #2c2c2c;
     padding: 50px $lr-offset 0;
 
 
@@ -118,6 +114,14 @@ const {title, hideFooter} = (Astro.props as any)['frontmatter'] || Astro.props;
 
     & a:hover img {
       filter: grayscale(0%);
+    }
+  }
+
+  .highlighted {
+    em {
+      background-color: #535353;
+      color: white;
+      font-style: normal;
     }
   }
 </style>

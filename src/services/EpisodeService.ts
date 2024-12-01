@@ -20,6 +20,7 @@ export class EpisodeService extends HyGraphService {
       color
     }
     summary
+    machineSummary
     name
     code
     airedAt

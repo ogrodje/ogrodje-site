@@ -11,8 +11,8 @@ import {
 interface Props {
   person: Person & WithConnectedEpisodes
   avatarSize: Number
-  showSocial: boolean
-  showEpisodesCount: boolean
+  showSocial?: boolean
+  showEpisodesCount?: boolean
 }
 
 const {person, avatarSize, showSocial, showEpisodesCount} = Astro.props;

@@ -12,16 +12,19 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/mdx": "^2.1.1",
+    "@astrojs/mdx": "3.1.9",
     "@astrojs/netlify": "^5.1.3",
+    "@astrojs/vue": "^4.5.3",
     "@sindresorhus/slugify": "^2.2.1",
     "@unpic/astro": "^0.0.44",
     "astro": "^4.4.13",
     "marked": "^12.0.1",
     "rss-parser": "^3.13.0",
-    "sass": "^1.71.1"
+    "sass": "1.81.0",
+    "vue": "^3.5.13"
   },
   "devDependencies": {
+    "@astrojs/ts-plugin": "^1.10.4",
     "@types/marked": "^6.0.0",
     "@types/node": "^20.11.24",
     "netlify-cli": "^17.36.4"

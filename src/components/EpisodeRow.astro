@@ -4,7 +4,7 @@ import EpizodeTools from "./EpizodeTools.astro";
 
 interface Props {
   episode: Episode
-  showTools: boolean
+  showTools?: boolean
 }
 
 const {episode, showTools} = Astro.props
@@ -23,50 +23,5 @@ const {episode, showTools} = Astro.props
 </div>
 <style lang="scss">
   @import "../_variables.scss";
-
-  .episode {
-    position: relative;
-
-    & a {
-      text-decoration: none;
-    }
-
-    .code, .show {
-      display: inline;
-      margin-right: 5px;
-    }
-
-    .name {
-      font-family: Iosevka, 'Iosevka Web', sans-serif;
-      display: inline;
-      color: white;
-    }
-
-    margin-bottom: 10px;
-  }
-
-  .show {
-    padding-left: 10px;
-    padding-right: 10px;
-
-    &[data-show="Borderless"] {
-      background-color: $ogrodje-zagon-blue;
-      color: white;
-    }
-
-    &[data-show="Zagon"] {
-      background-color: $ogrodje-borderless-green;
-      color: white;
-    }
-
-    &[data-show="META"] {
-      background-color: $ogrodje-meta;
-      color: white;
-    }
-
-    &[data-show="Bytes"] {
-      background-color: $ogrodje-bytes;
-      color: white;
-    }
-  }
+  @import "../episode_row.scss";
 </style>

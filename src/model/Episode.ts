@@ -17,6 +17,7 @@ export interface Episode {
   code: string
   name: string
   summary: string
+  machineSummary?: string
   airedAt: string
   show?: Show
   topic?: Topic
@@ -34,7 +35,7 @@ export interface Topic {
   name: string
 }
 
-export const episodePath = (episode: Episode): string =>
+export const episodePath = (episode: { code: string, show?: { name: string } }): string =>
   `${episode.code}-${slugify(optimiseEpisodeTitle(episode))}`
 
 export const episodePeople = (episode: Episode): Array<Person> =>
@@ -44,7 +45,7 @@ export const episodePeople = (episode: Episode): Array<Person> =>
         .map(e => ({...e, ...{role: role}}))
     ) || [])
 
-export const optimiseEpisodeTitle = (epizode: Episode): string =>
+export const optimiseEpisodeTitle = (epizode: { show?: { name: string } }): string =>
   epizode.show ? (
     epizode.name
       .replace(`${epizode.show.name}:`, "")
