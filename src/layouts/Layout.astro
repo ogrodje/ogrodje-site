@@ -119,9 +119,16 @@ const {title, hideFooter} = (Astro.props as any)['frontmatter'] || Astro.props;
 
   .highlighted {
     em {
-      background-color: #535353;
       color: white;
       font-style: normal;
     }
   }
+  .name {
+    em {
+      // text-decoration: underline;
+      font-style: normal;
+      background-color: #535353;
+    }
+  }
+
 </style>

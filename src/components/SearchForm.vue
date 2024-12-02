@@ -1,30 +1,31 @@
 <script setup lang="ts">
-import EpisodeRow from "./EpisodeRow.astro";
-import {computed, onUnmounted, type Ref, ref} from 'vue';
-import {type Episode, episodePath} from "../model/Episode.ts";
+import {computed, ref} from 'vue';
+import {episodePath} from "../model/Episode.ts";
 
 const searchURL = 'https://search.ogrodje.si/query';
+
+interface Hit {
+  readonly _index: string
+  readonly _type: string
+  readonly _id: string
+  readonly _score: number
+  readonly _source: {
+    readonly name: string
+    readonly summary: string
+    readonly machineSummary?: string
+    readonly code: string,
+    readonly show?: { name: string },
+    readonly topics: {
+      readonly name: string
+    }[]
+  }
+  readonly highlight?: { [field: string]: string[]; }[]
+}
 
 interface Hits {
   readonly total: { value: number }
   readonly max_score: number
-  readonly hits: {
-    readonly _index: string
-    readonly _type: string
-    readonly _id: string
-    readonly _score: number
-    readonly _source: {
-      readonly name: string
-      readonly summary: string
-      readonly machineSummary?: string
-      readonly code: string,
-      readonly show?: { name: string },
-      readonly topics: {
-        readonly name: string
-      }[]
-    }
-    readonly highlight: { [field: string]: string[]; }[]
-  }
+  readonly hits: Hit[]
 }
 
 const hits = ref<Hits>({total: {value: 0}, max_score: 0, hits: []});
@@ -58,6 +59,18 @@ const showColor = (showName?: { name: string }) => {
   return showName?.name
 }
 
+const adjustedTitle = (hit: Hit) => {
+  const showName = hit._source.show?.name
+  const name = hit._source.name
+    .replace(`${showName}:`, "")
+    .replace(`${showName}`, "")
+    .trim()
+
+  const highlightedName: string | undefined = (hit?.highlight?.['name'] || [])[0];
+  return (highlightedName ? highlightedName : name)
+}
+
+
 </script>
 <template>
   <div>
@@ -82,14 +95,13 @@ const showColor = (showName?: { name: string }) => {
                  :data-show="showColor(hit._source.show)"
                  class="show">{{ hit._source?.show.name }}
             </div>
-            <div class="name">{{ hit._source.name }}</div>
+            <div class="name" v-html="adjustedTitle(hit)"></div>
 
-
-            <ul class="highlighted">
-              <li v-for="(value, field) in hit.highlight">
-                <div class="highlighted-field">{{ adjustHighlightName(field) }}</div>
+            <ul class="highlighted" v-if="hit.highlight">
+              <li v-for="[key, values] in Object.entries(hit.highlight).filter(([key, _]) => key != 'name')">
+                <div class="highlighted-field">{{ adjustHighlightName(key) }}</div>
                 <ul>
-                  <li v-for="v in value">
+                  <li v-for="v in values">
                     <div v-html="v" class="highlight"></div>
                   </li>
                 </ul>
