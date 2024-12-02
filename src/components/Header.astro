@@ -36,6 +36,14 @@ const searchIconSrc = `url(${searchIcon.src})`;
       vertical-align: middle;
     }
 
+    @media only screen and (max-width: 1000px) {
+      .cell {
+        height: $cell-height/2;
+        line-height: $cell-height/2;
+
+      }
+    }
+
     & a {
       font-family: $special-font;
       text-decoration: none;
@@ -109,9 +117,17 @@ const searchIconSrc = `url(${searchIcon.src})`;
       }
 
       @media only screen and (max-width: 1000px) {
+        .nav {
+          height: 50px;
+        }
+
         ul li {
           margin-right: 0;
           margin-left: 0;
+          padding-left: 1px;
+          padding-right: 1px;
+          line-height: 50px;
+          height: 5px;
 
           a {
             padding-left: 5px;
