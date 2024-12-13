@@ -4,8 +4,8 @@ import logo_YT from "../assets/icons/icons8-youtube-144.png"
 import logo_AP_old from "../assets/icons/apple-podcasts.png"
 import logo_AP from "../assets/icons/apple-podcast-logo-ng.png"
 import logo_Spotify from '../assets/icons/icons8-spotify-144.png'
-import logo_LI from '../assets/icons/icons8-linkedin-144.png'
-import logo_IG from '../assets/icons/icons8-instagram-144.png'
+import logo_LI from '../assets/icons/linkedin_new_2.png'
+import logo_IG from '../assets/icons/instagram_icon.png'
 import logo_FB from '../assets/icons/icon-facebook.png'
 import logo_TW from '../assets/icons/icons8-twitter-144.png'
 import logo_TT from '../assets/icons/icon-tiktok.png'
@@ -37,7 +37,7 @@ const logoH: number = logoW;
   </ul>
   <ul>
     <li class="p-label">Skupnost</li>
-    <li><a href="https://bit.ly/discord-ogrodje">
+    <li><a href="https://bit.ly/discord-ogrodje" class="discord">
       <Image src={logo_DI} alt="Ogrodje @ Discord" width={logoW} height={logoH} loading="eager"/>
       Discord</a></li>
     <li><a href="https://www.patreon.com/ogrodje">
@@ -69,7 +69,9 @@ const logoH: number = logoW;
       Telegram</a></li>
   </ul>
   <ul>
-    <li class="p-label">Podporniki</li>
+    <li class="p-label p-and-p">
+      <div class="p-and-p-inner">Podporniki & Partnerji</div>
+    </li>
     <li><a href="https://3fs.cloud" target="_blank">
       <Image src={logo_3fs} alt="3fs" width={logoW} height={logoH} loading="eager"/>
       3fs</a></li>
@@ -128,8 +130,18 @@ const logoH: number = logoW;
       text-align: left;
 
       &.p-label {
-        min-width: 80px;
         text-align: left;
+
+        &.p-and-p {
+          width: 90px;
+
+          .p-and-p-inner {
+            display: block;
+            height: $row_h;
+            line-height: calc($row_h / 2) - 0.4;
+            font-size: 0.8em;
+          }
+        }
       }
     }
 
@@ -143,6 +155,19 @@ const logoH: number = logoW;
       justify-content: left;
       position: relative;
       text-indent: 40px;
+
+      &.discord-x {
+        border: 1px solid #333;
+        background-color: #7082ca;
+        color: white;
+        border-radius: 10px;
+        padding-left: 10px;
+        padding-right: 10px;
+
+        img {
+          left: 10px;
+        }
+      }
 
       img {
         position: absolute;
