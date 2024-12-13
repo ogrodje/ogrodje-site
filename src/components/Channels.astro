@@ -17,13 +17,14 @@ import logo_kaldi from '../assets/icons/kaldi-logo-symbol.svg'
 import logo_koofr from '../assets/icons/koofr_512px.png'
 import logo_telegram from '../assets/icons/telegram.png'
 import logo_X from '../assets/icons/x-logo-white.png'
+import logo_muzej from '../assets/icons/racunalniski-muzej-square.jpg'
 
 const logoW: number = 100;
 const logoH: number = logoW;
 ---
 <div class="channels">
   <ul>
-    <li>Kanali</li>
+    <li class="p-label">Kanali</li>
     <li><a href="https://youtube.com/@ogrodje" target="_blank">
       <Image src={logo_YT} alt="Ogrodje @ YouTube" width={logoW} height={logoH} loading="eager"/>
       YouTube</a></li>
@@ -35,7 +36,7 @@ const logoH: number = logoW;
       Spotify</a></li>
   </ul>
   <ul>
-    <li>Skupnost</li>
+    <li class="p-label">Skupnost</li>
     <li><a href="https://bit.ly/discord-ogrodje">
       <Image src={logo_DI} alt="Ogrodje @ Discord" width={logoW} height={logoH} loading="eager"/>
       Discord</a></li>
@@ -45,7 +46,7 @@ const logoH: number = logoW;
     </li>
   </ul>
   <ul>
-    <li>Feed</li>
+    <li class="p-label">Feed</li>
     <li><a href="https://www.linkedin.com/company/ogrodje/">
       <Image src={logo_LI} alt="Ogrodje @ LinkedIn" width={logoW} height={logoH} loading="eager"/>
       LinkedIn</a>
@@ -68,7 +69,7 @@ const logoH: number = logoW;
       Telegram</a></li>
   </ul>
   <ul>
-    <li>Podporniki</li>
+    <li class="p-label">Podporniki</li>
     <li><a href="https://3fs.cloud" target="_blank">
       <Image src={logo_3fs} alt="3fs" width={logoW} height={logoH} loading="eager"/>
       3fs</a></li>
@@ -82,6 +83,10 @@ const logoH: number = logoW;
     <li><a href="https://koofr.eu" target="_blank">
       <Image src={logo_koofr} alt="Koofr" width={logoW} height={logoH} loading="eager"/>
       Koofr
+    </a></li>
+    <li><a href="https://www.racunalniski-muzej.si/" target="_blank">
+      <Image src={logo_muzej} alt="Računalniški" width={logoW} height={logoH} loading="eager"/>
+      Računalniški Muzej
     </a></li>
   </ul>
 </div>
@@ -121,6 +126,11 @@ const logoH: number = logoW;
       height: $row_h;
       vertical-align: middle;
       text-align: left;
+
+      &.p-label {
+        min-width: 80px;
+        text-align: left;
+      }
     }
 
     li a {
