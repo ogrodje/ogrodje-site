@@ -1,0 +1,28 @@
+---
+import Layout from "../layouts/Layout.astro";
+import {MeetupService} from "../services/MeetupService";
+
+
+const meetups = await MeetupService.allMeetups();
+
+console.log(meetups);
+---
+<Layout title="Dogodki" hideFooter={"true"}>
+  <h1>Dogodki</h1>
+
+
+  <div>
+    {meetups.map(meetupData => {
+      const [meetup, events] = meetupData;
+
+      return (
+        <div class="name">{meetup.name}</div>
+        <div class="events">
+          {events.map(event => (
+            <div>event {event.name}</div>
+          ))}
+        </div>
+      )
+    })}
+  </div>
+</Layout>
