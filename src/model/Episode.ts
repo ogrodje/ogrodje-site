@@ -35,7 +35,7 @@ export interface Topic {
   name: string
 }
 
-export const episodePath = (episode: { code: string, show?: { name: string } }): string =>
+export const episodePath = (episode: { code: string, show?: { name: string }, name: string }): string =>
   `${episode.code}-${slugify(optimiseEpisodeTitle(episode))}`
 
 export const episodePeople = (episode: Episode): Array<Person> =>
@@ -45,14 +45,14 @@ export const episodePeople = (episode: Episode): Array<Person> =>
         .map(e => ({...e, ...{role: role}}))
     ) || [])
 
-export const optimiseEpisodeTitle = (epizode: { show?: { name: string } }): string =>
-  epizode.show ? (
-    epizode.name
-      .replace(`${epizode.show.name}:`, "")
-      .replace(`${epizode.show.name}`, "")
+export const optimiseEpisodeTitle = (episode: { show?: { name: string }, name: string }): string =>
+  episode.show ? (
+    episode.name
+      .replace(`${episode.show.name}:`, "")
+      .replace(`${episode.show.name}`, "")
       .trim()
 
-  ) : epizode.name
+  ) : episode.name
 ;
 
 const toolMapping: Map<string, string[]> = new Map([
@@ -72,12 +72,12 @@ export const episodeTools = (epizode: Episode): Map<string, any> => {
               const value = (epizode as any)[lookupChannel] || undefined;
               return [lookupChannel, value]
             })
-            .filter(([k, v]) => v !== undefined)
+            .filter(([_k, v]) => v !== undefined)
           ]
         }
       )
       // @ts-ignore
-      .filter(([kind, channels]) =>
+      .filter(([_kind, channels]) =>
         channels.length != 0
       )
   )
@@ -94,11 +94,6 @@ export const withTool = (tools: any, kind: string, name: string, has: (url: stri
   }
   return value !== undefined ? has(value) : ''
 }
-
-export const withTools = (tools: any, kind: string, mapping: Record<string, any>) => {
-  return "ok"
-}
-
 
 export function convertToRoman(num: number) {
   const search = {

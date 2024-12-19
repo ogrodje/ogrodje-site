@@ -57,12 +57,6 @@ export const sortedPeople = (people: Array<Person & WithConnectedEpisodes>): Arr
     .sort((a, b) => b.episodes_count - a.episodes_count)
     .map(p => p as Person & WithConnectedEpisodes)
 
-const tuneChannelName = (person: Person) => {
-  const twitterUrl: string | undefined = (person as any)?.socialTwitter;
-  if (twitterUrl) return `${twitterUrl.split("/").pop()}`
-  else return twitterUrl
-}
-
 export const socialChannels = (person: Person) => {
   return ['Homepage', 'LinkedIn', 'Instagram', 'Facebook', 'Twitter']
     .map((channel) => (

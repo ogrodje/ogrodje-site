@@ -1,11 +1,15 @@
 ---
 import Person from "./Person.astro";
+import {type Person as PPerson} from '../model/Person'
+interface Props {
+  people: PPerson[]
+}
+
 const {people} = Astro.props;
 ---
 <div class="people">
   {(people || []).map((person) =>
-    <Person person={person} showSocial={false}></Person>)
-  }
+    <Person person={person} showSocial={false}></Person>)}
 </div>
 
 <style lang="scss">

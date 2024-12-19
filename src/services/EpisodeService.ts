@@ -67,8 +67,4 @@ export class EpisodeService extends HyGraphService {
       .reduce((agg, {season, episode: episode_1}) => agg.set(season, [...(agg.get(season) || []), episode_1]),
         new Map<number, Array<Episode>>());
   }
-
-  public static async lastEpisodes(size: number = 3): Promise<Array<Episode>> {
-    return this.publishedEpisodes(3)
-  }
 }

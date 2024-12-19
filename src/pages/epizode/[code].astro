@@ -5,8 +5,12 @@ import {marked} from 'marked';
 import Person from "../../components/Person.astro";
 import EpizodeTools from "../../components/EpizodeTools.astro";
 
+interface Props {
+  episode: Episode;
+}
+
 export async function getStaticPaths() {
-  const hygraph_endpoint = await import.meta.env.HYGRAPH_ENDPOINT;
+  const hygraph_endpoint = import.meta.env.HYGRAPH_ENDPOINT;
   const response = await fetch(
     hygraph_endpoint,
     {
@@ -67,46 +71,64 @@ fragment PersonF on Person {
   }))
 }
 
-const renderSummary = (episode: Episode, field: string = 'summary') => marked.parse(episode[field], {
-  mangle: false,
-  headerIds: false,
-})
+const renderSummary = (episode: Episode, field: keyof Episode = 'summary'): string =>
+  marked.parse(
+    episode[field] as string, {
+      async: false,
+    }
+  ) as string;
+
 
 const {episode} = Astro.props;
+const pageTitle: string = `Ogrodje - ${episode.name} (${episode.code})`
 ---
-<Layout title="Epizoda" hideFooter="">
-  <h1>
-    <span class="code">{episode.code}</span>
-    <span class="name">{episode.name}</span>
-  </h1>
+<Layout title={pageTitle} hideFooter="">
+  <div class="episode single">
+    <h1>
+      <span class="code">{episode.code}</span>
+      {episode.show && (
+        <div class="show" data-show={episode.show.name}>{episode.show.name}</div>)
+      }
+      <span class="name">{episode.name}</span>
+    </h1>
 
-  <div class="people">
-    {episode.guests.map(guest =>
-      <Person person={guest}/>)}
-    <Person person={episode.host}/>
-    {episode.cohosts.map(guest => (
-      <Person person={guest}/>))}
-  </div>
+    <div class="people">
+      {episode.guests.map(guest =>
+        <Person person={guest}/>)}
+      <Person person={episode.host}/>
+      {episode.cohosts.map(guest => (
+        <Person person={guest}/>))}
+    </div>
 
-  <EpizodeTools episode={episode} showLabels={true} showChannelLabels={true}/>
+    <EpizodeTools episode={episode} showLabels={true} showChannelLabels={true}/>
 
-  <h1>Povzetek</h1>
-  <div class="summary" set:html={renderSummary(episode, 'summary')}></div>
+    <div class="summary" set:html={renderSummary(episode, 'summary')}></div>
 
+    {episode.machineSummary ? (
+      <h2>Strojni povzetek epizode ✨*</h2>
+      <div class="machineSummary" set:html={renderSummary(episode, 'machineSummary')}></div>
+      <p class="warning">⚠️ Strojni povzetek je napisan s pomočjo umetne inteligence in lahko vsebuje nepravilnosti.
+        ⚠️</p>
+    ) : null}
 
-  {episode.machineSummary ? (
-    <h1>Strojni povzetek epizode ✨*</h1>
-    <div class="machineSummary" set:html={renderSummary(episode, 'machineSummary')}></div>
-    <p class="warning">⚠️ Strojni povzetek je napisan s pomočjo umetne inteligence in lahko vsebuje nepravilnosti.
-      ⚠️</p>
-  ) : null}
-
-  <div class="meta">
-    Izid:
-    <div class="m aired-at">{episode.airedAt}</div>
+    <div class="meta">
+      Izid:
+      <div class="m aired-at">{episode.airedAt}</div>
+    </div>
   </div>
 </Layout>
 <style lang="scss" is:global>
+  @import "../../_variables.scss";
+  @import "../../episode_row.scss";
+
+  .episode.single {
+    line-height: 1.5;
+
+    .show {
+      mix-blend-mode: difference !important;
+    }
+  }
+
   .people {
     .person {
       position: relative;

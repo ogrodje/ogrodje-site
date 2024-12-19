@@ -8,11 +8,12 @@
     "dev": "astro dev",
     "dev-host": "astro dev --host",
     "start": "astro dev",
-    "build": "astro build",
+    "build": "astro check && astro build",
     "preview": "astro preview",
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/check": "^0.9.4",
     "@astrojs/mdx": "3.1.9",
     "@astrojs/netlify": "^5.1.3",
     "@astrojs/vue": "^4.5.3",
@@ -22,6 +23,7 @@
     "marked": "^12.0.1",
     "rss-parser": "^3.13.0",
     "sass": "1.81.0",
+    "typescript": "^5.7.2",
     "vue": "^3.5.13"
   },
   "devDependencies": {

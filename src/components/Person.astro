@@ -1,25 +1,17 @@
 ---
-import {Image, getImage} from 'astro:assets';
+import {Image} from 'astro:assets';
 import {
   type Person,
-  personEpisodes,
   personPath,
-  socialChannels,
-  type WithConnectedEpisodes
+  socialChannels
 } from "../model/Person";
 
 interface Props {
-  person: Person & WithConnectedEpisodes
-  avatarSize: Number
+  person: Person
   showSocial?: boolean
-  showEpisodesCount?: boolean
 }
 
-const {person, avatarSize, showSocial, showEpisodesCount} = Astro.props;
-const [lastEpisode, ...episodes] = personEpisodes(person);
-
-const optimizedAvatarImage = async (person: Person) =>
-  await getImage({src: person.avatar.url})
+const {person, showSocial} = Astro.props;
 ---
 <div class="person">
   <a href={"/ljudje/" + personPath(person)}>
@@ -31,8 +23,6 @@ const optimizedAvatarImage = async (person: Person) =>
 
     <div class="name">
       <div class="full-name">{person.fullName}</div>
-      {showEpisodesCount && episodes.length >= 1 && (
-        <div class="episodes-count">{episodes.length}+</div>)}
     </div>
     {person.bio && (
       <div class="bio">{person.bio}</div>
