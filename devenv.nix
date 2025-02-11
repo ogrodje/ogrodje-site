@@ -1,15 +1,18 @@
 { pkgs, lib, config, inputs, ... }:
 
 {
-  packages = [ 
-    # pkgs.git
+  name = "ogrodje-site";
+
+  packages = [
+    pkgs.git
   ];
 
 
   languages.javascript = {
-    enable = true;
-    yarn.enable = true;
-    yarn.install.enable = true;
+	enable = true;
+	package = pkgs.nodejs_22;
+	yarn.enable = true;
+	yarn.install.enable = true;
   };
 
   enterShell = ''

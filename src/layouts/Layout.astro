@@ -43,11 +43,16 @@ const {title, hideFooter} = (Astro.props as any)['frontmatter'] || Astro.props;
 <style lang="scss" is:global>
   @import "../_variables.scss";
 
-  * {
+  *,
+  *::before,
+  *::after {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
+    // margin: 0;
+    // font-weight: normal;
   }
+
 
   html {
     font-family: $main-font;
