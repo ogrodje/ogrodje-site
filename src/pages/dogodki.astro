@@ -1,0 +1,77 @@
+---
+import Layout from "../layouts/Layout.astro";
+import {EventsService} from "../services/EventsService";
+import type {Event} from "../services/EventsService";
+
+const timeline = await EventsService.timeline();
+
+const groupByWeek = (events: Event[]) => {
+  return events.reduce((weeks, event) => {
+    const startDate = new Date(event.startDateTime);
+    const daysToSubtract = startDate.getDay() === 0 ? -6 : startDate.getDay() - 1;
+    const weekStart = new Date(
+      startDate.getFullYear(),
+      startDate.getMonth(),
+      startDate.getDate() - daysToSubtract // Calculates the start of the week (Monday)
+    );
+    const weekStartStr = weekStart.toISOString().split('T')[0]; // Format week start as ISO date string
+
+    if (!weeks[weekStartStr]) {
+      weeks[weekStartStr] = [];
+    }
+    weeks[weekStartStr].push(event);
+    return weeks;
+  }, {} as Record<string, Event[]>);
+};
+
+
+const groupByDay = (events: Event[]) => {
+  return events.reduce((days, event) => {
+    const eventDate = new Date(event.startDateTime).toISOString().split('T')[0];
+    if (!days[eventDate]) {
+      days[eventDate] = [];
+    }
+    days[eventDate].push(event);
+    return days;
+  }, {} as Record<string, Event[]>);
+};
+
+const groupedEvents =
+  Object.entries(groupByWeek(timeline)).map(([week, events]) => {
+    return {
+      week,
+      groupedEvents: Object.entries(groupByDay(events))
+    }
+  })
+---
+<Layout title="Dogodki" hideFooter={"false"}>
+  <h1>Dogodki</h1>
+  <div class="events-per-week">
+    {groupedEvents && groupedEvents.map(({week, groupedEvents}) => {
+      return (
+        <div class="week">
+          <h4 class="week-header">Teden: {week}</h4>
+          <div class="days">
+            {groupedEvents.map(([day, events]) => {
+              return (
+                <div class="day">{day}</div>
+
+                <div class="events">
+                  {events.map(event => (
+                    <div class="start-date-time">{event.startDateTime}</div>
+                    <div class="end-date-time">{event.endDateTime}</div>
+                    <div class="meetup-name">{event.meetupName}</div>
+                    <div class="event">{event.title}</div>
+                  ))}
+                </div>
+              )
+            })}
+
+
+          </div>
+        </div>
+      )
+    })}
+  </div>
+</Layout>
+
