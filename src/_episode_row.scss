@@ -1,3 +1,4 @@
+@use "variables";
 
 .episode {
   position: relative;
@@ -25,23 +26,22 @@
   mix-blend-mode:difference;
 
   &[data-show="Borderless"] {
-    background-color: $ogrodje-zagon-blue;
+    background-color: variables.$ogrodje-zagon-blue;
     color: white;
   }
 
   &[data-show="Zagon"] {
-    background-color: $ogrodje-borderless-green;
+    background-color: variables.$ogrodje-borderless-green;
     color: white;
   }
 
   &[data-show="META"] {
-    background-color: $ogrodje-meta;
+    background-color: variables.$ogrodje-meta;
     color: white;
   }
 
   &[data-show="Bytes"] {
-    background-color: $ogrodje-bytes;
-    // color: white;
+    background-color: variables.$ogrodje-bytes;
     mix-blend-mode:difference;
   }
 }

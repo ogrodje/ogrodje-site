@@ -118,8 +118,8 @@ const pageTitle: string = `Ogrodje - ${episode.name} (${episode.code})`
   </div>
 </Layout>
 <style lang="scss" is:global>
-  @import "../../_variables.scss";
-  @import "../../episode_row.scss";
+  @use "../../_variables";
+  @use "../../episode_row";
 
   .episode.single {
     line-height: 1.5;
@@ -155,7 +155,6 @@ const pageTitle: string = `Ogrodje - ${episode.name} (${episode.code})`
   }
 
   p.warning {
-    // border:1px solid #272727;
     background-color: #535353;
     padding: 4px;
     text-align: center;

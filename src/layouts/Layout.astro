@@ -41,22 +41,20 @@ const {title, hideFooter} = (Astro.props as any)['frontmatter'] || Astro.props;
 </body>
 </html>
 <style lang="scss" is:global>
-  @import "../_variables.scss";
+  @use "../_variables";
 
   *,
   *::before,
   *::after {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
     box-sizing: border-box;
   }
 
   html {
-    font-family: $main-font;
+    font-family: variables.$main-font;
     background-color: #0c0c0c;
     color: white;
-    font-size: $main-font-size;
-    line-height: $main-line-height;
+    font-size: variables.$main-font-size;
+    line-height: variables.$main-line-height;
   }
 
   h1, h2, h3 {
@@ -64,7 +62,7 @@ const {title, hideFooter} = (Astro.props as any)['frontmatter'] || Astro.props;
   }
 
   input, label, button {
-    font-size: $main-font-size;
+    font-size: variables.$main-font-size;
   }
 
   input, button {
@@ -78,7 +76,6 @@ const {title, hideFooter} = (Astro.props as any)['frontmatter'] || Astro.props;
 
     &:hover {
       color: #6a676c;
-
     }
   }
 
@@ -93,7 +90,7 @@ const {title, hideFooter} = (Astro.props as any)['frontmatter'] || Astro.props;
   }
 
   .big-wrap {
-    max-width: $layout-max-width;
+    max-width: variables.$layout-max-width;
     margin: 0 auto;
 
     .content-wrap {
@@ -108,7 +105,7 @@ const {title, hideFooter} = (Astro.props as any)['frontmatter'] || Astro.props;
     float: none;
     margin-top: 100px;
     border-top: 2px solid #2c2c2c;
-    padding: 50px $lr-offset 0;
+    padding: 50px variables.$lr-offset 0;
 
 
     & img {
@@ -129,7 +126,6 @@ const {title, hideFooter} = (Astro.props as any)['frontmatter'] || Astro.props;
 
   .name {
     em {
-      // text-decoration: underline;
       font-style: normal;
       background-color: #535353;
     }

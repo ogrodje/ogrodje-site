@@ -116,8 +116,9 @@ const adjustedTitle = (hit: Hit) => {
   </div>
 </template>
 <style lang="scss" scoped>
-@import "../_variables.scss";
-@import "../episode_row.scss";
+@use 'sass:color';
+@use "../_variables";
+@use "../episode_row";
 
 #search {
   width: 70%;
@@ -152,7 +153,7 @@ ul li.episode.hit {
   }
 
   a:hover {
-    background-color: lighten(#0c0c0c, 5%);
+    background-color: color.adjust(#0c0c0c, $lightness: 5%);
   }
 
   .highlighted-field {
@@ -160,7 +161,7 @@ ul li.episode.hit {
   }
 
   > .title {
-    font-family: "Iosevka Web", sans-serif;
+    font-family: variables.$special-font;
 
     .code {
       font-weight: bold;

@@ -5,9 +5,7 @@ const ogrodjeLogoSrc = `url(${ogrodjeLogo.src})`;
 const searchIconSrc = `url(${searchIcon.src})`;
 ---
 <header class="header">
-  <div class="ogrodje-logo cell">
-    <a href="/" title="Ogrodje">Ogrodje</a>
-  </div>
+  <div class="ogrodje-logo cell"><a href="/" title="Ogrodje">Ogrodje</a></div>
 
   <div class="nav cell">
     <ul>
@@ -20,13 +18,14 @@ const searchIconSrc = `url(${searchIcon.src})`;
   </div>
 </header>
 <style lang="scss" define:vars={{ogrodjeLogoSrc, searchIconSrc}}>
-  @import "../_variables.scss";
+  @use 'sass:math';
+  @use "../_variables";
 
   $cell-height: 100px;
   $cell-line-height: 100px;
 
   header.header {
-    padding: 0 $lr-offset;
+    padding: 0 variables.$lr-offset;
     margin-bottom: 20px;
 
     .cell {
@@ -38,13 +37,13 @@ const searchIconSrc = `url(${searchIcon.src})`;
 
     @media only screen and (max-width: 1000px) {
       .cell {
-        height: $cell-height/2;
-        line-height: $cell-height/2;
+        height: math.div($cell-height, 2);
+        line-height: math.div($cell-height, 2);
       }
     }
 
     & a {
-      font-family: $special-font;
+      font-family: variables.$special-font;
       text-decoration: none;
     }
 
@@ -69,14 +68,10 @@ const searchIconSrc = `url(${searchIcon.src})`;
     @media only screen and (max-width: 1000px) {
       .ogrodje-logo {
         margin-right: 0;
-        // background-color: red;
       }
     }
 
-
     .nav {
-      // background-color: #8b055e;
-
       ul, ul li {
         list-style: none;
         float: left;
@@ -103,7 +98,6 @@ const searchIconSrc = `url(${searchIcon.src})`;
 
       li.search {
         a {
-
           background-image: var(--searchIconSrc);
           background-position: 10px center;
           background-size: 30px;
@@ -131,10 +125,7 @@ const searchIconSrc = `url(${searchIcon.src})`;
           a {
             padding-left: 5px;
             padding-right: 5px;
-
-            // background-color: #0ed18b;
           }
-
         }
       }
 
