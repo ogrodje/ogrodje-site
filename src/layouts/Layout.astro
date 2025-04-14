@@ -14,7 +14,7 @@ const {title, hideFooter} = (Astro.props as any)['frontmatter'] || Astro.props;
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
-  <meta name="description" content="Ogrodje Podcast">
+  <meta name="description" content="Ogrodje je tehnološko / razvijalska skupnost in multimedijska platforma.">
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <link rel="icon" type="image/png" href={ogrodjeLogoIcon.src}/>
   <link rel="dns-prefetch" href="https://media.graphassets.com/"/>
@@ -70,7 +70,6 @@ const {title, hideFooter} = (Astro.props as any)['frontmatter'] || Astro.props;
     padding-right: 10px;
   }
 
-
   a {
     color: #6a676c;
 
@@ -92,12 +91,6 @@ const {title, hideFooter} = (Astro.props as any)['frontmatter'] || Astro.props;
   .big-wrap {
     max-width: variables.$layout-max-width;
     margin: 0 auto;
-
-    .content-wrap {
-      .content {
-
-      }
-    }
   }
 
   .footer {
@@ -106,7 +99,6 @@ const {title, hideFooter} = (Astro.props as any)['frontmatter'] || Astro.props;
     margin-top: 100px;
     border-top: 2px solid #2c2c2c;
     padding: 50px variables.$lr-offset 0;
-
 
     & img {
       filter: grayscale(100%);

@@ -2,27 +2,50 @@
 import Layout from "../layouts/Layout.astro";
 import {EventsService} from "../services/EventsService";
 import type {Event} from "../services/EventsService";
+import {
+  dateFromRaw,
+  weekRangeFromMonday,
+  weekRangeToHuman,
+  localDayNameTiny
+} from "../utils/DateTimeUtils";
+import {strToColor} from "../utils/Colors";
 
 const timeline = await EventsService.timeline();
 
-const groupByWeek = (events: Event[]) => {
-  return events.reduce((weeks, event) => {
-    const startDate = new Date(event.startDateTime);
-    const daysToSubtract = startDate.getDay() === 0 ? -6 : startDate.getDay() - 1;
-    const weekStart = new Date(
-      startDate.getFullYear(),
-      startDate.getMonth(),
-      startDate.getDate() - daysToSubtract // Calculates the start of the week (Monday)
-    );
-    const weekStartStr = weekStart.toISOString().split('T')[0]; // Format week start as ISO date string
+const groupByWeek = (events: Event[]) =>
+  events.reduce((weeks, event) => {
+    // Create a date in local timezone from the UTC string
+    const startDateUTC = new Date(event.startDateTime);
 
-    if (!weeks[weekStartStr]) {
-      weeks[weekStartStr] = [];
-    }
+    // Get the date string in CET
+    const cetDate = new Intl.DateTimeFormat('en-CA', {
+      timeZone: 'Europe/Paris',
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit'
+    }).format(startDateUTC);
+
+    // Create a new date in local timezone from the CET date
+    const dateParts = cetDate.split('-').map(part => parseInt(part, 10));
+    const startDateCET = new Date(dateParts[0], dateParts[1] - 1, dateParts[2]);
+
+    // Calculate the days to subtract to get to Monday
+    const daysToSubtract = (startDateCET.getDay() + 6) % 7;
+
+    // Calculate the start of the week (Monday)
+    const weekStart = new Date(
+      startDateCET.getFullYear(),
+      startDateCET.getMonth(),
+      startDateCET.getDate() - daysToSubtract
+    );
+
+    // Format week start date to YYYY-MM-DD
+    const weekStartStr = weekStart.toISOString().split('T')[0];
+
+    if (!weeks[weekStartStr]) weeks[weekStartStr] = [];
     weeks[weekStartStr].push(event);
     return weeks;
   }, {} as Record<string, Event[]>);
-};
 
 
 const groupByDay = (events: Event[]) =>
@@ -40,34 +63,214 @@ const groupedEvents =
       groupedEvents: Object.entries(groupByDay(events))
     }
   })
+
+type EventTimeArgs = {
+  startDateTime: Date;
+  endDateTime?: Date;
+  hasStartTime: boolean;
+  hasEndTime: boolean;
+};
+
+function when(event: Event) {
+  return formatEventTime({
+    startDateTime: new Date(event.startDateTime),
+    endDateTime: event.endDateTime ? new Date(event.endDateTime) : undefined,
+    hasStartTime: event.hasStartTime,
+    hasEndTime: event.hasEndTime,
+  });
+}
+
+function formatEventTime({
+                           startDateTime,
+                           endDateTime,
+                           hasStartTime,
+                           hasEndTime,
+                         }: EventTimeArgs): string {
+  const dateFormatter = new Intl.DateTimeFormat('sl-SI', {dateStyle: 'medium'});
+  const timeFormatter = new Intl.DateTimeFormat('sl-SI', {timeStyle: 'short'});
+
+  const formatDate = (date: Date) => dateFormatter.format(date);
+  const formatTime = (date: Date) => timeFormatter.format(date);
+
+  if (!endDateTime) {
+    return hasStartTime
+      ? `${formatDate(startDateTime)} ${formatTime(startDateTime)}`
+      : formatDate(startDateTime);
+  }
+
+  const isSameDay =
+    startDateTime.toDateString() === endDateTime.toDateString();
+
+  if (isSameDay) {
+    const dateStr = formatDate(startDateTime);
+    if (hasStartTime && hasEndTime) {
+      return `${dateStr} ${formatTime(startDateTime)} – ${formatTime(endDateTime)}`;
+    } else if (hasStartTime && !hasEndTime) {
+      return `${dateStr} ${formatTime(startDateTime)}`;
+    } else {
+      return dateStr;
+    }
+  } else {
+    const startStr = hasStartTime
+      ? `${formatDate(startDateTime)} ${formatTime(startDateTime)}`
+      : formatDate(startDateTime);
+    const endStr = hasEndTime
+      ? `${formatDate(endDateTime)} ${formatTime(endDateTime)}`
+      : formatDate(endDateTime);
+    return `${startStr} – ${endStr}`;
+  }
+}
 ---
-<Layout title="Dogodki" hideFooter={"false"}>
-  <h1>Dogodki</h1>
+<Layout title="Dogodki in Konference" hideFooter={"false"}>
+  <h1>Dogodki in Konference</h1>
+
   <div class="events-per-week">
     {groupedEvents && groupedEvents.map(({week, groupedEvents}) => {
       return (
         <div class="week">
-          <h4 class="week-header">Teden: {week}</h4>
+          <h4 class="week-header">Teden / {weekRangeToHuman(weekRangeFromMonday(dateFromRaw(week)))}</h4>
           <div class="days">
-            {groupedEvents.map(([day, events]) => {
-              return (
-                <div class="day">{day}</div>
+            {groupedEvents.map(([day, events]) =>
+              (
+                <div class="day-line">
+                  <div class="day">
+                    {localDayNameTiny(dateFromRaw(day))}
+                  </div>
+                  <div class="events">
+                    {events.map(event => (
+                      <div class="event">
+                        <div class="event-title">
+                          <a href={event.eventURL} target="_blank">{event.title}</a>
+                        </div>
+                        <div class="event-meta">
 
-                <div class="events">
-                  {events.map(event => (
-                    <div class="start-date-time">{event.startDateTime}</div>
-                    <div class="end-date-time">{event.endDateTime}</div>
-                    <div class="meetup-name">{event.meetupName}</div>
-                    <div class="event">{event.title}</div>
-                  ))}
+                          {event.startDateTime}
+
+                          <div class="when">{when(event)}</div>
+
+
+                          <div class="meetup-name"
+                               style={`background-color: ${strToColor(event?.meetupName || "x", {})}`}>
+                            {event.meetupName}
+                          </div>
+
+
+                          {event.locationName && event.locationAddress && (
+                            <div class="location-meta">
+                              @
+                              {event.locationName && (
+                                <div class="location-name">{event.locationName}</div>
+                              )}
+                              {event.locationAddress && (
+                                <div class="location-address">{event.locationAddress}</div>
+                              )}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               )
-            })}
-
+            )}
           </div>
         </div>
       )
     })}
   </div>
-</Layout>
 
+  <p class="disclaimer">⚠️ Sistem za zbiranje dogodkov in konferenc je v razvoju. Prosimo preverite točnost podatkov na
+    strani organizatorjev. Ogrodje NI organizator. Dogodki in podatki o konferencah so zbrani iz javnih virov.
+    Napake, želje in PR-je sprejemamo na <a href="https://github.com/ogrodje/goo">github.com/ogrodje/goo.</a>
+    Podatki o dogodkih so na voljo tudi v <a href="https://goo.ogrodje.si/docs/openapi">strojni obliki via API</a>.
+    Podatki se osvežijo vsakih 12 ur.</p>
+
+</Layout>
+<style lang="scss">
+  @use "sass:color";
+  @use "../variables";
+
+  $day-cell-width: 120px;
+
+  @mixin super-line {
+    line-height: variables.$main-font-size * 2.5;
+  }
+
+  .events-per-week {
+    .week {
+      .week-header {
+        font-weight: 300;
+      }
+
+      .days {
+        position: relative;
+
+        .day-line {
+          position: relative;
+
+          .day {
+            @include super-line;
+            position: absolute;
+            display: block;
+            width: $day-cell-width;
+            padding-right: 10px;
+
+            color: #6a676c;
+          }
+
+          .events {
+            padding-left: $day-cell-width;
+            line-height: variables.$main-line-height * 1.1;
+            margin-bottom: 20px;
+          }
+        }
+      }
+    }
+  }
+
+  .events .event {
+    display: block;
+    clear: both;
+    margin-bottom: 25px;
+
+    .event-title {
+      @include super-line;
+      font-family: variables.$special-font;
+      font-size: variables.$main-font-size * 1.6;
+      font-weight: 700;
+
+      a {
+        color: white;
+        text-decoration: none;
+      }
+    }
+
+    .event-meta {
+      display: block;
+      clear: both;
+
+      .meetup-name {
+        display: inline-block;
+        padding-left: 5px;
+        padding-right: 5px;
+      }
+
+      .location-meta {
+        display: inline-block;
+
+        .location-name, .location-address {
+          display: inline-block;
+        }
+      }
+
+    }
+  }
+
+  .disclaimer {
+    display: block;
+    margin-top: 100px;
+    color: #666;
+    padding: 5px;
+    font-style: italic;
+  }
+</style>

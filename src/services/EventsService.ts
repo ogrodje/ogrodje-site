@@ -7,7 +7,7 @@ export interface Event {
   eventURL?: string
   meetupName?: string
   startDateTime: string
-  endDateTime: string
+  endDateTime?: string
   hasStartTime: boolean
   hasEndTime: boolean
   locationName?: string
