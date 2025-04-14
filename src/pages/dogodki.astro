@@ -33,13 +33,17 @@ function groupByWeek(events: Event[]) {
   }, {} as Record<string, Event[]>);
 }
 
-const groupByDay = (events: Event[]) =>
-  events.reduce((days, event) => {
-    const eventDate = event.localStartDateTime.toISOString().split('T')[0];
+function groupByDay(events: Event[]) {
+  return events.reduce((days, event) => {
+    const eventDate = event.localStartDateTime.toLocaleDateString('sl-SI', {
+      weekday: 'long'
+    }).replace(/^\w/, c => c.toUpperCase());
+
     if (!days[eventDate]) days[eventDate] = [];
     days[eventDate].push(event);
     return days;
   }, {} as Record<string, Event[]>);
+}
 
 const groupedEvents =
   Object.entries(groupByWeek(timeline)).map(([week, events]) => {
@@ -118,7 +122,7 @@ function formatEventTime({
               (
                 <div class="day-line">
                   <div class="day">
-                    {localDayNameTiny(dateFromRaw(day))}
+                    {day}
                   </div>
                   <div class="events">
                     {events.map(event => (
@@ -133,7 +137,7 @@ function formatEventTime({
                                style={`background-color: ${strToColor(event?.meetupName || "x", {})}`}>
                             {event.meetupName}
                           </div>
-                          
+
                           {event.locationName && event.locationAddress && (
                             <div class="location-meta">
                               @
