@@ -143,12 +143,8 @@ function formatEventTime({
                           <a href={event.eventURL} target="_blank">{event.title}</a>
                         </div>
                         <div class="event-meta">
-
-                          {event.startDateTime}
-
                           <div class="when">{when(event)}</div>
-
-
+                          
                           <div class="meetup-name"
                                style={`background-color: ${strToColor(event?.meetupName || "x", {})}`}>
                             {event.meetupName}
