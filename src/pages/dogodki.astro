@@ -12,45 +12,30 @@ import {strToColor} from "../utils/Colors";
 
 const timeline = await EventsService.timeline();
 
-const groupByWeek = (events: Event[]) =>
-  events.reduce((weeks, event) => {
-    // Create a date in local timezone from the UTC string
-    const startDateUTC = new Date(event.startDateTime);
+function groupByWeek(events: Event[]) {
+  const getMonday = (date: Date): Date => {
+    const monday = new Date(date);
+    const day = monday.getDay();
+    const diff = (day === 0 ? -6 : 1) - day; // Adjusting for Monday start (1=Monday, 0=Sunday)
+    monday.setDate(monday.getDate() + diff);
+    monday.setHours(0, 0, 0, 0); // Reset time to midnight for consistency
+    return monday;
+  };
 
-    // Get the date string in CET
-    const cetDate = new Intl.DateTimeFormat('en-CA', {
-      timeZone: 'Europe/Paris',
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit'
-    }).format(startDateUTC);
+  return events.reduce((weeks, event) => {
+    const startDate = event.localStartDateTime;
+    const monday = getMonday(startDate).toISOString().split('T')[0];
 
-    // Create a new date in local timezone from the CET date
-    const dateParts = cetDate.split('-').map(part => parseInt(part, 10));
-    const startDateCET = new Date(dateParts[0], dateParts[1] - 1, dateParts[2]);
+    if (!weeks[monday]) weeks[monday] = [];
+    weeks[monday].push(event);
 
-    // Calculate the days to subtract to get to Monday
-    const daysToSubtract = (startDateCET.getDay() + 6) % 7;
-
-    // Calculate the start of the week (Monday)
-    const weekStart = new Date(
-      startDateCET.getFullYear(),
-      startDateCET.getMonth(),
-      startDateCET.getDate() - daysToSubtract
-    );
-
-    // Format week start date to YYYY-MM-DD
-    const weekStartStr = weekStart.toISOString().split('T')[0];
-
-    if (!weeks[weekStartStr]) weeks[weekStartStr] = [];
-    weeks[weekStartStr].push(event);
     return weeks;
   }, {} as Record<string, Event[]>);
-
+}
 
 const groupByDay = (events: Event[]) =>
   events.reduce((days, event) => {
-    const eventDate = new Date(event.startDateTime).toISOString().split('T')[0];
+    const eventDate = event.localStartDateTime.toISOString().split('T')[0];
     if (!days[eventDate]) days[eventDate] = [];
     days[eventDate].push(event);
     return days;
@@ -73,8 +58,8 @@ type EventTimeArgs = {
 
 function when(event: Event) {
   return formatEventTime({
-    startDateTime: new Date(event.startDateTime),
-    endDateTime: event.endDateTime ? new Date(event.endDateTime) : undefined,
+    startDateTime: event.localStartDateTime,
+    endDateTime: event.localEndDateTime,
     hasStartTime: event.hasStartTime,
     hasEndTime: event.hasEndTime,
   });
@@ -98,8 +83,7 @@ function formatEventTime({
       : formatDate(startDateTime);
   }
 
-  const isSameDay =
-    startDateTime.toDateString() === endDateTime.toDateString();
+  const isSameDay = startDateTime.toDateString() === endDateTime.toDateString();
 
   if (isSameDay) {
     const dateStr = formatDate(startDateTime);
@@ -149,8 +133,7 @@ function formatEventTime({
                                style={`background-color: ${strToColor(event?.meetupName || "x", {})}`}>
                             {event.meetupName}
                           </div>
-
-
+                          
                           {event.locationName && event.locationAddress && (
                             <div class="location-meta">
                               @
