@@ -2,7 +2,7 @@
 $main-font: sans-serif;
 $special-font: 'Iosevka Web', Iosevka, sans-serif;
 $main-font-size: 13pt;
-$main-line-height: 1.9em;
+$main-line-height: $main-font-size * 1.5;
 
 // Colors
 $color-second: #8b055e;

@@ -5,8 +5,7 @@ import type {Event} from "../services/EventsService";
 import {
   dateFromRaw,
   weekRangeFromMonday,
-  weekRangeToHuman,
-  localDayNameTiny
+  weekRangeToHuman
 } from "../utils/DateTimeUtils";
 import {strToColor} from "../utils/Colors";
 
@@ -176,7 +175,8 @@ function formatEventTime({
   $day-cell-width: 120px;
 
   @mixin super-line {
-    line-height: variables.$main-font-size * 2.5;
+    // line-height: variables.$main-font-size * 2.1;
+    line-height: variables.$main-line-height * 1.3;
   }
 
   .events-per-week {
@@ -197,14 +197,23 @@ function formatEventTime({
             display: block;
             width: $day-cell-width;
             padding-right: 10px;
-
             color: #6a676c;
+
+            @media only screen and (max-width: 1000px) {
+              position: relative;
+              width: 100%;
+            }
           }
+
 
           .events {
             padding-left: $day-cell-width;
             line-height: variables.$main-line-height * 1.1;
             margin-bottom: 20px;
+
+            @media only screen and (max-width: 1000px) {
+              padding: 3px;
+            }
           }
         }
       }
@@ -219,8 +228,12 @@ function formatEventTime({
     .event-title {
       @include super-line;
       font-family: variables.$special-font;
-      font-size: variables.$main-font-size * 1.6;
+      font-size: variables.$main-font-size * 1.2;
       font-weight: 700;
+
+      @media only screen and (max-width: 1000px) {
+        font-size: variables.$main-font-size;
+      }
 
       a {
         color: white;
@@ -229,6 +242,7 @@ function formatEventTime({
     }
 
     .event-meta {
+      @include super-line;
       display: block;
       clear: both;
 

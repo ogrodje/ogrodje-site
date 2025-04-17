@@ -53,12 +53,16 @@ const {title, hideFooter} = (Astro.props as any)['frontmatter'] || Astro.props;
     font-family: variables.$main-font;
     background-color: #0c0c0c;
     color: white;
+
     font-size: variables.$main-font-size;
     line-height: variables.$main-line-height;
   }
 
   h1, h2, h3 {
     font-family: 'Iosevka Web', sans-serif;
+    @media only screen and (max-width: 1000px) {
+      font-size: variables.$main-font-size * 1.2;
+    }
   }
 
   input, label, button {
