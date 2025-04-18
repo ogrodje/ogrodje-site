@@ -9,7 +9,11 @@ import {
 } from "../utils/DateTimeUtils";
 import {strToColor} from "../utils/Colors";
 
-const timeline = await EventsService.timeline();
+const now = new Date();
+const timeline = await EventsService.timeline()
+  .then(events => events.filter(
+    event => event.localEndDateTime ? event.localEndDateTime > now : event.localStartDateTime > now
+  ))
 
 function groupByWeek(events: Event[]) {
   const getMonday = (date: Date): Date => {

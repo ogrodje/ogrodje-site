@@ -33,10 +33,10 @@ const convertToCEST = (isoDatetime: string): Date => {
 }
 
 export class EventsService {
-  static eventsEndpoint: string = "https://goo.ogrodje.si";
+  static gooEndpoint: string = import.meta.env.GOO_ENDPOINT || 'https://goo.ogrodje.si';
 
   static async timeline(): Promise<Event[]> {
-    return fetch(`${this.eventsEndpoint}/timeline`)
+    return fetch(`${this.gooEndpoint}/timeline`)
       .then((res) => res.json())
       .then((json) => json.map((e: any) => ({
         ...e,
