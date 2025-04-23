@@ -9,8 +9,10 @@ import {
 } from "../utils/DateTimeUtils";
 import {strToColor} from "../utils/Colors";
 
+const gooEndpoint = EventsService.gooEndpoint;
+
 const now = new Date();
-const timeline = await EventsService.timeline()
+const timeline = await EventsService.timeline(gooEndpoint)
   .then(events => events.filter(
     event => event.localEndDateTime ? event.localEndDateTime > now : event.localStartDateTime > now
   ))

@@ -32,17 +32,31 @@ const convertToCEST = (isoDatetime: string): Date => {
   return cestDate;
 }
 
-export class EventsService {
-  static gooEndpoint: string = import.meta.env.GOO_ENDPOINT || 'https://goo.ogrodje.si';
+export type GooEndpoint = string;
 
-  static async timeline(): Promise<Event[]> {
-    return fetch(`${this.gooEndpoint}/timeline`)
+export class EventsService {
+  static gooEndpoint: GooEndpoint = import.meta.env.GOO_ENDPOINT || 'https://goo.ogrodje.si';
+
+  static async timeline(gooEndpoint: GooEndpoint): Promise<Event[]> {
+    return fetch(`${gooEndpoint}/timeline`)
       .then((res) => res.json())
       .then((json) => json.map((e: any) => ({
         ...e,
         localStartDateTime: convertToCEST(e.startDateTime),
         localEndDateTime: e.endDateTime ? convertToCEST(e.endDateTime) : undefined
       })))
+      ;
+  }
+
+  static async meetups(gooEndpoint: GooEndpoint): Promise<any> {
+    return fetch(`${gooEndpoint}/meetups`)
+      .then((res) => res.json())
+      ;
+  }
+
+  static async events(gooEndpoint: GooEndpoint): Promise<any> {
+    return fetch(`${gooEndpoint}/events`)
+      .then((res) => res.json())
       ;
   }
 
