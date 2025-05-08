@@ -15,6 +15,19 @@ export interface Event {
   description?: string,
   localStartDateTime: Date,
   localEndDateTime?: Date,
+  rank?: number,
+  meetup?: {
+    id: string,
+    name: string,
+    createdAt: Date,
+    updatedAt: Date
+  }
+}
+
+export interface Meetup {
+  id: string
+  name: string
+  stage: string
 }
 
 const convertToCEST = (isoDatetime: string): Date => {
@@ -48,15 +61,20 @@ export class EventsService {
       ;
   }
 
-  static async meetups(gooEndpoint: GooEndpoint): Promise<any> {
+  static async meetups(gooEndpoint: GooEndpoint): Promise<Meetup[]> {
     return fetch(`${gooEndpoint}/meetups`)
       .then((res) => res.json())
       ;
   }
 
-  static async events(gooEndpoint: GooEndpoint): Promise<any> {
+  static async events(gooEndpoint: GooEndpoint): Promise<Event[]> {
     return fetch(`${gooEndpoint}/events`)
       .then((res) => res.json())
+      .then((json) => json.map((e: any) => ({
+        ...e,
+        localStartDateTime: convertToCEST(e.startDateTime),
+        localEndDateTime: e.endDateTime ? convertToCEST(e.endDateTime) : undefined
+      })))
       ;
   }
 

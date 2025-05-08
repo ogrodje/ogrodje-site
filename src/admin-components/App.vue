@@ -1,23 +1,39 @@
+<script setup>
+import {computed} from 'vue'
+import {RouterView, RouterLink} from 'vue-router';
+import {useKeycloak} from '@josempgon/vue-keycloak'
+
+import ogrodjeLogoIcon from "../assets/ogrodje-logo-base.png";
+
+const ogrodjeLogoSrc = `url(${ogrodjeLogoIcon.src})`;
+
+const {hasRoles, username, userId, isAuthenticated, keycloak, roles, resourceRoles} = useKeycloak()
+const hasAccess = computed(() => hasRoles(['RoleName']))
+
+const logout = (e) => {
+  if (e.preventDefault) e.preventDefault()
+  keycloak.value.logout()
+}
+
+</script>
 <template>
   <div class="admin-wrap">
     <div class="header">
       <router-link to="/" class="logo" title="Admin Dashboard">Admin Dashboard</router-link>
       <router-link to="/meetups">Meetups</router-link>
       <router-link to="/events">Events</router-link>
+
+      <div class="tools">
+        <div class="username">{{ username }} <!-- w/ {{ roles }} & {{ resourceRoles }} --></div>
+        <a @click="logout($event)">Logout</a>
+      </div>
     </div>
 
     <div class="admin-content-wrap">
-      <router-view />
+      <router-view/>
     </div>
   </div>
 </template>
-
-<script setup>
-import { RouterView, RouterLink } from 'vue-router';
-import ogrodjeLogoIcon from "../assets/ogrodje-logo-base.png";
-const ogrodjeLogoSrc = `url(${ogrodjeLogoIcon.src})`;
-</script>
-
 <style lang="scss">
 @use "../global";
 @use "../_variables";
@@ -25,11 +41,11 @@ const ogrodjeLogoSrc = `url(${ogrodjeLogoIcon.src})`;
 $cell-height: 60px;
 
 body {
-  padding: 0; margin: 0;
+  padding: 0;
+  margin: 0;
   font-size: 11pt;
   line-height: 1.5;
 }
-
 
 .admin-wrap {
 
@@ -37,6 +53,21 @@ body {
     background-color: #393939;
     color: white;
     padding-left: 20px;
+    position: relative;
+
+    .tools {
+      position: absolute;
+      right: 0;
+      display: inline-block;
+      height: $cell-height;
+      margin-right: 20px;
+
+      .username {
+        display: inline-block;
+        font-weight: bold;
+        margin-right: 20px;
+      }
+    }
 
     a {
       color: white;
@@ -57,6 +88,10 @@ body {
         width: 90px;
         image-rendering: crisp-edges;
       }
+
+      &.router-link-active {
+        text-decoration: underline !important;
+      }
     }
   }
 
@@ -67,10 +102,12 @@ body {
 
 .data-table {
   border-collapse: collapse;
+  width: 100%;
 
   td, th {
-    padding: 2px;
+    padding: 4px;
     text-align: left;
+    border-bottom: 1px solid #2b2b2b;
   }
 
   thead {

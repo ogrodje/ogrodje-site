@@ -5,7 +5,8 @@ import type {Event} from "../services/EventsService";
 import {
   dateFromRaw,
   weekRangeFromMonday,
-  weekRangeToHuman
+  weekRangeToHuman,
+  formatEventTime,
 } from "../utils/DateTimeUtils";
 import {strToColor} from "../utils/Colors";
 
@@ -58,13 +59,6 @@ const groupedEvents =
     }
   })
 
-type EventTimeArgs = {
-  startDateTime: Date;
-  endDateTime?: Date;
-  hasStartTime: boolean;
-  hasEndTime: boolean;
-};
-
 function when(event: Event) {
   return formatEventTime({
     startDateTime: event.localStartDateTime,
@@ -72,46 +66,6 @@ function when(event: Event) {
     hasStartTime: event.hasStartTime,
     hasEndTime: event.hasEndTime,
   });
-}
-
-function formatEventTime({
-                           startDateTime,
-                           endDateTime,
-                           hasStartTime,
-                           hasEndTime,
-                         }: EventTimeArgs): string {
-  const dateFormatter = new Intl.DateTimeFormat('sl-SI', {dateStyle: 'medium'});
-  const timeFormatter = new Intl.DateTimeFormat('sl-SI', {timeStyle: 'short'});
-
-  const formatDate = (date: Date) => dateFormatter.format(date);
-  const formatTime = (date: Date) => timeFormatter.format(date);
-
-  if (!endDateTime) {
-    return hasStartTime
-      ? `${formatDate(startDateTime)} ${formatTime(startDateTime)}`
-      : formatDate(startDateTime);
-  }
-
-  const isSameDay = startDateTime.toDateString() === endDateTime.toDateString();
-
-  if (isSameDay) {
-    const dateStr = formatDate(startDateTime);
-    if (hasStartTime && hasEndTime) {
-      return `${dateStr} ${formatTime(startDateTime)} – ${formatTime(endDateTime)}`;
-    } else if (hasStartTime && !hasEndTime) {
-      return `${dateStr} ${formatTime(startDateTime)}`;
-    } else {
-      return dateStr;
-    }
-  } else {
-    const startStr = hasStartTime
-      ? `${formatDate(startDateTime)} ${formatTime(startDateTime)}`
-      : formatDate(startDateTime);
-    const endStr = hasEndTime
-      ? `${formatDate(endDateTime)} ${formatTime(endDateTime)}`
-      : formatDate(endDateTime);
-    return `${startStr} – ${endStr}`;
-  }
 }
 ---
 <Layout title="Dogodki in Konference" hideFooter={"false"}>
