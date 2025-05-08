@@ -2,7 +2,9 @@
 import {computed, ref} from 'vue';
 import {episodePath} from "../model/Episode.ts";
 
-const searchURL = 'https://search.ogrodje.si/query';
+const searchURL = (
+  import.meta.env.SEARCH_ENDPOINT || 'https://search.ogrodje.si'
+) + '/query';
 
 interface Hit {
   readonly _index: string

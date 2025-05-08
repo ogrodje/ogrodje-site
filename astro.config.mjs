@@ -7,6 +7,8 @@ import netlify from "@astrojs/netlify";
 
 // https://astro.build/config
 export default defineConfig({
+  // redirects: {"/admin/[...slug]": "/admin/"},
+
   /*
   image: {
     service: imageService({

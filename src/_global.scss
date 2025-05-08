@@ -1,0 +1,85 @@
+@use "_variables";
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: variables.$main-font;
+  background-color: #0c0c0c;
+  color: white;
+
+  font-size: variables.$main-font-size;
+  line-height: variables.$main-line-height;
+}
+
+h1, h2, h3 {
+  font-family: 'Iosevka Web', sans-serif;
+  @media only screen and (max-width: 1000px) {
+    font-size: variables.$main-font-size * 1.2;
+  }
+}
+
+input, label, button {
+  font-size: variables.$main-font-size;
+}
+
+input, button {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+a {
+  color: #6a676c;
+
+  &:hover {
+    color: #6a676c;
+  }
+}
+
+body {
+  padding: 0 50px 50px;
+}
+
+@media only screen and (max-width: 1000px) {
+  body {
+    padding: 0 10px 10px;
+  }
+}
+
+.big-wrap {
+  max-width: variables.$layout-max-width;
+  margin: 0 auto;
+}
+
+.footer {
+  clear: both;
+  float: none;
+  margin-top: 100px;
+  border-top: 2px solid #2c2c2c;
+  padding: 50px variables.$lr-offset 0;
+
+  & img {
+    filter: grayscale(100%);
+  }
+
+  & a:hover img {
+    filter: grayscale(0%);
+  }
+}
+
+.highlighted {
+  em {
+    color: white;
+    font-style: normal;
+  }
+}
+
+.name {
+  em {
+    font-style: normal;
+    background-color: #535353;
+  }
+}
