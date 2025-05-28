@@ -2,10 +2,10 @@
   <div id="app"></div>
 </template>
 <script setup lang="ts">
-import {createApp, onMounted, defineProps} from 'vue';
+import {createApp, onMounted, defineProps, inject} from 'vue';
 import {vueKeycloak} from '@josempgon/vue-keycloak'
 import type {KeycloakConfig} from "keycloak-js";
-import type {GooEndpoint} from "../services/EventsService";
+import {type GooEndpoint, GooSingletonService} from "../services/GooService";
 
 interface Props {
   keycloakConfig: KeycloakConfig;
@@ -30,6 +30,8 @@ onMounted(async () => {
       pkceMethod: 'S256'
     }
   });
+
+  GooSingletonService.install(gooEndpoint)
 
   app.use(initRouter());
   app.mount('#app');

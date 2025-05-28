@@ -50,12 +50,14 @@ export type EventTimeArgs = {
   hasEndTime: boolean;
 };
 
-export function formatEventTime({
-                           startDateTime,
-                           endDateTime,
-                           hasStartTime,
-                           hasEndTime,
-                         }: EventTimeArgs): string {
+export function formatEventTime(
+  {
+    startDateTime,
+    endDateTime,
+    hasStartTime,
+    hasEndTime,
+  }: EventTimeArgs
+): string {
   const dateFormatter = new Intl.DateTimeFormat('sl-SI', {dateStyle: 'medium'});
   const timeFormatter = new Intl.DateTimeFormat('sl-SI', {timeStyle: 'short'});
 
