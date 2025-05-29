@@ -48,3 +48,12 @@ export interface Meetup {
   name: string
   stage: string
 }
+
+export interface Me {
+  name: string
+  email: string
+  family_name: string
+  given_name: string
+  preferred_username: string
+  userId: string
+}

@@ -86,7 +86,7 @@ function handleEditorSave(e: any) {
       </div>
     </div>
     <div class="tools-right">
-      <button href="#add-event" @click.prevent="e => openEditor(e)">New event</button>
+      <button @click.prevent="e => openEditor(e)">New event</button>
     </div>
   </div>
 

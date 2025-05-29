@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {ref, onMounted} from 'vue';
-import type {Meetup} from "../services/goo/Events.ts";
+import type {Me, Meetup} from "../services/goo/Events.ts";
 import {GooAPIService} from "../services/GooService.ts";
 
 const meetups = ref<Meetup[]>([])
@@ -42,7 +42,6 @@ const searchWithQuery = async (queryValue: string) => {
           </p>
         </form>
       </div>
-
     </div>
   </div>
 
