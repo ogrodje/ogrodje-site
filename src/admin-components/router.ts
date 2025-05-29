@@ -3,21 +3,16 @@ import Meetups from './Meetups.vue';
 import Events from './Events.vue';
 
 const routes = [
-  {path: '/', redirect: '/meetups'},
-  {path: '/meetups', component: Meetups},
-  {path: '/events', component: Events},
+  {name: 'home', path: '/', redirect: 'events'},
+  {name: 'meetups', path: '/meetups', component: Meetups},
+  {name: 'events', path: '/events', component: Events},
 ]
-
-/*
-export const router = createRouter({
-  history: createWebHistory('/admin'),
-  routes: [],
-});
-*/
 
 const initRouter = () => {
   const history = createWebHistory('/admin')
-  return createRouter({ history, routes })
+  return createRouter({
+    history, routes
+  })
 }
 
-export { initRouter }
+export {initRouter}

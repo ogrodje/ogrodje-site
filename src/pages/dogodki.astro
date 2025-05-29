@@ -1,7 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import {EventsService} from "../services/EventsService";
-import type {Event} from "../services/EventsService";
+import type {Event} from "../services/goo/Events.ts";
 import {
   dateFromRaw,
   weekRangeFromMonday,
@@ -18,7 +18,7 @@ const timeline = await EventsService.timeline(gooEndpoint)
     event => event.localEndDateTime ? event.localEndDateTime > now : event.localStartDateTime > now
   ))
 
-function groupByWeek(events: Event[]) {
+function groupByWeek(events: Event[]): Record<string, Event[]> {
   const getMonday = (date: Date): Date => {
     const monday = new Date(date);
     const day = monday.getDay();
@@ -59,7 +59,7 @@ const groupedEvents =
     }
   })
 
-function when(event: Event) {
+function when(event: Event): string {
   return formatEventTime({
     startDateTime: event.localStartDateTime,
     endDateTime: event.localEndDateTime,

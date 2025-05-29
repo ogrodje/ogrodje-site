@@ -1,10 +1,18 @@
 <script setup lang="ts">
-import {ref, watch, defineEmits, defineProps} from 'vue';
-import {emptyEvent, type Event as GEvent} from '../services/goo/Events';
+import {ref, defineEmits, defineProps, onMounted} from 'vue';
+import {emptyEvent, type Event as GEvent, type Meetup} from '../services/goo/Events';
+import {GooAPIService} from "../services/GooService.ts";
 
 const props = defineProps<{
   event: GEvent | null;
 }>();
+
+// State
+const meetups = ref<Meetup[]>([])
+
+onMounted(async () => {
+  meetups.value = await GooAPIService.meetups()
+})
 
 // Emits
 const emit = defineEmits<{
@@ -49,14 +57,22 @@ function handleSave(e: Event) {
             </li>
             <li>
               <label>
+                Meetups
+                <select v-model="localEvent.meetupID">
+                  <option v-for="meetup in meetups" :value="meetup.id">{{ meetup.name }}</option>
+                </select>
+              </label>
+            </li>
+            <li>
+              <label>
                 Start
-                <input type="datetime-local" v-model="localEvent.startDateTime"/>
+                <input type="datetime-local" v-model="localEvent.startDateTime" required/>
               </label>
             </li>
             <li>
               <label>
                 End
-                <input type="datetime-local" v-model="localEvent.endDateTime"/>
+                <input type="datetime-local" v-model="localEvent.endDateTime" required/>
               </label>
             </li>
             <li>
@@ -74,7 +90,7 @@ function handleSave(e: Event) {
             <li>
               <label>
                 URL
-                <input type="url" v-model="localEvent.eventURL"/>
+                <input type="url" v-model="localEvent.eventURL" required/>
               </label>
             </li>
             <li>
@@ -91,25 +107,28 @@ function handleSave(e: Event) {
 </template>
 
 <style lang="scss" scoped>
-.event-editor-overlay {
+.editor-overlay {
   position: fixed;
-  inset: 0; /* shorthand for top:0; right:0; bottom:0; left:0; */
+  top: 0;
+  right: 0;
+  inset: 0;
   z-index: 1000;
-  pointer-events: none; /* Optional: so only editor receives input, change if needed */
-  /* Optional backdrop */
-  background: rgba(0, 0, 0, 0.15);
+  pointer-events: none;
+  display: block;
+  margin: 0 auto;
+  max-width: 1400px;
 }
 
 .event-editor {
   margin: 50px;
-  position: fixed; /* Fully fixed to viewport */
+  position: absolute;
   top: 0;
   right: 0;
   max-height: 90vh;
   width: 100%;
   max-width: 600px;
   background: #5a5a5a;
-  box-shadow: -4px 0 12px rgba(0, 0, 0, 0.08);
+  box-shadow: 3px 15px 10px rgb(0 0 0 / 80%);
   padding: 5px;
   overflow-y: auto;
   border-radius: 5px;
@@ -139,7 +158,7 @@ function handleSave(e: Event) {
     padding: 5px;
   }
 
-  input[type=text], input[type=datetime-local], input[type=url] {
+  input[type=text], input[type=datetime-local], input[type=url], select {
     width: 100%;
   }
 }

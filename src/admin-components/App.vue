@@ -20,8 +20,8 @@ const logout = (e) => {
   <div class="admin-wrap">
     <div class="header">
       <router-link to="/" class="logo" title="Admin Dashboard">Admin Dashboard</router-link>
-      <router-link to="/meetups">Meetups</router-link>
       <router-link to="/events">Events</router-link>
+      <router-link to="/meetups">Meetups</router-link>
 
       <div class="tools">
         <div class="username">{{ username }} <!-- w/ {{ roles }} & {{ resourceRoles }} --></div>
@@ -87,6 +87,7 @@ body {
         // overflow: hidden;
         width: 90px;
         image-rendering: crisp-edges;
+        margin-right: 20px;
       }
 
       &.router-link-active {
@@ -100,21 +101,51 @@ body {
   }
 }
 
-.data-table {
+table.data-table {
   border-collapse: collapse;
   width: 100%;
 
-  td, th {
-    padding: 4px;
-    text-align: left;
-    border-bottom: 1px solid #2b2b2b;
-  }
+  thead, tbody {
+    td, th {
+      border-bottom: 1px solid #323232;
+      padding: 15px
+    }
 
-  thead {
-    th, td {
-      background-color: #191919;
+    tr:nth-child(even) {
+      background-color: #1b1b1b;
     }
   }
 
+  tbody tr {
+    &:hover {
+      background-color: #323232;
+    }
+
+    cursor: pointer;
+  }
+}
+
+.action-tools {
+  display: flex;
+  width: 100%;
+  gap: 1rem; /* Optional: adds space between the halves */
+
+  .tools-left, .tools-right {
+    display: flex;
+    align-items: center;
+    flex: 1 1 0;
+
+    padding: 10px;
+  }
+
+  .tools-left {
+    justify-content: flex-start;
+  }
+
+  .tools-right {
+    align-items: center;
+    justify-content: flex-end; /* Buttons aligned right */
+    gap: 0.5rem; /* Space between buttons if more than one */
+  }
 }
 </style>

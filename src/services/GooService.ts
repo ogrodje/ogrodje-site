@@ -12,7 +12,7 @@ export class GooSingletonService {
 
   private static instance: GooSingletonService;
 
-  public static install(endpoint: GooEndpoint) {
+  public static install(endpoint: GooEndpoint): void {
     GooSingletonService.instance = new GooSingletonService(new URL(endpoint));
   }
 
@@ -55,8 +55,8 @@ export class GooService {
   get = (path: string, params: Map<string, string> = new Map()) => GooSingletonService.getInstance().get(path, params)
 }
 
-export class GEventsService extends GooService {
-  private static instance: GEventsService = new GEventsService();
+export class GooAPIService extends GooService {
+  private static instance: GooAPIService = new GooAPIService();
 
   static async events(query?: string, limit?: number, offset?: number): Promise<Event[]> {
     return this.instance.get(`/events`, new Map(
@@ -71,4 +71,15 @@ export class GEventsService extends GooService {
       localEndDateTime: e.endDateTime ? stringToCESTDate(e.endDateTime) : undefined
     })))
   }
+
+  static async meetups(query?: string, limit?: number, offset?: number): Promise<Meetup[]> {
+    return this.instance.get(`/meetups`, new Map(
+      [
+        limit !== undefined ? ['limit', String(limit)] : undefined,
+        offset !== undefined ? ['offset', String(offset)] : undefined,
+        query && query.trim() !== '' ? ['query', query] : undefined,
+      ].filter((tuple): tuple is [string, string] => !!tuple)
+    ));
+  }
+
 }

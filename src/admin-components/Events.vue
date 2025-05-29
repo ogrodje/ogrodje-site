@@ -2,7 +2,7 @@
 import {emptyEvent, type Event as GEvent} from "../services/goo/Events";
 import {onMounted, ref} from 'vue';
 import {formatEventTime} from "../utils/DateTimeUtils.ts";
-import {GEventsService} from "../services/GooService.ts";
+import {GooAPIService} from "../services/GooService.ts";
 import EventEditor from "./EventEditor.vue";
 
 const events = ref<GEvent[]>([])
@@ -17,7 +17,7 @@ const handleSearchQuery = (e: InputEvent | Event) => {
 const searchWithQuery = async (queryValue: string) => {
   try {
     isSearching.value = true;
-    events.value = await GEventsService.events(queryValue)
+    events.value = await GooAPIService.events(queryValue)
     isSearching.value = false;
   } finally {
     isSearching.value = false;
@@ -25,7 +25,7 @@ const searchWithQuery = async (queryValue: string) => {
 }
 
 onMounted(async () => {
-  events.value = await GEventsService.events()
+  events.value = await GooAPIService.events()
 })
 
 
@@ -44,7 +44,7 @@ const where = (event: GEvent) => {
   } else if (event.locationAddress) {
     return event.locationAddress
   } else {
-    return 'Unknown location'
+    return 'No location'
   }
 }
 
@@ -52,7 +52,7 @@ const where = (event: GEvent) => {
 const showEditor = ref(false);
 const selectedEvent = ref<GEvent | null>(null);
 
-function openEditor(e: Event, event: GEvent) {
+function openEditor(e: Event, event: GEvent | undefined = undefined) {
   e.preventDefault?.()
   selectedEvent.value = event ? {...event} : {...emptyEvent};
   showEditor.value = true;
@@ -68,22 +68,29 @@ function handleEditorSave(e: any) {
   handleEditorClose();
   console.log("handleEditorSave", e)
 }
-
 </script>
 <template>
   <h1>Events</h1>
-  <div>
-    <form @submit.prevent="handleSearchQuery">
-      <p>
-        <label>
-          Search
-          <input type="search" v-model="searchQueryRef" @input="handleSearchQuery"/>
-        </label>
-      </p>
-    </form>
+
+  <div class="action-tools">
+    <div class="tools-left">
+      <div class="admin-search-form">
+        <form @submit.prevent="handleSearchQuery">
+          <p>
+            <label>
+              Search
+              <input type="search" v-model="searchQueryRef" @input="handleSearchQuery"/>
+            </label>
+          </p>
+        </form>
+      </div>
+    </div>
+    <div class="tools-right">
+      <button href="#add-event" @click.prevent="e => openEditor(e)">New event</button>
+    </div>
   </div>
 
-  <table class="special-table">
+  <table class="data-table">
     <thead>
     <tr>
       <th>Meetup / Event</th>
@@ -94,8 +101,7 @@ function handleEditorSave(e: any) {
     <tbody>
     <tr v-for="event in events" :key="event.id"
         class="event" @click="e => openEditor(e, event)"
-        :class="{selected: selectedEvent?.id === event.id}"
-    >
+        :class="{selected: selectedEvent?.id === event.id}">
       <td>{{ event?.meetupName }} / {{ event.title }}</td>
       <td>{{ when(event) }}</td>
       <td>{{ where(event) }}</td>
@@ -121,39 +127,5 @@ function handleEditorSave(e: any) {
 
 .fade-enter-to, .fade-leave-from {
   opacity: 1;
-}
-
-table.special-table {
-  border-collapse: collapse;
-  width: 100%;
-
-  thead, tbody {
-    td, th {
-      border-bottom: 1px solid #323232;
-      padding: 10px
-    }
-
-
-    tr:nth-child(even) {
-      background-color: #1b1b1b;
-    }
-
-    /*
-    // Notworking.
-    tr.selected {
-      background-color: #c6c6c6 !important;
-      color: white;
-    }
-
-     */
-  }
-
-  tr.event {
-    &:hover {
-      background-color: #323232;
-    }
-
-    cursor: pointer;
-  }
 }
 </style>
