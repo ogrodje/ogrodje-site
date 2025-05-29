@@ -28,7 +28,6 @@ onMounted(async () => {
   events.value = await GooAPIService.events()
 })
 
-
 const when = (event: GEvent) => formatEventTime({
   startDateTime: event.localStartDateTime,
   endDateTime: event.localEndDateTime,
