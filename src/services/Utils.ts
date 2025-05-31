@@ -12,3 +12,25 @@ export function stringToCESTDate(isoDatetime: string): Date {
 
   return cestDate;
 }
+
+export function localInputToUTC(localStr: string | undefined): string | undefined {
+  if (!localStr) return undefined;
+  // Parse as local time, produce UTC string with seconds, ms & Z
+  const d = new Date(localStr);
+  return new Date(
+    d.getFullYear(), d.getMonth(), d.getDate(),
+    d.getHours(), d.getMinutes(), 0, 0
+  ).toISOString();
+}
+
+export function utcToLocalDateTimeInput(utcString: string | undefined): string {
+  if (!utcString) return '';
+  const date = new Date(utcString);
+  // Use local time components and pad with leading zeroes if needed
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, '0');
+  const d = String(date.getDate()).padStart(2, '0');
+  const hh = String(date.getHours()).padStart(2, '0');
+  const mm = String(date.getMinutes()).padStart(2, '0');
+  return `${y}-${m}-${d}T${hh}:${mm}`;
+}

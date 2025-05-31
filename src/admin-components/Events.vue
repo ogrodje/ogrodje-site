@@ -9,15 +9,21 @@ const events = ref<GEvent[]>([])
 const searchQueryRef = ref<string>('')
 const isSearching = ref(false);
 
+const refreshEvents = async () => {
+  return searchWithQuery(searchQueryRef.value.trim())
+}
+
 const handleSearchQuery = (e: InputEvent | Event) => {
   e.preventDefault?.()
-  searchWithQuery(searchQueryRef.value.trim())
+  refreshEvents()
 }
 
 const searchWithQuery = async (queryValue: string) => {
   try {
     isSearching.value = true;
-    events.value = await GooAPIService.events(queryValue)
+    events.value = (await GooAPIService.events(queryValue)).filter(
+      e => !showHidden.value ? !(e.hiddenAt) : true
+    )
     isSearching.value = false;
   } finally {
     isSearching.value = false;
@@ -25,7 +31,8 @@ const searchWithQuery = async (queryValue: string) => {
 }
 
 onMounted(async () => {
-  events.value = await GooAPIService.events()
+  // events.value = await GooAPIService.events()
+  refreshEvents()
 })
 
 const when = (event: GEvent) => formatEventTime({
@@ -65,8 +72,11 @@ function handleEditorClose() {
 
 function handleEditorSave(e: any) {
   handleEditorClose();
-  console.log("handleEditorSave", e)
+  refreshEvents();
 }
+
+const showHidden = ref(false);
+
 </script>
 <template>
   <h1>Events</h1>
@@ -80,7 +90,14 @@ function handleEditorSave(e: any) {
               Search
               <input type="search" v-model="searchQueryRef" @input="handleSearchQuery"/>
             </label>
+
+            <label style="margin-left: 20px">
+              <input type="checkbox" v-model="showHidden" @change.prevent="handleSearchQuery"/>
+              Show hidden
+            </label>
           </p>
+
+
         </form>
       </div>
     </div>
@@ -89,7 +106,7 @@ function handleEditorSave(e: any) {
     </div>
   </div>
 
-  <table class="data-table">
+  <table class="data-table events">
     <thead>
     <tr>
       <th>Meetup / Event</th>
@@ -100,8 +117,15 @@ function handleEditorSave(e: any) {
     <tbody>
     <tr v-for="event in events" :key="event.id"
         class="event" @click="e => openEditor(e, event)"
-        :class="{selected: selectedEvent?.id === event.id}">
-      <td>{{ event?.meetupName }} / {{ event.title }}</td>
+        :class="{
+          selected: selectedEvent?.id === event.id,
+          promoted: event.promotedAt,
+          hidden: event.hiddenAt,
+        }">
+      <td>
+        <span v-if="event.promotedAt" class="flag is-promoted">🎖</span>
+        ️<span class="name">{{ event?.meetupName }} / {{ event.title }}</span>
+      </td>
       <td>{{ when(event) }}</td>
       <td>{{ where(event) }}</td>
     </tr>
@@ -127,4 +151,13 @@ function handleEditorSave(e: any) {
 .fade-enter-to, .fade-leave-from {
   opacity: 1;
 }
+
+.events {
+  tr.event {
+    &.hidden {
+      color: #555555;
+    }
+  }
+}
+
 </style>

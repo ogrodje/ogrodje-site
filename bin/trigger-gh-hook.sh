@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 set -ex
 
-# This script will dispatch new GitHub workflow run.
-
 GH_ENDPOINT="https://api.github.com/repos/ogrodje/ogrodje-site/actions/workflows/build.yml/dispatches"
 
 curl -D - -X POST \

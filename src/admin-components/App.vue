@@ -6,7 +6,6 @@ import {useKeycloak} from '@josempgon/vue-keycloak'
 import ogrodjeLogoIcon from "../assets/ogrodje-logo-base.png";
 
 const ogrodjeLogoSrc = `url(${ogrodjeLogoIcon.src})`;
-
 const {hasRoles, username, userId, isAuthenticated, keycloak, roles, resourceRoles} = useKeycloak()
 const hasAccess = computed(() => hasRoles(['RoleName']))
 

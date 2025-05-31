@@ -15,6 +15,8 @@ export interface Event {
   description?: string,
   localStartDateTime: Date,
   localEndDateTime?: Date,
+  hiddenAt?: Date,
+  promotedAt?: Date,
   rank?: number,
   meetup?: {
     id: string,

@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import {ref, defineEmits, defineProps, onMounted} from 'vue';
+import {ref, defineEmits, defineProps, onMounted, watch, computed} from 'vue';
 import {emptyEvent, type Event as GEvent, type Meetup} from '../services/goo/Events';
 import {GooAPIService} from "../services/GooService.ts";
+import {localInputToUTC, utcToLocalDateTimeInput} from "../services/Utils.ts";
 
 const props = defineProps<{
   event: GEvent | null;
@@ -27,17 +28,74 @@ const localEvent = ref<GEvent>(
     : emptyEvent
 );
 
-
 function closeEditor() {
   console.log("close")
   emit('close');
 }
 
-function handleSave(e: Event) {
+async function handleSave(e: Event): Promise<void> {
   e.preventDefault();
+
+  // TODO: Handle errors.
+  const event = localEvent.value;
+  if (event.id) {
+    await updateEvent(event)
+  } else {
+    await createEvent(event)
+  }
+
   emit('save', localEvent.value);
   closeEditor();
 }
+
+async function createEvent(event: GEvent): Promise<GEvent> {
+  console.log("Create event.")
+  return GooAPIService.createEvent(event)
+}
+
+async function updateEvent(event: GEvent): Promise<GEvent> {
+  console.log("Update event.")
+  return GooAPIService.updateEvent(event.id, event)
+}
+
+
+const startDateTimeRaw = ref<string>(utcToLocalDateTimeInput(localEvent.value.startDateTime))
+const endDateTimeRaw = ref<string | undefined>(utcToLocalDateTimeInput(localEvent.value.endDateTime))
+
+watch(startDateTimeRaw, (newValue) => {
+  if (newValue) localEvent.value.startDateTime = localInputToUTC(newValue) ?? '';
+});
+watch(endDateTimeRaw, (newValue) => {
+  if (newValue) localEvent.value.endDateTime = localInputToUTC(newValue) ?? '';
+});
+
+const isPromoted = computed({
+  get() {
+    return !!localEvent.value.promotedAt;
+  },
+  set(value: boolean) {
+    if (value) {
+      localEvent.value.promotedAt = new Date();
+    } else {
+      localEvent.value.promotedAt = undefined;
+    }
+  }
+});
+
+const isHidden = computed({
+  get() {
+    return !!localEvent.value.hiddenAt;
+  },
+  set(value: boolean) {
+    if (value) {
+      localEvent.value.hiddenAt = new Date();
+    } else {
+      localEvent.value.hiddenAt = undefined;
+    }
+  }
+});
+
+
 </script>
 <template>
   <div class="editor-overlay">
@@ -66,13 +124,13 @@ function handleSave(e: Event) {
             <li>
               <label>
                 Start
-                <input type="datetime-local" v-model="localEvent.startDateTime" required/>
+                <input type="datetime-local" v-model="startDateTimeRaw" required/>
               </label>
             </li>
             <li>
               <label>
                 End
-                <input type="datetime-local" v-model="localEvent.endDateTime" required/>
+                <input type="datetime-local" v-model="endDateTimeRaw" required/>
               </label>
             </li>
             <li>
@@ -91,6 +149,24 @@ function handleSave(e: Event) {
               <label>
                 URL
                 <input type="url" v-model="localEvent.eventURL" required/>
+              </label>
+            </li>
+            <li>
+              <label>
+                Promoted
+                <input type="checkbox" v-model="isPromoted"/>
+                <span v-if="localEvent.promotedAt">
+                  ({{ new Date(localEvent.promotedAt).toLocaleString() }})
+                </span>
+              </label>
+            </li>
+            <li>
+              <label>
+                Hidden
+                <input type="checkbox" v-model="isHidden"/>
+                <span v-if="localEvent.hiddenAt">
+                  ({{ new Date(localEvent.hiddenAt).toLocaleString() }})
+                </span>
               </label>
             </li>
             <li>
