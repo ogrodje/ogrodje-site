@@ -45,6 +45,7 @@ jobs:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
           SEARCH_ENDPOINT: https://search.ogrodje.si
+          GOO_ENDPOINT: https://goo.ogrodje.si
         run: |
           ./node_modules/.bin/netlify deploy \
             --site $NETLIFY_SITE_ID \
