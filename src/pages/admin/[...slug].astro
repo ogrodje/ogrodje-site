@@ -6,8 +6,8 @@ import {EventsService} from "../../services/EventsService";
 export const prerender = false;
 ---
 <AdminLayout title="Admin">
-  <AdminUIWrapper client:only="vue"
-                  keycloakConfig={configForKeycloak()}
-                  gooEndpoint={EventsService.gooEndpoint}></AdminUIWrapper>
+    <AdminUIWrapper client:only="vue"
+                    keycloakConfig={configForKeycloak()}
+                    gooEndpoint={EventsService.gooEndpoint}></AdminUIWrapper>
 </AdminLayout>
 

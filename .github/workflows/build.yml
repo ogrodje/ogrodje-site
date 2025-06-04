@@ -38,9 +38,13 @@ jobs:
       - run: yarn build
       - name: "Deploy"
         env:
+          HYGRAPH_ENDPOINT: ${{ secrets.HYGRAPH_ENDPOINT }}
           KEYCLOAK_CLIENT_ID: ogrodje-platform
           KEYCLOAK_REALM: Ogrodje
           KEYCLOAK_URL: https://keycloak.ogrodje.si
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+          SEARCH_ENDPOINT: https://search.ogrodje.si
         run: |
           ./node_modules/.bin/netlify deploy \
             --site $NETLIFY_SITE_ID \
