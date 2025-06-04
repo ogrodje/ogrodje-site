@@ -18,6 +18,10 @@ env:
   HYGRAPH_ENDPOINT: ${{ secrets.HYGRAPH_ENDPOINT }}
   NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
   NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+  KEYCLOAK_CLIENT_ID: ogrodje-platform
+  KEYCLOAK_REALM: Ogrodje
+  KEYCLOAK_URL: https://keycloak.ogrodje.si
+  SEARCH_ENDPOINT: https://search.ogrodje.si
 
 jobs:
   build:
