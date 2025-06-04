@@ -1,10 +1,10 @@
 import type {Event} from "./goo/Events.ts";
 import type {GooEndpoint} from "./GooService.ts";
 import {stringToCESTDate} from "./Utils.ts";
-
+import {GOO_ENDPOINT} from 'astro:env/client';
 
 export class EventsService {
-  static gooEndpoint: GooEndpoint = import.meta.env.GOO_ENDPOINT || 'https://goo.ogrodje.si';
+  static gooEndpoint: GooEndpoint = GOO_ENDPOINT;
 
   static async timeline(gooEndpoint: GooEndpoint): Promise<Event[]> {
     return fetch(`${gooEndpoint}/timeline`)

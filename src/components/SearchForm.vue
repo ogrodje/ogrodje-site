@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import {computed, ref} from 'vue';
 import {episodePath} from "../model/Episode.ts";
+import {SEARCH_ENDPOINT} from 'astro:env/client';
 
-const searchURL = (
-  import.meta.env.SEARCH_ENDPOINT || 'https://search.ogrodje.si'
-) + '/query';
+const searchURL = SEARCH_ENDPOINT + '/query';
 
 interface Hit {
   readonly _index: string

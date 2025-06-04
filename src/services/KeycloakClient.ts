@@ -1,16 +1,11 @@
 import type {KeycloakConfig} from "keycloak-js";
+import {KEYCLOAK_URL, KEYCLOAK_REALM, KEYCLOAK_CLIENT_ID} from 'astro:env/client';
 
 export const configForKeycloak: () => KeycloakConfig = () => {
-
-
-    const config = {
-        url: import.meta.env.KEYCLOAK_URL,
-        realm: import.meta.env.KEYCLOAK_REALM,
-        clientId: import.meta.env.KEYCLOAK_CLIENT_ID,
-    } as KeycloakConfig;
-
-    console.log("Keycloak config: ", config);
-
-    return config;
+    return {
+        url: KEYCLOAK_URL,
+        realm: KEYCLOAK_REALM,
+        clientId: KEYCLOAK_CLIENT_ID,
+    } as KeycloakConfig
 }
 

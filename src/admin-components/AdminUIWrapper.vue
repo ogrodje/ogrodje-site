@@ -2,28 +2,27 @@
   <div id="app"></div>
 </template>
 <script setup lang="ts">
-import {createApp, onMounted, defineProps, inject} from 'vue';
+import {createApp, defineProps, onMounted} from 'vue';
+import {configForKeycloak} from "../services/KeycloakClient.ts";
 import {useKeycloak, vueKeycloak} from '@josempgon/vue-keycloak'
-import type {KeycloakConfig} from "keycloak-js";
 import Keycloak from "keycloak-js";
 import {type GooEndpoint, GooSingletonService} from "../services/GooService";
-
-const {hasRoles, username, userId, isAuthenticated, keycloak, roles, resourceRoles} = useKeycloak()
-
-interface Props {
-  keycloakConfig: KeycloakConfig;
-  gooEndpoint: GooEndpoint
-}
-
-const {keycloakConfig, gooEndpoint} = defineProps<Props>();
-
 import App from './App.vue';
 import {initRouter} from './router';
 
+const keycloakConfig = configForKeycloak()
+const {keycloak} = useKeycloak()
+
+interface Props {
+  gooEndpoint: GooEndpoint;
+}
+
+const {gooEndpoint} = defineProps<Props>();
+
 onMounted(async () => {
   let app = createApp(App)
-    .provide('keycloakConfig', keycloakConfig)
-    .provide('gooEndpoint', gooEndpoint);
+      .provide('keycloakConfig', keycloakConfig)
+      .provide('gooEndpoint', gooEndpoint);
 
   await vueKeycloak.install(app, {
     config: keycloakConfig,

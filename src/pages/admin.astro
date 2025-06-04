@@ -1,13 +1,11 @@
 ---
 import AdminLayout from "../layouts/AdminLayout.astro";
 import AdminUIWrapper from "../admin-components/AdminUIWrapper.vue";
-import {configForKeycloak} from '../services/KeycloakClient';
 import {EventsService} from '../services/EventsService';
 export const prerender = false;
 ---
 <AdminLayout title="Admin">
     <AdminUIWrapper client:only="vue"
-                    keycloakConfig={configForKeycloak()}
                     gooEndpoint={EventsService.gooEndpoint}></AdminUIWrapper>
 </AdminLayout>
 

@@ -1,9 +1,10 @@
+import {HYGRAPH_ENDPOINT} from 'astro:env/client';
+
 export class HyGraphService {
-  static hyGraphEndpoint: string = import.meta.env.HYGRAPH_ENDPOINT;
 
   static async query(query: string, variables: any = {}): Promise<any> {
     return fetch(
-      this.hyGraphEndpoint, {
+      HYGRAPH_ENDPOINT, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -13,8 +14,6 @@ export class HyGraphService {
       }
     )
       .then(r => {
-        // This is good place to tap into response.
-        // console.log(r.json());
         return r.json()
       })
       .then(raw => {

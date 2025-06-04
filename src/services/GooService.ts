@@ -20,12 +20,6 @@ export class GooSingletonService {
 
     private static instance: GooSingletonService;
 
-    /*
-    public static install(endpoint: GooEndpoint): void {
-      GooSingletonService.instance = new GooSingletonService(new URL(endpoint));
-    }
-    */
-
     public static initService(config: GooConfig): void {
         GooSingletonService.instance = new GooSingletonService(
             new URL(config.endpoint),
@@ -36,24 +30,9 @@ export class GooSingletonService {
     public static getInstance(): GooSingletonService {
         if (!GooSingletonService.instance) {
             throw new Error("GooSingletonService not initialized.");
-            /*
-            GooSingletonService.instance = new GooSingletonService(
-              new URL(rawGooEndpoint)
-            ); */
         }
         return GooSingletonService.instance;
     }
-
-    /*
-    public static getInstance(): GooSingletonService {
-      if (!GooSingletonService.instance) {
-        GooSingletonService.instance = new GooSingletonService(
-          new URL(rawGooEndpoint)
-        );
-      }
-      return GooSingletonService.instance;
-    }
-    */
 
     private withPath(path: string): URL {
         return new URL(path, this.endpoint.toString())
