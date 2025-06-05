@@ -1,4 +1,6 @@
 ---
+// import Image from "astro/components/Image.astro";
+import {Image} from 'astro:assets';
 import Layout from "../layouts/Layout.astro";
 import {EventsService} from "../services/EventsService";
 import type {Event} from "../services/goo/Events.ts";
@@ -9,7 +11,6 @@ import {
   formatEventTime,
 } from "../utils/DateTimeUtils";
 import {strToColor} from "../utils/Colors";
-import Image from "astro/components/Image.astro";
 
 const gooEndpoint = EventsService.gooEndpoint;
 
