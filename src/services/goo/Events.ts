@@ -19,10 +19,12 @@ export interface Event {
   promotedAt?: Date,
   rank?: number,
   meetup?: {
-    id: string,
-    name: string,
-    createdAt: Date,
+    id: string
+    name: string
+    createdAt: Date
     updatedAt: Date
+    logoImage?: string
+    mainColor?: string
   }
 }
 
