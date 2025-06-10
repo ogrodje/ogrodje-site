@@ -1,0 +1,175 @@
+---
+import type {Event} from "../services/goo/Events.ts";
+import {formatEventTime} from "../utils/DateTimeUtils";
+import {strToColor} from "../utils/Colors";
+import {Image} from 'astro:assets';
+
+export interface Props {
+  day: string,
+  event: Event
+}
+
+const {event} = Astro.props;
+
+function when(event: Event): string {
+  return formatEventTime({
+    startDateTime: event.localStartDateTime,
+    endDateTime: event.localEndDateTime,
+    hasStartTime: event.hasStartTime,
+    hasEndTime: event.hasEndTime,
+  });
+}
+
+const meetupNameAlt = (e: Event) => {
+  return e.meetupName || "Meetup";
+}
+
+const meetupNameStyles = (e: Event) => {
+  if (e?.meetup?.backgroundColor && e?.meetup?.mainColor) {
+    return ({
+      'color': e.meetup?.mainColor,
+      'background-color': e.meetup?.backgroundColor
+    })
+  } else {
+    return ({
+      'background-color': strToColor(meetupNameAlt(e), {})
+    })
+  }
+}
+
+const meetupNameClasses = (e: Event): string => {
+  return [
+    "meetup-name",
+    (e.meetup?.logoImage ? "has_logo" : undefined)
+
+  ].filter(v => v !== undefined).join(" ")
+};
+
+const eventClasses = (e: Event): string => {
+  return [
+    "event",
+    (e.promotedAt ? "is_promoted" : undefined)
+  ].filter(v => v !== undefined).join(" ")
+};
+---
+<div class={eventClasses(event)}>
+  <div class="event-title">
+    <a href={event.eventURL} target="_blank">{event.title}</a>
+  </div>
+  <div class="event-meta">
+    <div class="when">{when(event)}</div>
+
+    <div class={meetupNameClasses(event)} style={meetupNameStyles(event)}>
+      {event.meetup?.logoImage && (
+        <div class="meetup-logo">
+          <Image src={event.meetup.logoImage}
+                 title={event.meetupName}
+                 width={100}
+                 height={100}
+                 alt={meetupNameAlt(event)}
+          />
+        </div>
+      )}
+
+      <span class="name">{event.meetupName}</span>
+    </div>
+
+    {event.locationName && event.locationAddress && (
+      <div class="location-meta">
+        @
+        {event.locationName && (
+          <div class="location-name">{event.locationName}</div>
+        )}
+        {event.locationAddress && (
+          <div class="location-address">{event.locationAddress}</div>
+        )}
+      </div>
+    )}
+  </div>
+</div>
+<style lang="scss">
+  @use "sass:color";
+  @use "../variables";
+
+  @mixin super-line {
+    line-height: variables.$main-line-height * 1.2;
+  }
+
+  .event {
+    display: block;
+    clear: both;
+    margin-bottom: 18px;
+
+    &.is_promoted {
+      background-color: #2c2c2c;
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    .event-title {
+      font-family: variables.$special-font;
+      font-size: variables.$main-font-size * 1.3;
+      line-height: variables.$main-font-size * 2;
+
+      @media only screen and (max-width: 1000px) {
+        font-size: variables.$main-font-size * 1.1;
+        line-height: variables.$main-font-size * 2.1;
+      }
+
+      a {
+        color: white;
+        text-decoration: none;
+      }
+    }
+
+    .event-meta {
+      display: block;
+      clear: both;
+      // border: 1px solid red;
+
+      .when {
+        // display: inline-block;
+      }
+
+      .meetup-name {
+        display: inline-block;
+        padding-left: 10px;
+        padding-right: 10px;
+
+        &.has_logo {
+          padding-left: 0;
+          position: relative;
+
+          .meetup-logo {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            display: flex;
+            align-items: flex-start;
+
+            img {
+              width: 100%;
+              height: 100%;
+              object-fit: contain
+            }
+          }
+
+          .name {
+            margin-left: 40px;
+          }
+        }
+      }
+
+      .location-meta {
+        display: inline-block;
+
+        .location-name, .location-address {
+          display: inline-block;
+        }
+      }
+
+    }
+  }
+
+</style>

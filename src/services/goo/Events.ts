@@ -25,6 +25,7 @@ export interface Event {
     updatedAt: Date
     logoImage?: string
     mainColor?: string
+    backgroundColor?: string
   }
 }
 

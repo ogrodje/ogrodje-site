@@ -1,16 +1,13 @@
 ---
-// import Image from "astro/components/Image.astro";
-import {Image} from 'astro:assets';
 import Layout from "../layouts/Layout.astro";
+import EventRow from "../components/EventRow.astro";
 import {EventsService} from "../services/EventsService";
 import type {Event} from "../services/goo/Events.ts";
 import {
   dateFromRaw,
   weekRangeFromMonday,
   weekRangeToHuman,
-  formatEventTime,
 } from "../utils/DateTimeUtils";
-import {strToColor} from "../utils/Colors";
 
 const gooEndpoint = EventsService.gooEndpoint;
 
@@ -60,19 +57,6 @@ const groupedEvents =
       groupedEvents: Object.entries(groupByDay(events))
     }
   })
-
-function when(event: Event): string {
-  return formatEventTime({
-    startDateTime: event.localStartDateTime,
-    endDateTime: event.localEndDateTime,
-    hasStartTime: event.hasStartTime,
-    hasEndTime: event.hasEndTime,
-  });
-}
-
-const meetupNameAlt = (e: Event) => {
-  return e.meetupName || "Meetup";
-}
 ---
 <Layout title="Dogodki in Konference" hideFooter={"false"}>
   <h1>Dogodki in Konference</h1>
@@ -89,44 +73,8 @@ const meetupNameAlt = (e: Event) => {
                   <div class="day">{day}</div>
                   <div class="events">
                     {events.map(event => (
-                      <div class="event">
-                        <div class="event-title">
-                          <a href={event.eventURL} target="_blank">{event.title}</a>
-                        </div>
-                        <div class="event-meta">
-                          <div class="when">{when(event)}</div>
-
-                          <div class={`meetup-name ${(event.meetup?.logoImage ? "has_logo" : "")}`}
-                               style={`background-color: ${strToColor(meetupNameAlt(event), {})}`}>
-
-                            {event.meetup?.logoImage && (
-                              <div class="meetup-logo">
-                                <Image src={event.meetup.logoImage}
-                                       title={event.meetupName}
-                                       width={100}
-                                       height={100}
-                                       alt={meetupNameAlt(event)}
-                                />
-                              </div>
-                            )}
-
-                            <span class="name">{event.meetupName}</span>
-                          </div>
-
-                          {event.locationName && event.locationAddress && (
-                            <div class="location-meta">
-                              @
-                              {event.locationName && (
-                                <div class="location-name">{event.locationName}</div>
-                              )}
-                              {event.locationAddress && (
-                                <div class="location-address">{event.locationAddress}</div>
-                              )}
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    ))}
+                      <EventRow day={day} event={event}></EventRow>))
+                    }
                   </div>
                 </div>
               )
@@ -191,70 +139,6 @@ const meetupNameAlt = (e: Event) => {
           }
         }
       }
-    }
-  }
-
-  .events .event {
-    display: block;
-    clear: both;
-    margin-bottom: 25px;
-
-    .event-title {
-      @include super-line;
-      font-family: variables.$special-font;
-      font-size: variables.$main-font-size * 1.2;
-      font-weight: 700;
-
-      @media only screen and (max-width: 1000px) {
-        font-size: variables.$main-font-size;
-      }
-
-      a {
-        color: white;
-        text-decoration: none;
-      }
-    }
-
-    .event-meta {
-      @include super-line;
-      display: block;
-      clear: both;
-
-      .meetup-name {
-        display: inline-block;
-        padding-left: 5px;
-        padding-right: 5px;
-
-        &.has_logo {
-          padding-left: 45px;
-          position: relative;
-
-          .meetup-logo {
-            position: absolute;
-            left: 0px;
-            top: 0px;
-            width: 33.8px;
-            height: 33.8px;
-            overflow: hidden;
-            background-color: white;
-
-            img {
-              width: 100%;
-              height: 100%;
-              object-fit: cover;
-            }
-          }
-        }
-      }
-
-      .location-meta {
-        display: inline-block;
-
-        .location-name, .location-address {
-          display: inline-block;
-        }
-      }
-
     }
   }
 
