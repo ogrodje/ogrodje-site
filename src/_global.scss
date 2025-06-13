@@ -7,12 +7,29 @@
 }
 
 html {
+  &.light {
+    --bg_color:#fff;
+    --default_color: black;
+    --highlighed_color:#dcdcdc;
+    color-scheme:light;
+  }
+
+  &.dark {
+     --bg_color: #0c0c0c;
+     --default_color:white;
+    --highlighed_color: #535353;
+     color-scheme:dark;
+  }
+
   font-family: variables.$main-font;
-  background-color: #0c0c0c;
-  color: white;
+  background-color: var(--bg_color);
+  color: var(--default_color);
+
 
   font-size: variables.$main-font-size;
   line-height: variables.$main-line-height;
+
+
 }
 
 h1, h2, h3 {
@@ -72,14 +89,14 @@ body {
 
 .highlighted {
   em {
-    color: white;
+    color:var(--default_color);
     font-style: normal;
   }
 }
 
 .name {
   em {
-    font-style: normal;
-    background-color: #535353;
+    font-style: var(--default_color);
+    background-color:var(--highlighed_color)
   }
 }
