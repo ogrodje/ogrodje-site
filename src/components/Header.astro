@@ -1,25 +1,40 @@
 ---
-import ogrodjeLogo from "../assets/ogrodje-logo-base.png"
-import searchIcon from "../assets/icons/search-icon-1.png"
+import ogrodjeLogo from '../assets/ogrodje-logo-base.png';
+import searchIcon from '../assets/icons/search-icon-1.png';
+import ThemeToggle from './ThemeToggle.astro';
 const ogrodjeLogoSrc = `url(${ogrodjeLogo.src})`;
 const searchIconSrc = `url(${searchIcon.src})`;
 ---
+
 <header class="header">
   <div class="ogrodje-logo cell"><a href="/" title="Ogrodje">Ogrodje</a></div>
 
   <div class="nav cell">
     <ul>
-      <li><a href="/ljudje" title="Ljudje">Ljudje</a></li>
-      <li><a href="/epizode" title="Epizode">Epizode</a></li>
-      <li><a href="/dogodki" title="Dogodki">Dogodki</a></li>
-      <li class="not-short"><a href="/strategija" title="Strategija">Strategija</a></li>
-      <li class="search"><a href="/iskalnik" title="Iskalnik">Iskalnik</a></li>
+      <li>
+        <a href="/ljudje" title="Ljudje">Ljudje</a>
+      </li>
+      <li>
+        <a href="/epizode" title="Epizode">Epizode</a>
+      </li>
+      <li>
+        <a href="/dogodki" title="Dogodki">Dogodki</a>
+      </li>
+      <li class="not-short">
+        <a href="/strategija" title="Strategija">Strategija</a>
+      </li>
+      <li class="search">
+        <a href="/iskalnik" title="Iskalnik">Iskalnik</a>
+      </li>
+      <li class="theme-toggle">
+        <ThemeToggle />
+      </li>
     </ul>
   </div>
 </header>
-<style lang="scss" define:vars={{ogrodjeLogoSrc, searchIconSrc}}>
+<style lang="scss" define:vars={{ ogrodjeLogoSrc, searchIconSrc }}>
   @use 'sass:math';
-  @use "../_variables";
+  @use '../_variables';
 
   $cell-height: 100px;
   $cell-line-height: 100px;
@@ -61,8 +76,6 @@ const searchIconSrc = `url(${searchIcon.src})`;
         width: $cell-height;
         image-rendering: crisp-edges;
       }
-
-
     }
 
     @media only screen and (max-width: 1000px) {
@@ -72,7 +85,8 @@ const searchIconSrc = `url(${searchIcon.src})`;
     }
 
     .nav {
-      ul, ul li {
+      ul,
+      ul li {
         list-style: none;
         float: left;
         margin: 0;
@@ -94,6 +108,12 @@ const searchIconSrc = `url(${searchIcon.src})`;
         display: block;
         clear: both;
         float: none;
+      }
+
+      li.theme-toggle {
+        height: 100px;
+        display: flex;
+        align-items: center;
       }
 
       li.search {
@@ -129,6 +149,14 @@ const searchIconSrc = `url(${searchIcon.src})`;
           a {
             padding-left: 5px;
             padding-right: 5px;
+          }
+        }
+
+        ul {
+          li {
+            &.theme-toggle {
+              height: 50px;
+            }
           }
         }
       }

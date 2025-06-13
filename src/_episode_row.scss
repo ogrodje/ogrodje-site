@@ -15,7 +15,7 @@
   .name {
     font-family: variables.$special-font;
     display: inline;
-    color: white;
+    color: var(--default_text);
   }
 
   margin-bottom: 10px;
