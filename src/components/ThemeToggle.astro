@@ -98,7 +98,6 @@
     const root = document.documentElement;
     const isDark = theme === 'dark';
 
-    // Ensure only one theme class is applied
     root.classList.remove('dark', 'light');
     root.classList.add(isDark ? 'dark' : 'light');
 
