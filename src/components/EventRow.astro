@@ -1,15 +1,15 @@
 ---
-import type {Event} from "../services/goo/Events.ts";
-import {formatEventTime} from "../utils/DateTimeUtils";
-import {strToColor} from "../utils/Colors";
-import {Image} from 'astro:assets';
+import type { Event } from '../services/goo/Events.ts';
+import { formatEventTime } from '../utils/DateTimeUtils';
+import { strToColor } from '../utils/Colors';
+import { Image } from 'astro:assets';
 
 export interface Props {
-  day: string,
-  event: Event
+  day: string;
+  event: Event;
 }
 
-const {event} = Astro.props;
+const { event } = Astro.props;
 
 function when(event: Event): string {
   return formatEventTime({
@@ -21,37 +21,35 @@ function when(event: Event): string {
 }
 
 const meetupNameAlt = (e: Event) => {
-  return e.meetupName || "Meetup";
-}
+  return e.meetupName || 'Meetup';
+};
 
 const meetupNameStyles = (e: Event) => {
   if (e?.meetup?.backgroundColor && e?.meetup?.mainColor) {
-    return ({
-      'color': e.meetup?.mainColor,
-      'background-color': e.meetup?.backgroundColor
-    })
+    return {
+      color: e.meetup?.mainColor,
+      'background-color': e.meetup?.backgroundColor,
+    };
   } else {
-    return ({
-      'background-color': strToColor(meetupNameAlt(e), {})
-    })
+    return {
+      'background-color': strToColor(meetupNameAlt(e), {}),
+    };
   }
-}
+};
 
 const meetupNameClasses = (e: Event): string => {
-  return [
-    "meetup-name",
-    (e.meetup?.logoImage ? "has_logo" : undefined)
-
-  ].filter(v => v !== undefined).join(" ")
+  return ['meetup-name', e.meetup?.logoImage ? 'has_logo' : undefined]
+    .filter((v) => v !== undefined)
+    .join(' ');
 };
 
 const eventClasses = (e: Event): string => {
-  return [
-    "event",
-    (e.promotedAt ? "is_promoted" : undefined)
-  ].filter(v => v !== undefined).join(" ")
+  return ['event', e.promotedAt ? 'is_promoted' : undefined]
+    .filter((v) => v !== undefined)
+    .join(' ');
 };
 ---
+
 <div class={eventClasses(event)}>
   <div class="event-title">
     <a href={event.eventURL} target="_blank">{event.title}</a>
@@ -60,39 +58,54 @@ const eventClasses = (e: Event): string => {
     <div class="when">{when(event)}</div>
 
     <div class={meetupNameClasses(event)} style={meetupNameStyles(event)}>
-      {event.meetup?.logoImage && (
-        <div class="meetup-logo">
-          <Image src={event.meetup.logoImage}
-                 title={event.meetupName}
-                 width={100}
-                 height={100}
-                 alt={meetupNameAlt(event)}
-          />
-        </div>
-      )}
+      {
+        event.meetup?.logoImage && (
+          <div class="meetup-logo">
+            <Image
+              src={event.meetup.logoImage}
+              title={event.meetupName}
+              width={100}
+              height={100}
+              alt={meetupNameAlt(event)}
+            />
+          </div>
+        )
+      }
 
       <span class="name">{event.meetupName}</span>
     </div>
 
-    {event.locationName && event.locationAddress && (
-      <div class="location-meta">
-        @
-        {event.locationName && (
-          <div class="location-name">{event.locationName}</div>
-        )}
-        {event.locationAddress && (
-          <div class="location-address">{event.locationAddress}</div>
-        )}
-      </div>
-    )}
+    {
+      event.locationName && event.locationAddress && (
+        <div class="location-meta">
+          @
+          {event.locationName && (
+            <div class="location-name">{event.locationName}</div>
+          )}
+          {event.locationAddress && (
+            <div class="location-address">{event.locationAddress}</div>
+          )}
+        </div>
+      )
+    }
   </div>
 </div>
 <style lang="scss">
-  @use "sass:color";
-  @use "../variables";
+  @use 'sass:color';
+  @use '../variables';
 
   @mixin super-line {
     line-height: variables.$main-line-height * 1.2;
+  }
+
+  html {
+    &.light {
+      .event {
+        &.is_promoted {
+          background-color: #f2f2f2;
+        }
+      }
+    }
   }
 
   .event {
@@ -117,7 +130,7 @@ const eventClasses = (e: Event): string => {
       }
 
       a {
-        color: white;
+        color: var(--color_default);
         text-decoration: none;
       }
     }
@@ -151,7 +164,7 @@ const eventClasses = (e: Event): string => {
             img {
               width: 100%;
               height: 100%;
-              object-fit: contain
+              object-fit: contain;
             }
           }
 
@@ -164,12 +177,11 @@ const eventClasses = (e: Event): string => {
       .location-meta {
         display: inline-block;
 
-        .location-name, .location-address {
+        .location-name,
+        .location-address {
           display: inline-block;
         }
       }
-
     }
   }
-
 </style>

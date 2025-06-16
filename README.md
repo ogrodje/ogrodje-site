@@ -6,6 +6,19 @@ This is the source code for the main [Ogrodje] website.
 
 Built with [Astro Build][astro-build], `TypeScript` and [Vue.js][vuejs].
 
+## Development environment
+
+### Prerequisites
+
+- [Nix](https://nixos.org/download.html) installed on your system.
+- [`devenv.sh`](https://devenv.sh/getting-started/) – a declarative development environment tool.
+
+### Starting env
+
+```bash
+  devenv shell
+```
+
 ```bash
 yarn install
 yarn run dev

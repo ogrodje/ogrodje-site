@@ -15,6 +15,7 @@ on:
   workflow_dispatch:
 
 env:
+  GOO_ENDPOINT: https://goo.ogrodje.si
   HYGRAPH_ENDPOINT: ${{ secrets.HYGRAPH_ENDPOINT }}
   KEYCLOAK_CLIENT_ID: ogrodje-platform
   KEYCLOAK_REALM: Ogrodje
@@ -22,7 +23,6 @@ env:
   NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
   NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
   SEARCH_ENDPOINT: https://search.ogrodje.si
-  GOO_ENDPOINT: https://goo.ogrodje.si
 
 jobs:
   build:

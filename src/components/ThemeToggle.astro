@@ -1,0 +1,115 @@
+<button
+  class="theme-toggle"
+  id="themeToggle"
+  type="button"
+  title="Toggle theme"
+  aria-label="Toggle theme"
+>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    aria-hidden="true"
+    width="1.5em"
+    height="1.5em"
+    fill="currentColor"
+    stroke-linecap="round"
+    class="theme-toggle__classic"
+    viewBox="0 0 32 32"
+  >
+    <clipPath id="theme-toggle__classic__cutout">
+      <path d="M0-5h30a1 1 0 0 0 9 13v24H0Z"></path>
+    </clipPath>
+    <g clip-path="url(#theme-toggle__classic__cutout)">
+      <circle cx="16" cy="16" r="9.34"></circle>
+      <g stroke="currentColor" stroke-width="1.5">
+        <path d="M16 5.5v-4"></path>
+        <path d="M16 30.5v-4"></path>
+        <path d="M1.5 16h4"></path>
+        <path d="M26.5 16h4"></path>
+        <path d="m23.4 8.6 2.8-2.8"></path>
+        <path d="m5.7 26.3 2.9-2.9"></path>
+        <path d="m5.8 5.8 2.8 2.8"></path>
+        <path d="m23.4 23.4 2.9 2.9"></path>
+      </g>
+    </g>
+  </svg>
+</button>
+
+<style>
+  .theme-toggle {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    color: #6a676c;
+    --toggle-duration: 500ms;
+  }
+
+  .theme-toggle.theme-toggle--reversed .theme-toggle__classic {
+    transform: scale(-1, 1);
+  }
+
+  .theme-toggle__classic path,
+  .theme-toggle__classic circle {
+    transform-origin: center;
+    transition: transform calc(var(--toggle-duration) * 0.8) cubic-bezier(0, 0, 0.15, 1.25),
+    opacity calc(var(--toggle-duration) * 0.8) cubic-bezier(0, 0, 0.15, 1.25);
+  }
+
+  .theme-toggle__classic g path {
+    transition-delay: calc(var(--toggle-duration) * 0.2);
+  }
+
+  .theme-toggle--toggled .theme-toggle__classic g path {
+    transform: scale(0.5) rotate(45deg);
+    opacity: 0;
+    transition-delay: 0s;
+  }
+
+  .theme-toggle--toggled .theme-toggle__classic clipPath path {
+    transition: d calc(var(--toggle-duration) * 0.8) cubic-bezier(0, 0, 0.15, 1.25);
+    d: path('M-12 5h30a1 1 0 0 0 9 13v24h-39Z');
+  }
+
+  @supports not (d: path('')) {
+    .theme-toggle--toggled .theme-toggle__classic clipPath path {
+      transform: translate3d(-12px, 10px, 0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme-toggle * {
+      transition: none !important;
+    }
+  }
+</style>
+
+<script is:inline>
+  const getPreferredTheme = () => {
+    const storedTheme = localStorage?.getItem('theme');
+    if (['dark', 'light'].includes(storedTheme)) return storedTheme;
+    return window.matchMedia('(prefers-color-scheme: dark)').matches
+      ? 'dark'
+      : 'light';
+  };
+
+  const applyTheme = (theme) => {
+    const root = document.documentElement;
+    const isDark = theme === 'dark';
+
+    root.classList.remove('dark', 'light');
+    root.classList.add(isDark ? 'dark' : 'light');
+
+    toggleButton?.classList.toggle('theme-toggle--toggled', isDark);
+    localStorage.setItem('theme', theme);
+  };
+
+  const handleToggleClick = () => {
+    const root = document.documentElement;
+    const isCurrentlyDark = root.classList.contains('dark');
+    const newTheme = isCurrentlyDark ? 'light' : 'dark';
+    applyTheme(newTheme);
+  };
+
+  const toggleButton = document.getElementById('themeToggle');
+  applyTheme(getPreferredTheme());
+  toggleButton?.addEventListener('click', handleToggleClick);
+</script>
