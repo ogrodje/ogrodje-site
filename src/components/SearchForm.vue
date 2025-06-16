@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
-import { episodePath } from '../model/Episode.ts';
-import { SEARCH_ENDPOINT } from 'astro:env/client';
+import {computed, ref} from 'vue';
+import {episodePath} from '../model/Episode.ts';
+import {SEARCH_ENDPOINT} from 'astro:env/client';
 
 const searchURL = SEARCH_ENDPOINT + '/query';
 
@@ -29,7 +29,7 @@ interface Hits {
   readonly hits: Hit[];
 }
 
-const hits = ref<Hits>({ total: { value: 0 }, max_score: 0, hits: [] });
+const hits = ref<Hits>({total: {value: 0}, max_score: 0, hits: []});
 const query = ref('');
 const isSearching = ref(false);
 
@@ -39,7 +39,7 @@ const searchWithQuery = async (queryValue: string) => {
   try {
     isSearching.value = true;
     const response = await fetch(
-      searchURL + '?' + new URLSearchParams({ query: queryValue })
+      searchURL + '?' + new URLSearchParams({query: queryValue})
     ).then((r) => r.json());
     hits.value = response['hits'] || [];
     isSearching.value = false;
