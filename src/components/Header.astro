@@ -12,13 +12,13 @@ const searchIconSrc = `url(${searchIcon.src})`;
   <div class="nav cell">
     <ul>
       <li>
-        <a href="/ljudje" title="Ljudje">Ljudje</a>
-      </li>
-      <li>
         <a href="/epizode" title="Epizode">Epizode</a>
       </li>
       <li>
         <a href="/dogodki" title="Dogodki">Dogodki</a>
+      </li>
+      <li>
+        <a href="/ljudje" title="Ljudje">Ljudje</a>
       </li>
       <li class="not-short">
         <a href="/strategija" title="Strategija">Strategija</a>
@@ -27,12 +27,12 @@ const searchIconSrc = `url(${searchIcon.src})`;
         <a href="/iskalnik" title="Iskalnik">Iskalnik</a>
       </li>
       <li class="theme-toggle">
-        <ThemeToggle />
+        <ThemeToggle/>
       </li>
     </ul>
   </div>
 </header>
-<style lang="scss" define:vars={{ ogrodjeLogoSrc, searchIconSrc }}>
+<style lang="scss" define:vars={{ogrodjeLogoSrc, searchIconSrc}}>
   @use 'sass:math';
   @use '../_variables';
 
