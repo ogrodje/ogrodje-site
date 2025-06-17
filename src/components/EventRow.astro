@@ -1,15 +1,15 @@
 ---
-import type { Event } from '../services/goo/Events.ts';
-import { formatEventTime } from '../utils/DateTimeUtils';
-import { strToColor } from '../utils/Colors';
-import { Image } from 'astro:assets';
+import type {Event} from '../services/goo/Events.ts';
+import {formatEventTime} from '../utils/DateTimeUtils';
+import {strToColor} from '../utils/Colors';
+import {getImage} from 'astro:assets';
 
 export interface Props {
   day: string;
   event: Event;
 }
 
-const { event } = Astro.props;
+const {event} = Astro.props;
 
 function when(event: Event): string {
   return formatEventTime({
@@ -24,6 +24,20 @@ const meetupNameAlt = (e: Event) => {
   return e.meetupName || 'Meetup';
 };
 
+
+
+async function backgroundImage(e: Event, width: number, height: number): Promise<any> {
+  if (e.meetup?.logoImage) {
+    const image = await getImage({src: e.meetup?.logoImage, width: width, height: height, inferSize: true});
+    return ({
+      backgroundImage: `url('${image.src}')`,
+      backgroundPosition: 'left center',
+      'background-repeat': 'no-repeat',
+      'background-size': 'contain'
+    })
+  } else return ({})
+}
+
 const meetupNameStyles = (e: Event) => {
   if (e?.meetup?.backgroundColor && e?.meetup?.mainColor) {
     return {
@@ -37,17 +51,25 @@ const meetupNameStyles = (e: Event) => {
   }
 };
 
-const meetupNameClasses = (e: Event): string => {
-  return ['meetup-name', e.meetup?.logoImage ? 'has_logo' : undefined]
-    .filter((v) => v !== undefined)
-    .join(' ');
-};
+async function meetupStyles(e: Event) {
+  const baseStyles = meetupNameStyles(e)
+  const backgroundImageStyles = await backgroundImage(e, 100, 100)
+  return ({...baseStyles, ...backgroundImageStyles});
+}
 
-const eventClasses = (e: Event): string => {
-  return ['event', e.promotedAt ? 'is_promoted' : undefined]
+const meetupNameClasses = (e: Event): string => [
+    'meetup-name', e.meetup?.logoImage ? 'has_logo' : undefined
+  ]
     .filter((v) => v !== undefined)
-    .join(' ');
-};
+    .join(' ')
+;
+
+const eventClasses = (e: Event): string => [
+    'event', e.promotedAt ? 'is_promoted' : undefined
+  ]
+    .filter((v) => v !== undefined)
+    .join(' ')
+;
 ---
 
 <div class={eventClasses(event)}>
@@ -57,21 +79,10 @@ const eventClasses = (e: Event): string => {
   <div class="event-meta">
     <div class="when">{when(event)}</div>
 
-    <div class={meetupNameClasses(event)} style={meetupNameStyles(event)}>
-      {
-        event.meetup?.logoImage && (
-          <div class="meetup-logo">
-            <Image
-              src={event.meetup.logoImage}
-              title={event.meetupName}
-              width={33}
-              height={33}
-              alt={meetupNameAlt(event)}
-            />
-          </div>
-        )
-      }
-
+    <div
+      class={meetupNameClasses(event)}
+      style={await meetupStyles(event)}
+    >
       <span class="name">{event.meetupName}</span>
     </div>
 
@@ -111,7 +122,7 @@ const eventClasses = (e: Event): string => {
   .event {
     display: block;
     clear: both;
-    margin-bottom: 18px;
+    margin-bottom: 20px;
 
     &.is_promoted {
       background-color: #2c2c2c;
@@ -138,36 +149,17 @@ const eventClasses = (e: Event): string => {
     .event-meta {
       display: block;
       clear: both;
-      // border: 1px solid red;
 
       .when {
-        // display: inline-block;
       }
 
       .meetup-name {
-        display: inline-block;
         padding-left: 10px;
         padding-right: 10px;
+        display: inline-block;
 
         &.has_logo {
-          padding-left: 0;
-          display: flex;
-          gap: 10px;
-          align-items: center;
-
-          .meetup-logo {
-            display: flex;
-            align-items: center;
-            min-width: min-content;
-
-            img {
-              object-fit: fill;
-            }
-          }
-
-          .name {
-            flex: 7;
-          }
+          padding-left: 35px;
         }
       }
 
