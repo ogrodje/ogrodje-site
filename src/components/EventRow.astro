@@ -33,7 +33,7 @@ async function backgroundImage(e: Event, width: number, height: number): Promise
       backgroundImage: `url('${image.src}')`,
       backgroundPosition: 'left center',
       'background-repeat': 'no-repeat',
-      'background-size': 'contain'
+      'background-size': '30px'
     })
   } else return ({})
 }
@@ -89,7 +89,6 @@ const eventClasses = (e: Event): string => [
     {
       event.locationName && event.locationAddress && (
         <div class="location-meta">
-          @
           {event.locationName && (
             <div class="location-name">{event.locationName}</div>
           )}
@@ -150,6 +149,10 @@ const eventClasses = (e: Event): string => [
       display: block;
       clear: both;
 
+      .when, .meetup-name, .location-meta {
+        margin-bottom: 3px;
+      }
+
       .when {
       }
 
@@ -159,7 +162,7 @@ const eventClasses = (e: Event): string => [
         display: inline-block;
 
         &.has_logo {
-          padding-left: 35px;
+          padding-left: 40px;
         }
       }
 
@@ -169,6 +172,7 @@ const eventClasses = (e: Event): string => [
         .location-name,
         .location-address {
           display: inline-block;
+          margin-right: 10px;
         }
       }
     }
