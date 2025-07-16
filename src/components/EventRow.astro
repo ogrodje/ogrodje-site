@@ -2,7 +2,8 @@
 import type {Event} from '../services/goo/Events.ts';
 import {formatEventTime} from '../utils/DateTimeUtils';
 import {strToColor} from '../utils/Colors';
-import {getImage} from 'astro:assets';
+// import {getImage} from 'astro:assets';
+import { Image } from '@unpic/astro';
 
 export interface Props {
   day: string;
@@ -25,7 +26,7 @@ const meetupNameAlt = (e: Event) => {
 };
 
 
-
+/*
 async function backgroundImage(e: Event, width: number, height: number): Promise<any> {
   if (e.meetup?.logoImage) {
     const image = await getImage({src: e.meetup?.logoImage, width: width, height: height, inferSize: true});
@@ -37,6 +38,7 @@ async function backgroundImage(e: Event, width: number, height: number): Promise
     })
   } else return ({})
 }
+*/
 
 const meetupNameStyles = (e: Event) => {
   if (e?.meetup?.backgroundColor && e?.meetup?.mainColor) {
@@ -53,7 +55,7 @@ const meetupNameStyles = (e: Event) => {
 
 async function meetupStyles(e: Event) {
   const baseStyles = meetupNameStyles(e)
-  const backgroundImageStyles = await backgroundImage(e, 100, 100)
+  const backgroundImageStyles = {}; // await backgroundImage(e, 100, 100)
   return ({...baseStyles, ...backgroundImageStyles});
 }
 
@@ -83,6 +85,7 @@ const eventClasses = (e: Event): string => [
       class={meetupNameClasses(event)}
       style={await meetupStyles(event)}
     >
+      {event.meetup?.logoImage && <Image src={event.meetup.logoImage} alt={meetupNameAlt(event)} width={30} height={30}/>}
       <span class="name">{event.meetupName}</span>
     </div>
 

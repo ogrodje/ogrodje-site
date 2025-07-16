@@ -4,6 +4,7 @@ import vue from '@astrojs/vue';
 // import { imageService } from "@unpic/astro/service";
 
 import netlify from "@astrojs/netlify";
+import { imageService } from "@unpic/astro/service";
 
 // https://astro.build/config
 export default defineConfig({
@@ -18,6 +19,12 @@ export default defineConfig({
       layout: "constrained"
     })
   }, */
+
+  image: {
+    service: imageService(),
+    // domains: ["astro.build"],
+    // remotePatterns: [{protocol: "https"}],
+  },
   experimental: {
     // assets: true
   },
