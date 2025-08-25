@@ -8,32 +8,30 @@
 
 html {
   &.light {
-    --bg_color:#fff;
+    --bg_color: #fff;
     --default_color: black;
-    --highlighed_color:#dcdcdc;
-    color-scheme:light;
+    --highlighed_color: #dcdcdc;
+    color-scheme: light;
   }
 
   &.dark {
-     --bg_color: #0c0c0c;
-     --default_color:white;
+    --bg_color: #0c0c0c;
+    --default_color: white;
     --highlighed_color: #535353;
-     color-scheme:dark;
+    color-scheme: dark;
   }
 
   font-family: variables.$main-font;
   background-color: var(--bg_color);
   color: var(--default_color);
-
-
   font-size: variables.$main-font-size;
   line-height: variables.$main-line-height;
-
 
 }
 
 h1, h2, h3 {
-  font-family: 'Iosevka Web', sans-serif;
+  font-family: variables.$special-font;
+
   @media only screen and (max-width: 1000px) {
     font-size: variables.$main-font-size * 1.2;
   }
@@ -89,7 +87,7 @@ body {
 
 .highlighted {
   em {
-    color:var(--default_color);
+    color: var(--default_color);
     font-style: normal;
   }
 }
@@ -97,6 +95,6 @@ body {
 .name {
   em {
     font-style: var(--default_color);
-    background-color:var(--highlighed_color)
+    background-color: var(--highlighed_color)
   }
 }

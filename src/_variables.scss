@@ -1,6 +1,9 @@
 // Fonts
+@import '@fontsource/iosevka';
+@import '@fontsource/iosevka/100';
+
 $main-font: sans-serif;
-$special-font: 'Iosevka Web', Iosevka, sans-serif;
+$special-font: 'Iosevka', monospace, sans-serif;
 $main-font-size: 13pt;
 $main-line-height: $main-font-size * 1.5;
 
