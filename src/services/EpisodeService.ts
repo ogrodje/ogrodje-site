@@ -50,12 +50,16 @@ export class EpisodeService extends HyGraphService {
       ${this.personFragment}
     `, {
       size: size, stage: stage
-    }).then(data => data.episodes as Array<Episode>)
+    }).then(data => (data.episodes as Array<Episode>).toSorted(EpisodeService.sortEpisodes))
   }
 
   static getSeason(code: string): number {
     // @ts-ignore
     return /^S(\d+)E/.exec(code).slice(1).map(parseInt)[0] || -1
+  }
+
+  static getEpizodeNumber(code: string): number {
+    return parseInt(code.split('E')[1], 10) || -1
   }
 
   public static async allEpisodesPerSeason(
@@ -64,7 +68,30 @@ export class EpisodeService extends HyGraphService {
     const episodes = await this.publishedEpisodes(size, stage);
     return episodes
       .map((episode => ({season: this.getSeason(episode.code), episode})))
-      .reduce((agg, {season, episode: episode_1}) => agg.set(season, [...(agg.get(season) || []), episode_1]),
+      .reduce((agg, {
+          season,
+          episode: episode_1
+        }) => agg.set(season, [...(agg.get(season) || []), episode_1].toSorted(EpisodeService.sortEpisodes)),
         new Map<number, Array<Episode>>());
+  }
+
+  public static async allGroupedPerSession(
+    size: number = 200, stage: Stage = Stage.Published
+  ): Promise<[number, Episode[]][]> {
+    const episodes = await this.allEpisodesPerSeason(size, stage);
+    const sections = Array.from(episodes.entries()).reverse()
+    if (sections.length > 0) {
+      const [first, ...rest] = sections;
+      sections.splice(0, sections.length, ...rest, first);
+    }
+
+    return sections
+  }
+
+  private static sortEpisodes = (a: Episode, b: Episode) => {
+    let [aCode, bCode] = [
+      EpisodeService.getEpizodeNumber(a.code), EpisodeService.getEpizodeNumber(b.code)
+    ]
+    return bCode - aCode;
   }
 }
