@@ -7,7 +7,6 @@ export interface Props {
 
 const {title} = Astro.props;
 const getTitle = () => title || 'Ogrodje Admin'
-// const ogrodjeLogoSrc = `url(${ogrodjeLogoIcon.src})`;
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -17,11 +16,9 @@ const getTitle = () => title || 'Ogrodje Admin'
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <link rel="icon" type="image/png" href={ogrodjeLogoIcon.src}/>
   <link rel="dns-prefetch" href="https://media.graphassets.com/"/>
-  <link rel="dns-prefetch" href="https://iosevka-webfonts.github.io/"/>
-  <link rel="stylesheet" href="https://iosevka-webfonts.github.io/iosevka/iosevka.css" type="text/css">
   <title>{getTitle()}</title>
 </head>
 <body>
-  <slot></slot>
+<slot></slot>
 </body>
 
