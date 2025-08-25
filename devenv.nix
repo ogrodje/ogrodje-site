@@ -10,7 +10,6 @@
   };
 in {
   name = "ogrodje-site";
-
   packages = [
     unstable-pkgs.nodejs_24
     pkgs.git
@@ -24,6 +23,7 @@ in {
 
   enterShell = ''
     echo "--- ogrodje-site ---"
+    yarn install
   '';
 
   enterTest = ''

@@ -95,7 +95,7 @@ export const withTool = (tools: any, kind: string, name: string, has: (url: stri
   return value !== undefined ? has(value) : ''
 }
 
-export function convertToRoman(num: number) {
+export function convertToRoman(num: number): string {
   const search = {
     "0": ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"],
     "1": ["X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC"],
@@ -103,8 +103,8 @@ export function convertToRoman(num: number) {
     "3": ["M", "MM", "MMM", "MV^", "V^", "V^M", "V^MM", "V^MMM", "MX^"],
   };
 
-  var numArr = num.toString().split("").reverse();
-  var romanReturn = [];
+  let numArr = num.toString().split("").reverse();
+  let romanReturn = [];
   for (var i = 0; i < numArr.length; i++) {
     // @ts-ignore
     romanReturn.unshift(search[i][numArr[i] - 1]);
