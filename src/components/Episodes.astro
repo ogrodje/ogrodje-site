@@ -2,8 +2,10 @@
 import EpisodeRow from "./EpisodeRow.astro";
 import {EpisodeService} from "../services/EpisodeService";
 const episodes = await EpisodeService.publishedEpisodes(7);
+const [firstEpisode, ...remainingEpisodes] = episodes;
 ---
 <div class="episodes">
-  {episodes.map(episode =>
-    <EpisodeRow episode={episode}/>)}
+  <EpisodeRow episode={firstEpisode} showPreThumbnail={true}/>
+  {remainingEpisodes.map((episode) =>
+    <EpisodeRow episode={episode} showPreThumbnail={false}/>)}
 </div>

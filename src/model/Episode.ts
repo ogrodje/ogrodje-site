@@ -28,7 +28,9 @@ export interface Episode {
   multimediaProducers: Person[]
   consultants: Person[]
   designers: Person[],
-  supporters: Organisation[]
+  supporters: Organisation[],
+  thumbnail?: { url: string },
+  boxThumbnail?: { url: string }
 }
 
 export interface Topic {

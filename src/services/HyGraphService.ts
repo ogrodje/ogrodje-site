@@ -20,6 +20,8 @@ export class HyGraphService {
         if (raw['data']) {
           return raw['data'];
         } else {
+          console.error("HyGraph response:", raw['errors']);
+
           throw new Error("Unable to parse response from HyGraph. No data returned.");
         }
       });

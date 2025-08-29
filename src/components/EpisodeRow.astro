@@ -1,27 +1,74 @@
 ---
 import {type Episode, episodePath, optimiseEpisodeTitle} from "../model/Episode";
 import EpizodeTools from "./EpizodeTools.astro";
+import {Image} from '@unpic/vue';
 
 interface Props {
   episode: Episode
-  showTools?: boolean
+  showTools?: boolean,
+  showPreThumbnail?: boolean
 }
 
-const {episode, showTools} = Astro.props
+const {episode, showTools, showPreThumbnail} = Astro.props
+const rowStyle = (episode: Episode) => {
+  return [
+    'episode',
+    showPreThumbnail ? 'with-thumbnail' : '',
+    showTools ? 'with-tools' : '',
+  ].filter((v) => v != '').join(" ")
+}
 ---
-<div class="episode">
-  <a href={'/epizode/' + episodePath(episode)}>
-    <div class="code">{episode.code}</div>
-    {episode.show && (
-      <div class="show" data-show={episode.show.name}>{episode.show.name}</div>)
-    }
-    <div class="name">{optimiseEpisodeTitle(episode)}</div>
-  </a>
+<div class={rowStyle(episode)}>
+  {showPreThumbnail && episode.thumbnail?.url && (
+    <div class="thumbnail">
+      <a href={'/epizode/' + episodePath(episode)}>
+        <Image src={episode.thumbnail.url}
+               title={episode.name}
+               fallback="netlify"
+               alt={episode.name} width={1920} height={1080}/>
+      </a>
+    </div>
+  )}
 
-  {showTools && (
-    <EpizodeTools episode={episode}/>)}
+  <div class="episode-wrap">
+    <a href={'/epizode/' + episodePath(episode)}>
+      <div class="code">{episode.code}</div>
+      {episode.show && (
+        <div class="show" data-show={episode.show.name}>{episode.show.name}</div>)
+      }
+      <div class="name">{optimiseEpisodeTitle(episode)}</div>
+    </a>
+
+    {showTools && (
+      <EpizodeTools episode={episode}/>)}
+  </div>
+
 </div>
 <style lang="scss">
   @use "../_variables";
   @use "../episode_row";
+
+  .thumbnail {
+    margin-bottom: 5px;
+  }
+
+  .episode {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  .episode.with-thumbnail {
+    position: relative;
+    padding-left: 0;
+    padding-right: 0;
+
+    .episode-wrap {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 10px 15px 15px;
+      color: white;
+    }
+  }
 </style>

@@ -19,6 +19,28 @@ export class EpisodeService extends HyGraphService {
       name
       color
     }
+    thumbnail {
+      url(transformation: {
+        image: {
+          resize: {
+            fit: clip,
+            width: 1920,
+            height: 1080
+          }
+        }
+      })
+    }
+    boxThumbnail {
+      url(transformation: {
+        image: {
+          resize: {
+            fit: clip,
+            width: 3000,
+            height: 3000
+          }
+        }
+      })
+    }
     summary
     machineSummary
     name
