@@ -1,6 +1,6 @@
 // Fonts
-@import '@fontsource/iosevka';
-@import '@fontsource/iosevka/100';
+@use '@fontsource/iosevka';
+@use "@fontsource/iosevka/100.css" as iosevka-100;
 
 $main-font: sans-serif;
 $special-font: 'Iosevka', monospace, sans-serif;
@@ -21,7 +21,6 @@ $ogrodje-bytes: #f4f416;
 $layout-max-width: 1080px;
 $lr-offset: 0px;
 
-
 .special-font {
   font-family: $special-font;
 
@@ -32,4 +31,9 @@ $lr-offset: 0px;
   &.light {
     font-weight: 100;
   }
+}
+
+h1, h2, h3 {
+  font-family: $special-font;
+  font-weight: normal;
 }

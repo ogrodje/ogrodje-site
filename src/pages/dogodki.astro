@@ -51,12 +51,10 @@ function groupByDay(events: Event[]) {
 }
 
 const groupedEvents =
-  Object.entries(groupByWeek(timeline)).map(([week, events]) => {
-    return {
-      week,
-      groupedEvents: Object.entries(groupByDay(events))
-    }
-  })
+  Object.entries(groupByWeek(timeline)).map(([week, events]) => ({
+    week: week,
+    groupedEvents: Object.entries(groupByDay(events))
+  }));
 ---
 <Layout title="Dogodki in Konference" hideFooter={"false"}>
   <h1>Dogodki in Konference</h1>
@@ -73,8 +71,7 @@ const groupedEvents =
                   <div class="day">{day}</div>
                   <div class="events">
                     {events.map(event => (
-                      <EventRow day={day} event={event}></EventRow>))
-                    }
+                      <EventRow day={day} event={event}></EventRow>))}
                   </div>
                 </div>
               )
@@ -131,8 +128,6 @@ const groupedEvents =
           .events {
             padding-left: $day-cell-width;
             line-height: variables.$main-line-height * 1.1;
-            // margin-bottom: 10px;
-
             @media only screen and (max-width: 1000px) {
               padding: 3px;
             }
