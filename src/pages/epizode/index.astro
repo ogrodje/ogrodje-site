@@ -13,7 +13,6 @@ const sectionsEpisodes = await EpisodeService.allGroupedPerSession(300);
       sectionsEpisodes.map(([season, episodes]) => (
         <div class="season">
           <h3 class="season-header">Sezona {convertToRoman(season)}</h3>
-
           <div class="episodes">
             {episodes.map(episode => (
               <EpisodeRow episode={episode}/>

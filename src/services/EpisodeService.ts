@@ -54,11 +54,10 @@ export class EpisodeService extends HyGraphService {
   }
 
   static getSeason(code: string): number {
-    // @ts-ignore
-    return /^S(\d+)E/.exec(code).slice(1).map(parseInt)[0] || -1
+    return parseInt(code.replaceAll('S', '').split('E')[0], 10) || -1
   }
 
-  static getEpizodeNumber(code: string): number {
+  static getEpisodeNumber(code: string): number {
     return parseInt(code.split('E')[1], 10) || -1
   }
 
@@ -79,18 +78,19 @@ export class EpisodeService extends HyGraphService {
     size: number = 200, stage: Stage = Stage.Published
   ): Promise<[number, Episode[]][]> {
     const episodes = await this.allEpisodesPerSeason(size, stage);
-    const sections = Array.from(episodes.entries()).reverse()
+    const sections = Array.from(episodes.entries()).sort(([a], [b]) => b - a);
+
     if (sections.length > 0) {
       const [first, ...rest] = sections;
       sections.splice(0, sections.length, ...rest, first);
     }
 
-    return sections
+    return sections;
   }
 
   private static sortEpisodes = (a: Episode, b: Episode) => {
     let [aCode, bCode] = [
-      EpisodeService.getEpizodeNumber(a.code), EpisodeService.getEpizodeNumber(b.code)
+      EpisodeService.getEpisodeNumber(a.code), EpisodeService.getEpisodeNumber(b.code)
     ]
     return bCode - aCode;
   }
