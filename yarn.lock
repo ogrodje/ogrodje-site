@@ -3055,7 +3055,7 @@
     "@unpic/placeholder" "^0.1.2"
     blurhash "^2.0.5"
 
-"@unpic/core@^1.0.2":
+"@unpic/core@^1.0.0", "@unpic/core@^1.0.2":
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/@unpic/core/-/core-1.0.2.tgz#e19a72c06f680824246bfc39c8068ff9c14d76f1"
   integrity sha512-wZFg5K///uWutEKXS2PJeZZ1jpVj1Ao75pxBcDXbp5QVg7l347gUX/Q2w+cQdBBghHbJE+ndRaaVvnt8ACmiVQ==
@@ -3077,6 +3077,14 @@
   integrity sha512-O++tS97biojo5sqn5TeTt+jUjl5gWOdIQuOXe8YluTJWq4L0GM6VuTkaspNpsmxHfioJw/6YBirzOpG4t87l8Q==
   dependencies:
     blurhash "^2.0.5"
+
+"@unpic/vue@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@unpic/vue/-/vue-1.0.0.tgz#de2cd8de944bceffea52edcecd2833c826bf5089"
+  integrity sha512-vLilucD5RPzYusHPxGRL6uKw3ysPz5pMuhfYSc4GACyVp2SSh80yHyjQUaGveSbAlcjSLaXT8CvHWAwjWbSx7Q==
+  dependencies:
+    "@unpic/core" "^1.0.0"
+    vue "^3.5.13"
 
 "@vercel/nft@0.27.7":
   version "0.27.7"

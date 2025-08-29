@@ -1,6 +1,5 @@
 ---
-// import {Image} from 'astro:assets';
-import { Image } from '@unpic/astro';
+import {Image} from '@unpic/vue';
 
 import {
   type Person,
@@ -19,7 +18,9 @@ const {person, showSocial} = Astro.props;
   <a href={"/ljudje/" + personPath(person)}>
 
     {(person.avatar?.url) ? (
-      <Image src={person.avatar.url} title={person.fullName}
+      <Image src={person.avatar.url}
+             title={person.fullName}
+             fallback="netlify"
              alt={person.fullName} width={100} height={100}/>
     ) : ''}
 

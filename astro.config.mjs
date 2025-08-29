@@ -1,10 +1,8 @@
 import {defineConfig, envField} from 'astro/config';
 import mdx from "@astrojs/mdx";
 import vue from '@astrojs/vue';
-// import { imageService } from "@unpic/astro/service";
-
 import netlify from "@astrojs/netlify";
-import { imageService } from "@unpic/astro/service";
+import {imageService} from "@unpic/astro/service";
 
 // https://astro.build/config
 export default defineConfig({

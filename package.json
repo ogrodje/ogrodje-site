@@ -21,6 +21,7 @@
     "@josempgon/vue-keycloak": "^3.2.1",
     "@sindresorhus/slugify": "^2.2.1",
     "@unpic/astro": "^1.0.0",
+    "@unpic/vue": "^1.0.0",
     "astro": "5.11.1",
     "keycloak-js": "^26.1.5",
     "marked": "^12.0.1",
