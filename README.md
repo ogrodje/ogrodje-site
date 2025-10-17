@@ -1,6 +1,7 @@
 # Ogrodje Site
 
 [![Ogrodje Site Build](https://github.com/ogrodje/ogrodje-site/actions/workflows/build.yml/badge.svg)](https://github.com/ogrodje/ogrodje-site/actions/workflows/build.yml)
+[![Ogrodje Site](https://img.shields.io/github/stars/ogrodje/ogrodje-site?style=social)](https://github.com/ogrodje/ogrodje-site)
 
 This is the source code for the main [Ogrodje] website.
 
