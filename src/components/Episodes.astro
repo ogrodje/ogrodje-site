@@ -5,7 +5,7 @@ const episodes = await EpisodeService.publishedEpisodes(7);
 const [firstEpisode, ...remainingEpisodes] = episodes;
 ---
 <div class="episodes">
-  <EpisodeRow episode={firstEpisode} showPreThumbnail={true}/>
-  {remainingEpisodes.map((episode) =>
-    <EpisodeRow episode={episode} showPreThumbnail={false}/>)}
+  <EpisodeRow episode={firstEpisode} showPreThumbnail={true} index={0}/>
+  {remainingEpisodes.map((episode, index) =>
+    <EpisodeRow episode={episode} showPreThumbnail={false} index={index + 1}/>)}
 </div>

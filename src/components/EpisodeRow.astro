@@ -6,19 +6,20 @@ import {Image} from '@unpic/vue';
 interface Props {
   episode: Episode
   showTools?: boolean,
-  showPreThumbnail?: boolean
+  showPreThumbnail?: boolean,
+  index?: number
 }
 
-const {episode, showTools, showPreThumbnail} = Astro.props
+const {episode, showTools, showPreThumbnail, index} = Astro.props
 const rowStyle = (episode: Episode) => {
   return [
     'episode',
     showPreThumbnail ? 'with-thumbnail' : '',
-    showTools ? 'with-tools' : '',
+    showTools ? 'with-tools' : ''
   ].filter((v) => v != '').join(" ")
 }
 ---
-<div class={rowStyle(episode)}>
+<div class={rowStyle(episode)} data-n={index !== undefined ? index : ''}>
   {showPreThumbnail && episode.thumbnail?.url && (
     <div class="thumbnail">
       <a href={'/epizode/' + episodePath(episode)}>
@@ -61,14 +62,22 @@ const rowStyle = (episode: Episode) => {
     position: relative;
     padding-left: 0;
     padding-right: 0;
+    margin-bottom: 0;
+    padding-bottom: 0;
 
     .episode-wrap {
+      z-index: auto;
       position: absolute;
-      bottom: 0;
+      bottom: 7px;
       left: 0;
       right: 0;
-      padding: 10px 15px 15px;
-      color: white;
+      padding: 10px 15px 10px;
+
+      background-color: rgba(251, 251, 251, 0.15);
+
+      a {
+        color: white !important;
+      }
     }
   }
 </style>
