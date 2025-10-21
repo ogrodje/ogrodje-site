@@ -58,7 +58,7 @@ export const optimiseEpisodeTitle = (episode: { show?: { name: string }, name: s
 ;
 
 const toolMapping: Map<string, string[]> = new Map([
-  ['view', ['youTubeUrl', 'spotifyUrl']],
+  ['view', ['youTubeUrl', 'spotifyUrl', 'patreonUrl']],
   ['listen', ['applePodcastsUrl', 'anchorUrl', 'castboxUrl', 'overcastUrl', 'pocketCasts']]
 ])
 

@@ -60,6 +60,7 @@ export class EpisodeService extends HyGraphService {
     castboxUrl
     youTubeUrl
     spotifyUrl
+    patreonUrl
   `
 
   public static async publishedEpisodes(size: number = 200, stage: Stage = Stage.Published): Promise<Array<Episode>> {

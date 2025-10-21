@@ -1,8 +1,9 @@
 ---
 import {Image} from 'astro:assets';
-import logo_YT from "../assets/icons/icons8-youtube-144.png"
 import logo_AP from "../assets/icons/apple-podcasts.png"
+import logo_Patreon from '../assets/icons/PATREON_SYMBOL_1_WHITE_RGB.png'
 import logo_Spotify from '../assets/icons/icons8-spotify-144.png'
+import logo_YT from "../assets/icons/icons8-youtube-144.png"
 import {type Episode, episodeTools, withTool} from "../model/Episode";
 const logoW: number = 50;
 const logoH: number = 50;
@@ -20,7 +21,9 @@ const tools = episodeTools(episode)
 <div class="episode-tools-wrap">
   <div class="episode-tools">
     {tools.has("view") ? (
-      <div class="kind view">{showLabels ? (<span class="label">Poglej na</span>) : ''}
+      <div class="kind view">
+        {showLabels ? (<span class="label">Poglej na</span>) : ''}
+
         {withTool(tools, 'view', 'youTube', url =>
           <a href={url} target="_blank">
             <Image src={logo_YT} alt="Poglej epizodo na YouTube" width={logoW} height={logoH}/>
@@ -32,6 +35,13 @@ const tools = episodeTools(episode)
             <Image src={logo_Spotify} alt="Poglej ali poslušaj epizodo na Spotify" width={logoW} height={logoH}/>
             {showChannelLabels ? 'Spotify' : ''}
           </a>
+        )}
+
+
+        {withTool(tools, 'view', 'patreon', url =>
+          <a href={url} target="_blank">
+            <Image src={logo_Patreon} alt="Poglej epizodo na Patreon" width={logoW}/>
+            {showChannelLabels ? 'Patreon' : ''}</a>
         )}
       </div>
     ) : ''}
