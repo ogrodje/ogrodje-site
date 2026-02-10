@@ -15,8 +15,9 @@ import logo_humanfrog from '../assets/icons/HF_rokca.svg'
 import logo_kaldi from '../assets/icons/kaldi-logo-symbol.svg'
 import logo_koofr from '../assets/icons/koofr_512px.png'
 import logo_muzej from '../assets/icons/racunalniski-muzej-square.jpg'
-import logo_visionect from '../assets/icons/Visionect_logo-icon_green@3x.png'
 import logo_sloai from '../assets/icons/sloai-square.png'
+import logo_visionect from '../assets/icons/Visionect_logo-icon_green@3x.png'
+import logo_wwwhmb from '../assets/icons/wwwhmb-logo.png'
 const logoW: number = 100;
 const logoH: number = logoW;
 ---
@@ -27,7 +28,7 @@ const logoH: number = logoW;
       <Image src={logo_YT} alt="Ogrodje @ YouTube" width={logoW} height={logoH} loading="eager"/>
       YouTube</a></li>
     <li><a href="https://podcasts.apple.com/us/podcast/ogrodje/id1623611047" target="_blank">
-      <Image src={logo_AP} alt="Ogrodje @ Apple Podcasts" width={logoW} height={logoH} loading="eager"/>
+      <Image src={logo_AP} alt="Ogrodje @ Apple Podcasts" width={logoW} loading="eager"/>
       Apple Podcasts</a></li>
     <li><a href="https://open.spotify.com/show/5fppuIAVBmockauYIXDIIn" target="_blank">
       <Image src={logo_Spotify} alt="Ogrodje @ Spotify" width={logoW} height={logoH} loading="eager"/>
@@ -86,13 +87,19 @@ const logoH: number = logoW;
   </ul>
   <ul>
     <li class="p-label">Partnerji</li>
-    <li><a href="https://www.racunalniski-muzej.si/" target="_blank">
-      <Image src={logo_muzej} alt="Računalniški Muzej" width={logoW} height={logoH} loading="eager"/>
-      Računalniški Muzej
-    </a></li>
+    <li>
+      <a href="https://wwwhmb.si/" target="_blank">
+        <Image src={logo_wwwhmb} alt="WWW HMB" width={logoW} loading="eager"/>
+        Spletne Urice Maribor
+      </a>
+    </li>
     <li><a href="https://sloai.org/" target="_blank">
       <Image src={logo_sloai} alt="SLO AI" width={logoW} height={logoH} loading="eager"/>
       SLO AI
+    </a></li>
+    <li><a href="https://www.racunalniski-muzej.si/" target="_blank">
+      <Image src={logo_muzej} alt="Računalniški Muzej" width={logoW} height={logoH} loading="eager"/>
+      Računalniški Muzej
     </a></li>
   </ul>
 </div>
@@ -151,7 +158,7 @@ const logoH: number = logoW;
 
     li a {
       display: inline-block;
-      margin-left: 20px;
+      margin-left: 22px;
       text-decoration: none;
       height: $row_h;
       line-height: $row_h;
@@ -176,10 +183,11 @@ const logoH: number = logoW;
       img {
         position: absolute;
         left: 0;
-        top: 10px;
+        top: 6px;
         display: inline-block;
-        height: 30px;
-        width: 30px;
+        height: 35px;
+        width: 35px;
+        object-fit: contain;
       }
     }
 

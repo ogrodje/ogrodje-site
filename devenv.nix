@@ -7,6 +7,7 @@
 }: let
   unstable-pkgs = import inputs.unstable-nixpkgs {
     inherit (pkgs.stdenv) system;
+    config.allowUnfree = true;
   };
 in {
   cachix.enable = false;
@@ -22,9 +23,10 @@ in {
     package = unstable-pkgs.nodejs_24;
     yarn.enable = true;
     yarn.install.enable = true;
+    yarn.package = unstable-pkgs.yarn-berry;
   };
 
-  enterShell = ''
-    yarn install
-  '';
+  #enterShell = ''
+  #  yarn install
+  #'';
 }
