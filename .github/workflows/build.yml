@@ -18,9 +18,10 @@ env:
   NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
   SEARCH_ENDPOINT: https://search.ogrodje.si
 
+
 jobs:
   build:
-    name: "Build & Deploy"
+    name: "Build"
     environment: ci
     runs-on: ubuntu-latest
     steps:
@@ -28,12 +29,75 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version: 24
+          corepack: true
           cache: 'yarn'
-      - run: yarn install --frozen-lockfile
+      - run: yarn install --immutable
       - run: yarn build
-      - name: "Deploy"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+  deploy-production:
+    name: "Deploy Production"
+    needs: build
+    if: github.ref == 'refs/heads/master' && github.event_name != 'pull_request'
+    environment: ci
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          corepack: true
+          cache: 'yarn'
+      - run: yarn install --immutable
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+      - name: "Deploy to Production"
         run: |
           ./node_modules/.bin/netlify deploy \
             --site $NETLIFY_SITE_ID \
             --auth $NETLIFY_AUTH_TOKEN \
             --prod
+
+  deploy-preview:
+    name: "Deploy Preview"
+    needs: build
+    if: github.event_name == 'pull_request'
+    environment: ci
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          corepack: true
+          cache: 'yarn'
+      - run: yarn install --immutable
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+      - name: "Deploy Preview"
+        id: netlify-preview
+        run: |
+          OUTPUT=$(./node_modules/.bin/netlify deploy \
+            --site $NETLIFY_SITE_ID \
+            --auth $NETLIFY_AUTH_TOKEN)
+          echo "$OUTPUT"
+          DEPLOY_URL=$(echo "$OUTPUT" | grep -i "Website draft URL:" | awk '{print $NF}')
+          echo "deploy_url=$DEPLOY_URL" >> "$GITHUB_OUTPUT"
+      - name: "Comment Preview URL on PR"
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const deployUrl = '${{ steps.netlify-preview.outputs.deploy_url }}';
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: `🚀 **Netlify Preview Deploy**\n\n${deployUrl}`
+            });
