@@ -23,6 +23,16 @@ const logoH: number = logoW;
 ---
 <div class="channels">
   <ul>
+    <li class="p-label">Skupnost</li>
+    <li><a href="https://bit.ly/discord-ogrodje" class="discord">
+      <Image src={logo_DI} alt="Ogrodje @ Discord" width={logoW} height={logoH} loading="eager"/>
+      Discord</a></li>
+    <li><a href="https://www.patreon.com/ogrodje">
+      <Image src={logo_PA} alt="Ogrodje @ Patreon" width={logoW} loading="eager"/>
+      Patreon</a>
+    </li>
+  </ul>
+  <ul>
     <li class="p-label">Kanali</li>
     <li><a href="https://youtube.com/@ogrodje" target="_blank">
       <Image src={logo_YT} alt="Ogrodje @ YouTube" width={logoW} height={logoH} loading="eager"/>
@@ -33,16 +43,6 @@ const logoH: number = logoW;
     <li><a href="https://open.spotify.com/show/5fppuIAVBmockauYIXDIIn" target="_blank">
       <Image src={logo_Spotify} alt="Ogrodje @ Spotify" width={logoW} height={logoH} loading="eager"/>
       Spotify</a></li>
-  </ul>
-  <ul>
-    <li class="p-label">Skupnost</li>
-    <li><a href="https://bit.ly/discord-ogrodje" class="discord">
-      <Image src={logo_DI} alt="Ogrodje @ Discord" width={logoW} height={logoH} loading="eager"/>
-      Discord</a></li>
-    <li><a href="https://www.patreon.com/ogrodje">
-      <Image src={logo_PA} alt="Ogrodje @ Patreon" width={logoW} loading="eager"/>
-      Patreon</a>
-    </li>
   </ul>
   <ul>
     <li class="p-label">Feed</li>
@@ -93,13 +93,13 @@ const logoH: number = logoW;
         Spletne Urice Maribor
       </a>
     </li>
-    <li><a href="https://sloai.org/" target="_blank">
-      <Image src={logo_sloai} alt="SLO AI" width={logoW} height={logoH} loading="eager"/>
-      SLO AI
-    </a></li>
     <li><a href="https://www.racunalniski-muzej.si/" target="_blank">
       <Image src={logo_muzej} alt="Računalniški Muzej" width={logoW} height={logoH} loading="eager"/>
       Računalniški Muzej
+    </a></li>
+    <li><a href="https://sloai.org/" target="_blank">
+      <Image src={logo_sloai} alt="SLO AI" width={logoW} height={logoH} loading="eager"/>
+      SLO AI
     </a></li>
   </ul>
 </div>
@@ -193,7 +193,7 @@ const logoH: number = logoW;
 
     @media only screen and (max-width: 1000px) {
       li a {
-        width: 30px;
+        width: 35px;
         overflow: hidden;
       }
     }
