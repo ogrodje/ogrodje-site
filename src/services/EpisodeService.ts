@@ -112,9 +112,12 @@ export class EpisodeService extends HyGraphService {
   }
 
   private static sortEpisodes = (a: Episode, b: Episode) => {
-    let [aCode, bCode] = [
-      EpisodeService.getEpisodeNumber(a.code), EpisodeService.getEpisodeNumber(b.code)
-    ]
-    return bCode - aCode;
+    const [aSeason, bSeason] = [EpisodeService.getSeason(a.code), EpisodeService.getSeason(b.code)]
+
+    if (aSeason !== bSeason) return bSeason - aSeason;
+
+    const [aEpisode, bEpisode] = [EpisodeService.getEpisodeNumber(a.code), EpisodeService.getEpisodeNumber(b.code)]
+    
+    return bEpisode - aEpisode;
   }
 }
