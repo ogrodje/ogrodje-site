@@ -117,7 +117,7 @@ export class EpisodeService extends HyGraphService {
     if (aSeason !== bSeason) return bSeason - aSeason;
 
     const [aEpisode, bEpisode] = [EpisodeService.getEpisodeNumber(a.code), EpisodeService.getEpisodeNumber(b.code)]
-    
+
     return bEpisode - aEpisode;
   }
 }
