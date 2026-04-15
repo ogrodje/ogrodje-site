@@ -1,3 +1,4 @@
+.yarn/*.gz
 .astro/
 
 **/.DS_Store

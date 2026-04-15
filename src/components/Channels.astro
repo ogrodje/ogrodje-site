@@ -18,6 +18,7 @@ import logo_muzej from '../assets/icons/racunalniski-muzej-square.jpg'
 import logo_sloai from '../assets/icons/sloai-square.png'
 import logo_visionect from '../assets/icons/Visionect_logo-icon_green@3x.png'
 import logo_wwwhmb from '../assets/icons/wwwhmb-logo.png'
+import logo_monitor from '../assets/icons/monitor-logo-2010.png'
 const logoW: number = 100;
 const logoH: number = logoW;
 ---
@@ -87,6 +88,11 @@ const logoH: number = logoW;
   </ul>
   <ul>
     <li class="p-label">Partnerji</li>
+    <li>
+      <a href="https://www.monitor.si/" target="_blank" class="monitor-logo">
+        <Image src={logo_monitor} alt="Monitor" width={logoW * 2} loading="eager"/>
+      </a>
+    </li>
     <li>
       <a href="https://wwwhmb.si/" target="_blank">
         <Image src={logo_wwwhmb} alt="WWW HMB" width={logoW} loading="eager"/>
@@ -186,8 +192,18 @@ const logoH: number = logoW;
         top: 6px;
         display: inline-block;
         height: 35px;
-        width: 35px;
+        width: auto;
+        max-width: 100px;
         object-fit: contain;
+      }
+
+      &.monitor-logo {
+        width: 70px;
+        text-indent: 0;
+
+        img {
+          max-width: 70px;
+        }
       }
     }
 
