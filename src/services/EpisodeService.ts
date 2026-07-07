@@ -66,7 +66,7 @@ export class EpisodeService extends HyGraphService {
   public static async publishedEpisodes(size: number = 200, stage: Stage = Stage.Published): Promise<Array<Episode>> {
     return this.query(`
       query PublishedEpisodes($size: Int, $stage: Stage!) {
-        episodes(first: $size, orderBy: airedAt_DESC, stage: $stage) {
+        episodes(first: $size, orderBy: code_DESC, stage: $stage, where: { code_not_starts_with: "S99" }) {
           ${this.commonFields}
         }
       }

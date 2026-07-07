@@ -1,7 +1,7 @@
 ---
 import EpisodeRow from "./EpisodeRow.astro";
 import {EpisodeService} from "../services/EpisodeService";
-const episodes = await EpisodeService.publishedEpisodes(7);
+const episodes = await EpisodeService.publishedEpisodes(8);
 const [firstEpisode, ...remainingEpisodes] = episodes;
 ---
 <div class="episodes">
