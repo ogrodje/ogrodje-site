@@ -101,14 +101,7 @@ export class EpisodeService extends HyGraphService {
     size: number = 200, stage: Stage = Stage.Published
   ): Promise<[number, Episode[]][]> {
     const episodes = await this.allEpisodesPerSeason(size, stage);
-    const sections = Array.from(episodes.entries()).sort(([a], [b]) => b - a);
-
-    if (sections.length > 0) {
-      const [first, ...rest] = sections;
-      sections.splice(0, sections.length, ...rest, first);
-    }
-
-    return sections;
+    return Array.from(episodes.entries()).sort(([a], [b]) => b - a);
   }
 
   private static sortEpisodes = (a: Episode, b: Episode) => {

@@ -1,3 +1,5 @@
+.playwright*
+
 .junie/
 .yarn/*.gz
 .astro/
