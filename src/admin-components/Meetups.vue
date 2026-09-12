@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {ref, onMounted} from 'vue';
-import type {Me, Meetup} from "../services/goo/Events.ts";
+import type {Meetup} from "../services/goo/Events.ts";
 import {GooAPIService} from "../services/GooService.ts";
 
 const meetups = ref<Meetup[]>([])

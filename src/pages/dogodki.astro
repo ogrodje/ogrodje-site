@@ -75,7 +75,7 @@ const groupedEvents =
                   <div class="day">{day}</div>
                   <div class="events">
                     {events.map(event => (
-                      <EventRow day={day} event={event}></EventRow>))}
+                      <EventRow event={event}></EventRow>))}
                   </div>
                 </div>
               )
@@ -94,7 +94,6 @@ const groupedEvents =
 
 </Layout>
 <style lang="scss">
-  @use "sass:color";
   @use "../variables";
 
   $day-cell-width: 120px;

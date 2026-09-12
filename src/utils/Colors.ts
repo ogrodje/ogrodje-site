@@ -49,12 +49,3 @@ export function strToColors(str: string, opts: Options = {}) {
 export function strToColor(str: string, ops: Options = {}) {
   return strToColors(str, ops)[0];
 }
-
-export function strToSecondColor(str: string, ops: Options = {}) {
-  return strToColors(str, ops)[1];
-}
-
-export function strToThirdColor(str: string, ops: Options = {}) {
-  return strToColors(str, ops)[2];
-}
-

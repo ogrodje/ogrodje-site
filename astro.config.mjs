@@ -6,25 +6,8 @@ import {imageService} from "@unpic/astro/service";
 
 // https://astro.build/config
 export default defineConfig({
-  // redirects: {"/admin/[...slug]": "/admin/"},
-
-  /*
-  image: {
-    service: imageService({
-      fallbackService: "netlify",
-      placeholder: "blurhash",
-      // This is the default
-      layout: "constrained"
-    })
-  }, */
-
   image: {
     service: imageService(),
-    // domains: ["astro.build"],
-    // remotePatterns: [{protocol: "https"}],
-  },
-  experimental: {
-    // assets: true
   },
   integrations: [vue({
     devtools: false,
@@ -42,16 +25,6 @@ export default defineConfig({
     },
     validateSecrets: true
   },
-  vite: {
-    css: {
-      preprocessorOptions: {
-        scss: {
-          silenceDeprecations: ["legacy-js-api"],
-        },
-      },
-    },
-  },
-
   output: "static",
   adapter: netlify({})
 });

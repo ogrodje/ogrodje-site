@@ -2,7 +2,7 @@
   <div id="app"></div>
 </template>
 <script setup lang="ts">
-import {createApp, defineProps, onMounted} from 'vue';
+import {createApp, onMounted} from 'vue';
 import {configForKeycloak} from "../services/KeycloakClient.ts";
 import {useKeycloak, vueKeycloak} from '@josempgon/vue-keycloak'
 import Keycloak from "keycloak-js";
@@ -43,6 +43,3 @@ onMounted(async () => {
   app.mount('#app');
 });
 </script>
-<style lang="scss" scoped>
-@use 'sass:color';
-</style>

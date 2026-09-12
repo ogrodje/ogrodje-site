@@ -122,10 +122,6 @@ const logoH: number = logoW;
       vertical-align: middle;
     }
 
-    pre {
-      display: inline-block;
-    }
-
     ul {
       float: none;
       clear: both;
@@ -146,17 +142,6 @@ const logoH: number = logoW;
 
       &.p-label {
         text-align: left;
-
-        &.p-and-p {
-          width: 90px;
-
-          .p-and-p-inner {
-            display: block;
-            height: $row_h;
-            line-height: calc($row_h / 2) - 0.4;
-            font-size: 0.8em;
-          }
-        }
       }
     }
 
@@ -170,19 +155,6 @@ const logoH: number = logoW;
       justify-content: left;
       position: relative;
       text-indent: 40px;
-
-      &.discord-x {
-        border: 1px solid #333;
-        background-color: #7082ca;
-        color: white;
-        border-radius: 10px;
-        padding-left: 10px;
-        padding-right: 10px;
-
-        img {
-          left: 10px;
-        }
-      }
 
       img {
         position: absolute;

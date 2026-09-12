@@ -40,13 +40,6 @@ export interface Topic {
 export const episodePath = (episode: { code: string, show?: { name: string }, name: string }): string =>
   `${episode.code}-${slugify(optimiseEpisodeTitle(episode))}`
 
-export const episodePeople = (episode: Episode): Array<Person> =>
-  ['cohosts', 'guests', 'multimediaProducers']
-    .flatMap(role => (
-      ((episode as any)[role] as Person[])
-        .map(e => ({...e, ...{role: role}}))
-    ) || [])
-
 export const optimiseEpisodeTitle = (episode: { show?: { name: string }, name: string }): string =>
   episode.show ? (
     episode.name

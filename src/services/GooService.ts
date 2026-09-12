@@ -1,5 +1,5 @@
 import {stringToCESTDate} from "./Utils.ts";
-import type {Meetup, Event, Me} from "./goo/Events.ts";
+import type {Meetup, Event} from "./goo/Events.ts";
 import Keycloak from "keycloak-js";
 
 export type GooEndpoint = string;
@@ -43,9 +43,8 @@ export class GooSingletonService {
     );
 
     public getAuthTokens(): { [key: string]: string } {
-        const [accessToken, _] = [this.keycloak.token, this.keycloak.refreshToken]
         return {
-            'Authorization': `Bearer ${accessToken}`
+            'Authorization': `Bearer ${this.keycloak.token}`
         }
     }
 
@@ -140,7 +139,6 @@ export class GooAPIService extends GooService {
     }
 
     static async updateEvent(id: String, event: Event): Promise<Event> {
-        console.log("event", event);
         return this.api.put(`/events/${id}`, event)
     }
 
@@ -152,9 +150,5 @@ export class GooAPIService extends GooService {
                 query && query.trim() !== '' ? ['query', query] : undefined,
             ].filter((tuple): tuple is [string, string] => !!tuple)
         ));
-    }
-
-    static async me(): Promise<Me> {
-        return this.api.get(`/me`);
     }
 }

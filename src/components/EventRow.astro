@@ -2,11 +2,9 @@
 import type {Event} from '../services/goo/Events.ts';
 import {formatEventTime} from '../utils/DateTimeUtils';
 import {strToColor} from '../utils/Colors';
-// import {getImage} from 'astro:assets';
 import {Image} from '@unpic/astro';
 
 export interface Props {
-  day: string;
   event: Event;
 }
 
@@ -25,21 +23,6 @@ const meetupNameAlt = (e: Event) => {
   return e.meetupName || 'Meetup';
 };
 
-
-/*
-async function backgroundImage(e: Event, width: number, height: number): Promise<any> {
-  if (e.meetup?.logoImage) {
-    const image = await getImage({src: e.meetup?.logoImage, width: width, height: height, inferSize: true});
-    return ({
-      backgroundImage: `url('${image.src}')`,
-      backgroundPosition: 'left center',
-      'background-repeat': 'no-repeat',
-      'background-size': '30px'
-    })
-  } else return ({})
-}
-*/
-
 const meetupNameStyles = (e: Event) => {
   if (e?.meetup?.backgroundColor && e?.meetup?.mainColor) {
     return {
@@ -52,12 +35,6 @@ const meetupNameStyles = (e: Event) => {
     };
   }
 };
-
-async function meetupStyles(e: Event) {
-  const baseStyles = meetupNameStyles(e)
-  const backgroundImageStyles = {};
-  return ({...baseStyles, ...backgroundImageStyles});
-}
 
 const meetupNameClasses = (e: Event): string => [
     'meetup-name', e.meetup?.logoImage ? 'has_logo' : undefined
@@ -82,7 +59,7 @@ const eventClasses = (e: Event): string => [
 
     <div
       class={meetupNameClasses(event)}
-      style={await meetupStyles(event)}
+      style={meetupNameStyles(event)}
     >
       {
         event.meetup?.logoImage &&
@@ -106,12 +83,7 @@ const eventClasses = (e: Event): string => [
   </div>
 </div>
 <style lang="scss">
-  @use 'sass:color';
   @use '../variables';
-
-  @mixin super-line {
-    line-height: variables.$main-line-height * 1.2;
-  }
 
   html {
     &.light {

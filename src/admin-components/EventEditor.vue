@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {ref, defineEmits, defineProps, onMounted, watch, computed} from 'vue';
+import {ref, onMounted, watch, computed} from 'vue';
 import {emptyEvent, type Event as GEvent, type Meetup} from '../services/goo/Events';
 import {GooAPIService} from "../services/GooService.ts";
 import {localInputToUTC, utcToLocalDateTimeInput} from "../services/Utils.ts";
@@ -29,7 +29,6 @@ const localEvent = ref<GEvent>(
 );
 
 function closeEditor() {
-  console.log("close")
   emit('close');
 }
 
@@ -49,15 +48,12 @@ async function handleSave(e: Event): Promise<void> {
 }
 
 async function createEvent(event: GEvent): Promise<GEvent> {
-  console.log("Create event.")
   return GooAPIService.createEvent(event)
 }
 
 async function updateEvent(event: GEvent): Promise<GEvent> {
-  console.log("Update event.")
   return GooAPIService.updateEvent(event.id, event)
 }
-
 
 const startDateTimeRaw = ref<string>(utcToLocalDateTimeInput(localEvent.value.startDateTime))
 const endDateTimeRaw = ref<string | undefined>(utcToLocalDateTimeInput(localEvent.value.endDateTime))

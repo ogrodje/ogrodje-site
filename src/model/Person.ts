@@ -44,13 +44,6 @@ export const groupedPersonEpisodes = (person: Person & WithConnectedEpisodes): M
         prev.set(current.role, [...prev.get(current.role) || [], current].sort(sortEpisodesByAired))
       , new Map<Role, Array<Episode>>());
 
-export const personLastEpisode = (person: Person & WithConnectedEpisodes): Episode | undefined => {
-  const [last, ..._rest] = personEpisodes(person);
-  return last
-}
-
-export const personEpisodesCount = (person: Person & WithConnectedEpisodes): Number => personEpisodes(person).length;
-
 export const sortedPeople = (people: Array<Person & WithConnectedEpisodes>): Array<Person & WithConnectedEpisodes> =>
   people
     .map(p => ({...p, ...{episodes_count: personEpisodes(p).length}}))

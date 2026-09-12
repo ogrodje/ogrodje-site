@@ -1,13 +1,11 @@
 <script setup>
-import {computed} from 'vue'
 import {RouterView, RouterLink} from 'vue-router';
 import {useKeycloak} from '@josempgon/vue-keycloak'
 
 import ogrodjeLogoIcon from "../assets/ogrodje-logo-base.png";
 
 const ogrodjeLogoSrc = `url(${ogrodjeLogoIcon.src})`;
-const {hasRoles, username, userId, isAuthenticated, keycloak, roles, resourceRoles} = useKeycloak()
-const hasAccess = computed(() => hasRoles(['RoleName']))
+const {username, keycloak} = useKeycloak()
 
 const logout = (e) => {
   if (e.preventDefault) e.preventDefault()
@@ -23,7 +21,7 @@ const logout = (e) => {
       <router-link to="/meetups">Meetups</router-link>
 
       <div class="tools">
-        <div class="username">{{ username }} <!-- w/ {{ roles }} & {{ resourceRoles }} --></div>
+        <div class="username">{{ username }}</div>
         <a @click="logout($event)">Logout</a>
       </div>
     </div>
@@ -83,7 +81,6 @@ body {
         background-size: contain;
         background-repeat: no-repeat;
         text-indent: -500px;
-        // overflow: hidden;
         width: 90px;
         image-rendering: crisp-edges;
         margin-right: 20px;
@@ -127,7 +124,7 @@ table.data-table {
 .action-tools {
   display: flex;
   width: 100%;
-  gap: 1rem; /* Optional: adds space between the halves */
+  gap: 1rem;
 
   .tools-left, .tools-right {
     display: flex;
@@ -143,8 +140,8 @@ table.data-table {
 
   .tools-right {
     align-items: center;
-    justify-content: flex-end; /* Buttons aligned right */
-    gap: 0.5rem; /* Space between buttons if more than one */
+    justify-content: flex-end;
+    gap: 0.5rem;
   }
 }
 </style>

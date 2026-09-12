@@ -31,7 +31,6 @@ const searchWithQuery = async (queryValue: string) => {
 }
 
 onMounted(async () => {
-  // events.value = await GooAPIService.events()
   refreshEvents()
 })
 
@@ -62,7 +61,6 @@ function openEditor(e: Event, event: GEvent | undefined = undefined) {
   e.preventDefault?.()
   selectedEvent.value = event ? {...event} : {...emptyEvent};
   showEditor.value = true;
-  showEditor.value = true;
 }
 
 function handleEditorClose() {
@@ -70,7 +68,7 @@ function handleEditorClose() {
   showEditor.value = false;
 }
 
-function handleEditorSave(e: any) {
+function handleEditorSave() {
   handleEditorClose();
   refreshEvents();
 }

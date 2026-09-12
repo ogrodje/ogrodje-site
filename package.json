@@ -13,28 +13,27 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/check": "0.9.9",
-    "@astrojs/mdx": "7.0.3",
-    "@astrojs/netlify": "8.1.2",
-    "@astrojs/vue": "7.0.1",
+    "@astrojs/check": "0.9.10",
+    "@astrojs/mdx": "8.0.1",
+    "@astrojs/netlify": "8.2.5",
+    "@astrojs/vue": "7.0.2",
     "@fontsource/iosevka": "^5.3.0",
-    "@josempgon/vue-keycloak": "^3.2.1",
-    "@sindresorhus/slugify": "^3.0.0",
-    "@unpic/astro": "^1.0.0",
+    "@josempgon/vue-keycloak": "^3.3.11",
+    "@sindresorhus/slugify": "^3.0.1",
+    "@unpic/astro": "^1.0.2",
     "@unpic/vue": "^1.0.0",
-    "astro": "7.1.1",
-    "keycloak-js": "^26.1.5",
-    "marked": "^18.0.6",
-    "rss-parser": "^3.13.0",
-    "sass": "1.81.0",
-    "typescript": "^5.7.2",
-    "vue": "^3.5.40",
-    "vue-router": "^5.2.0"
+    "astro": "7.3.2",
+    "keycloak-js": "^26.2.4",
+    "marked": "^18.0.12",
+    "sass": "1.104.1",
+    "typescript": "^6.0.3",
+    "vue": "^3.5.42",
+    "vue-router": "^5.3.1"
   },
   "devDependencies": {
-    "@astrojs/ts-plugin": "1.10.10",
-    "@astrojs/upgrade": "^0.7.3",
-    "@types/node": "^24.0.0",
-    "netlify-cli": "^17.36.4"
+    "@astrojs/ts-plugin": "1.10.11",
+    "@astrojs/upgrade": "^0.7.4",
+    "@types/node": "^24.13.4",
+    "netlify-cli": "^27.5.2"
   }
 }

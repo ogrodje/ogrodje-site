@@ -85,7 +85,7 @@ jobs:
             --site $NETLIFY_SITE_ID \
             --auth $NETLIFY_AUTH_TOKEN)
           echo "$OUTPUT"
-          DEPLOY_URL=$(echo "$OUTPUT" | grep -i "Website draft URL:" | awk '{print $NF}')
+          DEPLOY_URL=$(echo "$OUTPUT" | grep -iE "draft" | grep -oE 'https://[^ >]+' | head -n 1)
           echo "deploy_url=$DEPLOY_URL" >> "$GITHUB_OUTPUT"
       - uses: actions/github-script@v9
         with:

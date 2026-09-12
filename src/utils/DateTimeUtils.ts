@@ -1,5 +1,3 @@
-const daysInSlovenian = ['Ponedeljek', 'Torek', 'Sreda', 'Četrtek', 'Petek', 'Sobota', 'Nedelja'];
-
 export function dateFromRaw(raw: string) {
   return new Date(raw);
 }
@@ -11,7 +9,6 @@ export function weekRangeFromMonday(monday: Date): { monday: Date; sunday: Date 
 }
 
 export function weekRangeToHuman(range: { monday: Date; sunday: Date }): string {
-  // const [monday, sunday] = [localDayName(range.monday), localDayName(range.sunday)];
   const [monday, sunday] = [range.monday, range.sunday];
 
   const [mondayH, sundayH] = [
@@ -24,23 +21,6 @@ export function weekRangeToHuman(range: { monday: Date; sunday: Date }): string 
   } else {
     return `${mondayH} - ${sundayH}`;
   }
-}
-
-export function localDayName(date: Date): string {
-  const dayIndex = (date.getDay() + 6) % 7;
-  return daysInSlovenian[dayIndex];
-}
-
-export function localDayNameShort(date: Date): string {
-  const dateS = date.toLocaleDateString('sl-SI', {
-    day: 'numeric',
-    month: 'numeric',
-  });
-  return `${localDayName(date)}, ${dateS}`;
-}
-
-export function localDayNameTiny(date: Date): string {
-  return `${localDayName(date)}`;
 }
 
 export type EventTimeArgs = {
