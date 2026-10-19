@@ -85,6 +85,11 @@ body {
   }
 }
 
+.legal {
+  padding: 30px variables.$lr-offset;
+  font-size: 0.8em;
+}
+
 .highlighted {
   em {
     color: var(--default_color);
