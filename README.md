@@ -36,7 +36,6 @@ export HYGRAPH_ENDPOINT=<hygraph_endpoing>
 export KEYCLOAK_URL="https://keycloak.ogrodje.si"
 export KEYCLOAK_CLIENT_ID=<keycoak_client_id>
 export KEYCLOAK_REALM="Ogrodje"
-export SEARCH_ENDPOINT=https://search.ogrodje.si
 ```
 
 ## Notes

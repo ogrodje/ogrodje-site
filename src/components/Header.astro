@@ -1,9 +1,7 @@
 ---
 import ogrodjeLogo from '../assets/ogrodje-logo-base.png';
-import searchIcon from '../assets/icons/search-icon-1.png';
 import ThemeToggle from './ThemeToggle.astro';
 const ogrodjeLogoSrc = `url(${ogrodjeLogo.src})`;
-const searchIconSrc = `url(${searchIcon.src})`;
 ---
 
 <header class="header">
@@ -23,16 +21,13 @@ const searchIconSrc = `url(${searchIcon.src})`;
       <li class="not-short">
         <a href="/strategija" title="Strategija">Strategija</a>
       </li>
-      <li class="search">
-        <a href="/iskalnik" title="Iskalnik">Iskalnik</a>
-      </li>
       <li class="theme-toggle">
         <ThemeToggle/>
       </li>
     </ul>
   </div>
 </header>
-<style lang="scss" define:vars={{ogrodjeLogoSrc, searchIconSrc}}>
+<style lang="scss" define:vars={{ogrodjeLogoSrc}}>
   @use 'sass:math';
   @use '../_variables';
 
@@ -114,23 +109,6 @@ const searchIconSrc = `url(${searchIcon.src})`;
         height: 100px;
         display: flex;
         align-items: center;
-      }
-
-      li.search {
-        a {
-          background-image: var(--searchIconSrc);
-          background-position: 10px center;
-          background-size: 30px;
-          background-repeat: no-repeat;
-          text-indent: 60px;
-          width: 50px;
-          padding-left: 10px;
-          overflow: hidden;
-        }
-
-        @media only screen and (max-width: 1000px) {
-          display: none;
-        }
       }
 
       @media only screen and (max-width: 1000px) {
