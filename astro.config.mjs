@@ -21,9 +21,12 @@ export default defineConfig({
       KEYCLOAK_CLIENT_ID: envField.string({context: "client", access: "public", optional: false}),
       HYGRAPH_ENDPOINT: envField.string({context: "client", access: "public", optional: false}),
       GOO_ENDPOINT: envField.string({context: "client", access: "public", optional: false}),
-      SEARCH_ENDPOINT: envField.string({context: "client", access: "public", optional: false}),
     },
     validateSecrets: true
+  },
+  // The search page went with its search service (vedec)
+  redirects: {
+    "/iskalnik": "/",
   },
   output: "static",
   adapter: netlify({})
